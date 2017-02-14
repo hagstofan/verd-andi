@@ -1,0 +1,5 @@
+* Django glosur fyrir verd-andi
+
+
+spursmal um dependencies i framtid:
+django-nested-admin
