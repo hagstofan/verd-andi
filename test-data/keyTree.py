@@ -1,10 +1,11 @@
+import sys
 import xmltodict
-
-with open('./E15-2_IS_Final_country_list/itemList.xml') as fd:
-    doc = xmltodict.parse(fd.read())
 
 
 def walk(node, level):
+    if isinstance(node, str) or isinstance(node, unicode):
+        print ("   "* level) + node
+        return
     for key, item in node.items():
         if isinstance(item, dict):
             print ("  "* level) + "branch "+("-"* level)  + key 
@@ -14,8 +15,19 @@ def walk(node, level):
             for p in item:
                 walk(p, level +1)
         else:
-            print ("   "* level) + key
+            continue
+            #print ("   "* level) + key
 
 
 
-walk(doc, 0)
+
+if __name__ == "__main__":
+    #
+    if(len(sys.argv) < 2):
+        print "usage: python keytree.py <file>"
+        sys.exit(0)
+
+    with open(sys.argv[1]) as fd:
+        doc = xmltodict.parse(fd.read())
+
+    walk(doc,0)
