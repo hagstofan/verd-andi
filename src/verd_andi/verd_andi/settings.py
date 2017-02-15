@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/1.10/ref/settings/
 """
 
 import os
+import localVars
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -27,11 +28,21 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+EMAIL_HOST = localVars.email_host
+EMAIL_HOST_USER = localVars.email_user
+EMAIL_HOST_PASSWORD = localVars.email_password
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+DEFAULT_FROM_EMAIL = 'bergur@bergur.biz'
+SERVER_EMAIL = 'bergur@bergur.biz'
+
 
 # Application definition
 
 INSTALLED_APPS = [
     'django.contrib.admin',
+    'django.contrib.sites',
+    'registration',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
@@ -40,6 +51,9 @@ INSTALLED_APPS = [
     'grappelli',
     'django.contrib.staticfiles',
 ]
+
+ACCOUNT_ACTIVATION_DAYS = 7 # One-week activation window; you may, of course, use a different value.
+REGISTRATION_AUTO_LOGIN = True # Automatically log the user in.
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
