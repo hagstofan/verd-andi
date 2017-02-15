@@ -4,4 +4,8 @@
 /local
 /share
 *.pyc
+*.pyo
 *~
+__pycache__
+*.sqlite3
+src/verd_andi/db.sqlite3
