@@ -9,3 +9,4 @@
 __pycache__
 *.sqlite3
 src/verd_andi/db.sqlite3
+src/verd_andi/verd_andi/localVars.py
