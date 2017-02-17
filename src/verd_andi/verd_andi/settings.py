@@ -41,7 +41,7 @@ SERVER_EMAIL = 'bergur@bergur.biz'
 
 INSTALLED_APPS = [
     'django.contrib.admin',
-    'django.contrib.sites',
+    # 'django.contrib.sites',
     'registration',
     'django.contrib.auth',
     'django.contrib.contenttypes',
