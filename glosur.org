@@ -15,3 +15,10 @@ spursm um ad ath m nested admin ...
 api
 
 og svo ath m scriptu til ad importa items.
+
+
+** milestones - backlog
+
+*** TODO importa items
+
+*** TODO gera api
