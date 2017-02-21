@@ -32,10 +32,16 @@ class Observation(models.Model):
 	brand = models.CharField(max_length=200)
 	observed_quantity = models.DecimalField(decimal_places=4, max_digits=25)
 	item = models.ForeignKey(Item)
-	observer = models.ForeignKey(User, blank=True, related_name='observer', null=True)
+	#observer = models.ForeignKey(User, blank=True, related_name='observer', null=True)
 
 	def __str__(self):
 		return str(self.item) + " " + str(obs_time)
 
 
+@python_2_unicode_compatible
+class UserObservation(models.Model):
+	observation = models.ForeignKey(Observation)
+	user = models.ForeignKey(User)
 
+	def __str__(self):
+		return str(self.user)

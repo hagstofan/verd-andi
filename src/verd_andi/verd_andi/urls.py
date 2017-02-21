@@ -21,5 +21,6 @@ urlpatterns = [
 	url(r'^$', home, name='index'),
     url(r'^perap/', include('perap.urls')),
     url(r'^admin/', admin.site.urls),
+    url(r'^nested_admin/', include('nested_admin.urls')),
     url(r'^accounts/', include('registration.backends.default.urls')),
 ]

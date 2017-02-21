@@ -4,7 +4,7 @@
 spursmal um dependencies i framtid:
 django-nested-admin
 
-
+https://github.com/theatlantic/django-nested-admin
 
 
 ** <2017-02-21 þri 14:20> status
