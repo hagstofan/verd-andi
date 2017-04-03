@@ -17,7 +17,7 @@ class Item(models.Model):
 	unit = models.CharField(max_length=100)
 
 	def __str__(self):
-		return self.label
+		return str(self.label) + "-" + str(self.code)
 
 
 @python_2_unicode_compatible
@@ -33,6 +33,8 @@ class Observation(models.Model):
 	observed_quantity = models.DecimalField(decimal_places=4, max_digits=25)
 	item = models.ForeignKey(Item)
 	observer = models.ForeignKey(User, blank=True, related_name='observer', null=True)
+	obs_comment = models.CharField(max_length=300, blank=True)
+	characteristics = models.CharField(max_length=300, blank=True)
 
 	def __str__(self):
 		return str(self.item) + " " + str(self.obs_time)

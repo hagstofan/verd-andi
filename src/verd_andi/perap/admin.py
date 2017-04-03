@@ -31,8 +31,10 @@ class ItemAdmin(nested_admin.NestedModelAdmin):
 	inlines = [ObservationInline,]
 
 
-
+class ObservationAdmin(nested_admin.NestedModelAdmin):
+	model = Observation
 
 
 
 admin.site.register(Item, ItemAdmin)
+admin.site.register(Observation, ObservationAdmin)
