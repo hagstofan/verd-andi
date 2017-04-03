@@ -23,19 +23,19 @@ class Item(models.Model):
 @python_2_unicode_compatible
 class Observation(models.Model):
 	obeservation_number = models.IntegerField(blank=True)
-	obs_time = models.DateTimeField()
+	obs_time = models.DateField()
 	shop_type = models.IntegerField()
 	shop_identifier = models.CharField(max_length=200)
 	flag = models.CharField(max_length=4)
 	discount = models.CharField(max_length=4)
 	value = models.DecimalField(decimal_places=4, max_digits=25)
-	brand = models.CharField(max_length=200)
+	brand = models.CharField(max_length=200, blank=True)
 	observed_quantity = models.DecimalField(decimal_places=4, max_digits=25)
 	item = models.ForeignKey(Item)
-	#observer = models.ForeignKey(User, blank=True, related_name='observer', null=True)
+	observer = models.ForeignKey(User, blank=True, related_name='observer', null=True)
 
 	def __str__(self):
-		return str(self.item) + " " + str(obs_time)
+		return str(self.item) + " " + str(self.obs_time)
 
 
 @python_2_unicode_compatible
