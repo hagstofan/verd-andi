@@ -3,7 +3,7 @@ import nested_admin
 
 from django.contrib.auth.models import User
 # Register your models here.
-from .models import Observation, Item, UserObservation
+from .models import Observation, Item, UserObservation, Characteristic
 
 
 # class UserInline(nested_admin.NestedTabularInline):
@@ -26,9 +26,13 @@ class ObservationInline(nested_admin.NestedTabularInline):
 	model = Observation
 	extra = 3
 
+class CharacteristicInline(nested_admin.NestedTabularInline):
+	model = Characteristic
+	extra = 3
 
 class ItemAdmin(nested_admin.NestedModelAdmin):
-	inlines = [ObservationInline,]
+	inlines = [CharacteristicInline, ObservationInline,]
+	exclude = ('characteristics',)
 
 
 class ObservationAdmin(nested_admin.NestedModelAdmin):

@@ -10,14 +10,29 @@ from django.utils import timezone
 
 # Create your models here.
 
+
+
 @python_2_unicode_compatible
 class Item(models.Model):
 	code = models.CharField(max_length=20, primary_key=True)
 	label = models.CharField(max_length=200)
 	unit = models.CharField(max_length=100)
+	# characteristics = models.ManyToManyField(Characteristic, related_name="characteristics")
 
 	def __str__(self):
 		return str(self.label) + "-" + str(self.code)
+
+@python_2_unicode_compatible
+class Characteristic(models.Model):
+	name = models.CharField(max_length=200)
+	enName = models.CharField(max_length=200)
+	char_type = models.IntegerField() # this field is called type in the xml
+	isProperty = models.BooleanField()
+	specify = models.BooleanField()
+	item = models.ForeignKey(Item)
+
+	def __str__(self):
+		return str(self.name)
 
 
 @python_2_unicode_compatible
@@ -34,11 +49,10 @@ class Observation(models.Model):
 	item = models.ForeignKey(Item)
 	observer = models.ForeignKey(User, blank=True, related_name='observer', null=True)
 	obs_comment = models.CharField(max_length=300, blank=True)
-	characteristics = models.CharField(max_length=300, blank=True)
+	
 
 	def __str__(self):
 		return str(self.item) + " " + str(self.obs_time)
-
 
 @python_2_unicode_compatible
 class UserObservation(models.Model):
