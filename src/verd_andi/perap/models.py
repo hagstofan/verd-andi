@@ -20,16 +20,17 @@ class Item(models.Model):
 	# characteristics = models.ManyToManyField(Characteristic, related_name="characteristics")
 
 	def __str__(self):
-		return str(self.label) + "-" + str(self.code)
+		return self.label + "-" + self.code
 
 @python_2_unicode_compatible
 class Characteristic(models.Model):
 	name = models.CharField(max_length=200)
 	enName = models.CharField(max_length=200)
 	char_type = models.IntegerField() # this field is called type in the xml
-	isProperty = models.BooleanField()
-	specify = models.BooleanField()
+	isProperty = models.BooleanField(default=False)
+	specify = models.BooleanField(default=False)
 	item = models.ForeignKey(Item)
+	value = models.CharField(max_length=200, blank=True)
 
 	def __str__(self):
 		return str(self.name)
@@ -49,6 +50,7 @@ class Observation(models.Model):
 	item = models.ForeignKey(Item)
 	observer = models.ForeignKey(User, blank=True, related_name='observer', null=True)
 	obs_comment = models.CharField(max_length=300, blank=True)
+	specified_characteristics = models.CharField(max_length=400, blank=True)
 	
 
 	def __str__(self):
