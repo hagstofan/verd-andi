@@ -19,6 +19,6 @@ og svo ath m scriptu til ad importa items.
 
 ** milestones - backlog
 
-*** TODO importa items
+*** DONE importa items
 
 *** TODO gera api
