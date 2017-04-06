@@ -51,6 +51,7 @@ INSTALLED_APPS = [
     'grappelli',
     'django.contrib.staticfiles',
     'perap',
+    'fbeto',
     'nested_admin',
 ]
 
