@@ -12,7 +12,8 @@ itemlist = xmldoc.getElementsByTagName('item')
 for s in itemlist:
 	itemcols = [s.attributes['code'].value.encode('utf-8').decode('utf-8') , s.attributes['label'].value.encode('utf-8').decode('utf-8'), s.attributes['unit'].value.encode('utf-8').decode('utf-8')]
 	# input into db
-	cursor.execute("INSERT INTO fbeto_item (code, label, unit) VALUES (?,?,?);", itemcols)
+	itemcols.append(1)
+	cursor.execute("INSERT INTO survey_item (code, label, unit, survey_id) VALUES (?,?,?,?);", itemcols)
 
 	chars = s.getElementsByTagName('characteristic')
 	for c in chars:
@@ -53,7 +54,7 @@ for s in itemlist:
 		lizt.append(True if specify else False)
 		lizt.append(value if value else False)
 
-		cursor.execute("INSERT INTO fbeto_characteristic (item_id, name, enName, char_type, isProperty, specify, value) VALUES (?,?,?,?,?,?,?);", lizt) 
+		cursor.execute("INSERT INTO survey_characteristic (item_id, name, enName, char_type, isProperty, specify, value) VALUES (?,?,?,?,?,?,?);", lizt) 
 
 
 connection.commit()

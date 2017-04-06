@@ -52,6 +52,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'perap',
     'fbeto',
+    'survey',
     'nested_admin',
 ]
 
