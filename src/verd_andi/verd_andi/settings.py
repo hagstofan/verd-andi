@@ -53,6 +53,7 @@ INSTALLED_APPS = [
     'perap',
     'fbeto',
     'survey',
+    'rest_framework',
     'nested_admin',
 ]
 
