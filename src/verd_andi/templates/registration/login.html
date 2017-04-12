@@ -2,14 +2,37 @@
 {% load i18n %}
 
 {% block content %}
-<form method="post" action=".">
-  {% csrf_token %} 
-  {{ form.as_p }}
+<div class="content">
+    {% if form.errors %}
+            <div class="alert alert-danger">
+                <p><strong>Oh snap!</strong> Please enter a correct username and password. Note that both fields are case-sensitive.</p>
+            </div>
+    {% endif %}
+    <form method="post" action="." class="form-horizontal text-center" role="form">
+      {% csrf_token %} 
+      {% for field in form %}
+                <div class="form-group {% if field.errors %}has-error{% endif %}">
+                <div class="col-sm-12">
+                <label for="{{ field.id_for_label }}" class="control-label">{{ field.label }}</label>
+                
+                 <!--    <input autofocus="" id="{{ field.id_for_label }}" maxlength="254" name="username" value="{{ field.value }}" required="" type="{{ field.is_hidden }}" > -->
+                    {{ field }}
+                    {% if field.errors %}
+                        <span class='text-danger'>{{ field.errors|join:'<br />' }}</span>
+                    {% endif %}
+                    {% if field.help_text %}
+                        <span class="help-block ">{{ field.help_text }}</span>
+                    {% endif %}
+                
+                </div>
+        {% endfor %}
+     
 
-  <input type="submit" value="{% trans 'Log in' %}" />
-  <input type="hidden" name="next" value="{{ next }}" />
-</form>
+      <input type="submit" value="{% trans 'Log in' %}" />
+      <input type="hidden" name="next" value="{{ next }}" />
+    </form>
 
-<p>{% trans "Forgot password" %}? <a href="{% url 'auth_password_reset' %}">{% trans "Reset it" %}</a>!</p>
-<p>{% trans "Not member" %}? <a href="{% url 'registration_register' %}">{% trans "Register" %}</a>!</p>
+    <p class="text-center">{% trans "Forgot password" %}? <a href="{% url 'auth_password_reset' %}">{% trans "Reset it" %}</a>!</p>
+    <p>{% trans "Not member" %}? <a href="{% url 'registration_register' %}">{% trans "Register" %}</a>!</p>
+</div>
 {% endblock %}
