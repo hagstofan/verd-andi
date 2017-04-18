@@ -25,4 +25,5 @@ urlpatterns = [
     url(r'^nested_admin/', include('nested_admin.urls')),
     url(r'^accounts/', include('registration.backends.default.urls')),
     url(r'^api/', include('api.urls')),
+    url(r'^survey/', include('survey.urls')),
 ]
