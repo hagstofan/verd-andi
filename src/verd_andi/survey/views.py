@@ -50,7 +50,7 @@ class SurveyDetailView(DetailView):
 # 		return redirect(settings.LOGIN_REDIRECT_URL)
 
 
-def survey_dash(request):
+def survey_dash(request, id):
 	if request.user.is_authenticated():
 
 		context = {
@@ -58,6 +58,6 @@ def survey_dash(request):
 			"user_id" : str(request.user.id),
 		}
 
-		return render(request, "survey_dash.html", context)
+		return render(request, "survey/survey_dash.html", context)
 	else:
 		return redirect(settings.LOGIN_REDIRECT_URL)
