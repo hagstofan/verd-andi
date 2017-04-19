@@ -4,14 +4,11 @@ from django.http import HttpResponse
 from django.views.generic.list import ListView
 from django.views.generic import DetailView
 from django.utils import timezone
-from .models import Survey
+from .models import Survey, User, Item, ItemObserver
 
-# Create your views here.
 # Create your views here.
 def index(request):
         return HttpResponse("Hello, world. You're at the survey index.")
-
-
 
 
 class SurveyListView(ListView):
@@ -32,6 +29,40 @@ class SurveyDetailView(DetailView):
 		return context
 
 
+def survey_dash(request, id):
+	if request.user.is_authenticated():
+
+
+
+		context = {
+			"user_name" : str(request.user),
+			"user_id" : str(request.user.id),
+		}
+
+		return render(request, "survey/survey_dash.html", context)
+	else:
+		return redirect(settings.LOGIN_REDIRECT_URL)
+
+
+def user_dash(request):
+	if request.user.is_authenticated():
+
+		focus_items = ItemObserver.objects.filter(user=request.user.id)
+		items = set()  # creating a queryset of items, that have been slected for the user to observe.
+		for i in focus_items.select_related('item'):
+			items.add(i.item) 
+
+
+		context = {
+			"user_name" : str(request.user),
+			"user_id" : str(request.user.id),
+			"items" : items,
+		}
+
+		return render(request, "survey/survey_dash.html", context)
+	else:
+		return redirect(settings.LOGIN_REDIRECT_URL)
+
 
 # def survey(request):
 # 	if request.user.is_authenticated():
@@ -48,16 +79,3 @@ class SurveyDetailView(DetailView):
 # 		return render(request, "user_dash.html", context)
 # 	else:
 # 		return redirect(settings.LOGIN_REDIRECT_URL)
-
-
-def survey_dash(request, id):
-	if request.user.is_authenticated():
-
-		context = {
-			"user_name" : str(request.user),
-			"user_id" : str(request.user.id),
-		}
-
-		return render(request, "survey/survey_dash.html", context)
-	else:
-		return redirect(settings.LOGIN_REDIRECT_URL)

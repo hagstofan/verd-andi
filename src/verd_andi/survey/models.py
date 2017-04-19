@@ -125,4 +125,18 @@ class UserObservation(models.Model):
 		return str(self.user)
 
 
+@python_2_unicode_compatible
+class ItemObserver(models.Model):
+	user = models.ForeignKey(User, on_delete = models.CASCADE)
+	item = models.ForeignKey(Item, on_delete = models.CASCADE)
 
+	def __str__(self):
+		return str(self.item) + '--' + str(self.user)
+
+@python_2_unicode_compatible
+class Observer(User):
+	class Meta:
+		proxy = True
+
+	def __str__(self):
+		return self.username

@@ -4,4 +4,14 @@
 {% block content %}
 This is you survey dash.
 
+{% if items %}
+	<h2>Items</h2>
+	{% for instance in items %}
+		<h3>{{ instance.code }} </h3>
+	  <p> {{ instance.label }} </p>
+
+
+	{% endfor %}
+{% endif %}
+
 {% endblock %}

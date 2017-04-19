@@ -3,7 +3,7 @@ import nested_admin
 
 from django.contrib.auth.models import User
 # Register your models here.
-from .models import Observation, Item, UserObservation, Characteristic, Survey, ObservedCharacteristic
+from .models import Observation, Item, UserObservation, Characteristic, Survey, ObservedCharacteristic, ItemObserver, Observer
 
 
 # class UserInline(nested_admin.NestedTabularInline):
@@ -52,6 +52,29 @@ class ObservationAdmin(nested_admin.NestedModelAdmin):
 class SurveyAdmin(nested_admin.NestedModelAdmin):
 	model = Survey
 
+class ObserverAdmin(nested_admin.NestedModelAdmin):
+	model = ItemObserver 
+	search_fields = ['item',]
+	raw_id_fields = ('item',)
+	list_filter = (
+		('user', admin.RelatedOnlyFieldListFilter),
+		)
+
+class ItemObserverInline(nested_admin.NestedTabularInline):
+	model = ItemObserver
+	raw_id_fields = ('item',)
+	extra = 3
+
+
+class UserObserverAdmin(nested_admin.NestedModelAdmin):
+	model = Observer
+
+	inlines = [ItemObserverInline,]
+	exclude = ('item',)
+
+
 admin.site.register(Survey, SurveyAdmin)
 admin.site.register(Item, ItemAdmin)
 admin.site.register(Observation, ObservationAdmin)
+admin.site.register(ItemObserver, ObserverAdmin)
+admin.site.register(Observer, UserObserverAdmin)
