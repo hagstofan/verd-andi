@@ -2,11 +2,11 @@ from xml.dom import minidom
 
 import sqlite3, csv
 from decimal import Decimal
-connection = sqlite3.connect("db.sqlite3")
+connection = sqlite3.connect("../db.sqlite3")
 cursor =connection.cursor()
 
 
-xmldoc = minidom.parse('../test-data/E15-2_IS_Final_country_list/itemList.xml')
+xmldoc = minidom.parse('../../test-data/E15-2_IS_Final_country_list/itemList.xml')
 itemlist = xmldoc.getElementsByTagName('item')
 #print(len(itemlist))
 #print(itemlist[0].attributes['label'].value)
