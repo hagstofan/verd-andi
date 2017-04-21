@@ -64,6 +64,20 @@ def user_dash(request):
 		return redirect(settings.LOGIN_REDIRECT_URL)
 
 
+def item_observation(request, id):
+	if request.user.is_authenticated():
+		item = Item.objects.filter(pk=id)
+		print(item)
+
+		context = {
+			"user_name" : str(request.user),
+			"user_id" : str(request.user.id),
+		}
+
+		return render(request, "survey/item_observation.html", context)
+	else:
+		return redirect(settings.LOGIN_REDIRECT_URL)
+
 # def survey(request):
 # 	if request.user.is_authenticated():
 
