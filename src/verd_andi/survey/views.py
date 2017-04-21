@@ -4,7 +4,7 @@ from django.http import HttpResponse
 from django.views.generic.list import ListView
 from django.views.generic import DetailView
 from django.utils import timezone
-from .models import Survey, User, Item, ItemObserver
+from .models import Survey, User, Item, ItemObserver, Characteristic, Observation
 
 # Create your views here.
 def index(request):
@@ -67,11 +67,18 @@ def user_dash(request):
 def item_observation(request, id):
 	if request.user.is_authenticated():
 		item = Item.objects.filter(pk=id)
-		print(item)
+		#print(item)
+		# get item, get characteristics of item ..
+		chars = Characteristic.objects.filter(item=id)
+		#print(chars)
+		observations = Observation.objects.filter(item=id)
 
 		context = {
 			"user_name" : str(request.user),
 			"user_id" : str(request.user.id),
+			"item" : item,
+			"characteristics" : chars,
+			"observations" : observations,
 		}
 
 		return render(request, "survey/item_observation.html", context)

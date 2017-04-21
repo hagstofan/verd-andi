@@ -1,1 +1,56 @@
-This is item observation.
+<!-- item_observation. -->
+{% extends "base.html" %}
+
+{% block content %}
+
+
+
+
+{% if item %}
+	
+	{% for instance in item %}
+		<h1 class="text-center">{{ instance.code }} - {{ instance.label }}</h1>
+		</br>
+		
+
+	{% endfor %}
+{% endif %}
+
+{% if characteristics %}
+<h2>Description</h2>
+
+
+ <table class="table table-hover table-responsive">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Chartype</th>
+        <th>isProperty?</th>
+        <th>Specify?</th>
+        <th>Value</th>
+      </tr>
+    </thead>
+    <tbody>
+	
+	{% for char in characteristics %}
+		<tr>
+			<td>{{ char.name }} </td>
+			<td>{{ char.char_type }}</td>
+			<td>{% if char.isProperty %}<i class="fa fa-check" aria-hidden="true"></i>{% else %}{% endif %}</td>
+			<td>{% if char.specify %}<i class="fa fa-check" aria-hidden="true"></i>{% else %}{% endif %}</td>
+			<td> {{ char.value }} </td>
+		</tr>
+	{% endfor %}
+	</tbody>
+    </table>
+{% endif %}
+
+
+{% if observations %}
+	<h2>Previous observations </h2>
+	{% for obs in observations %}
+		{{ obs.obs_time }} {{ obs.observer }}
+	{% endfor %}
+{% endif %}
+
+{% endblock %}
