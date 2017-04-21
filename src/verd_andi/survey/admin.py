@@ -47,6 +47,7 @@ class ItemAdmin(nested_admin.NestedModelAdmin):
 
 class ObservationAdmin(nested_admin.NestedModelAdmin):
 	model = Observation
+	inlines = [ObservedCharacteristicInline,]
 
 
 class SurveyAdmin(nested_admin.NestedModelAdmin):
@@ -72,9 +73,15 @@ class UserObserverAdmin(nested_admin.NestedModelAdmin):
 	inlines = [ItemObserverInline,]
 	exclude = ('item',)
 
+class CharacteristicAdmin(nested_admin.NestedModelAdmin):
+	model = Characteristic
+	search_fields = ['id',]
+	inlines = [ObservedCharacteristicInline,]
+
 
 admin.site.register(Survey, SurveyAdmin)
 admin.site.register(Item, ItemAdmin)
 admin.site.register(Observation, ObservationAdmin)
 admin.site.register(ItemObserver, ObserverAdmin)
 admin.site.register(Observer, UserObserverAdmin)
+admin.site.register(Characteristic, CharacteristicAdmin)

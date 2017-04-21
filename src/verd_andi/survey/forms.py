@@ -20,6 +20,20 @@ class ObservationForm(forms.Form):
 	#specified_characteristics = forms.CharField(max_length=400, blank=True)
 	#survey = forms.ForeignKey(Survey)
 
+	def __init__(self, *args, **kwargs):
+		extra = kwargs.pop('extra')
+		super(ObservationForm, self).__init__(*args, **kwargs)
+
+		for i, question in enumerate(extra):
+			self.fields['custom_%s' % i] = forms.CharField(label=question)
+
+
+	def extra_answers(self):
+		for name, value in self.cleaned_data.items():
+			if name.startswith('custom_'):
+				yield (self.fields[name].label, value)
+
+
 
 	# full_name = forms.CharField(required=False)
 	# email = forms.EmailField()
