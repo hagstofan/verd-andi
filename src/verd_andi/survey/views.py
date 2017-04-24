@@ -7,7 +7,8 @@ from django.conf import settings
 from django.views.generic.list import ListView
 from django.views.generic import DetailView
 from django.utils import timezone
-from .models import Survey, User, Item, ItemObserver, Characteristic, Observation
+import datetime
+from .models import Survey, User, Item, ItemObserver, Characteristic, Observation, ObservedCharacteristic
 from .forms import ObservationForm
 
 # Create your views here.
@@ -68,14 +69,14 @@ def user_dash(request):
 		return redirect(settings.LOGIN_REDIRECT_URL)
 
 
-def item_observation(request, id):
+def item_observation(request, idx):
 	if request.user.is_authenticated():
-		item = Item.objects.filter(pk=id)
+		item = Item.objects.filter(pk=idx)
 		#print(item)
 		# get item, get characteristics of item ..
-		chars = Characteristic.objects.filter(item=id)
+		chars = Characteristic.objects.filter(item=idx)
 		#print(chars)
-		observations = Observation.objects.filter(item=id)
+		observations = Observation.objects.filter(item=idx)
 
 		#form = ObservationForm(request.POST or None)
 		#if request.method == 'POST':
@@ -86,8 +87,50 @@ def item_observation(request, id):
 		specified_chars_pk = list( sc.pk for sc in spec_chars)
 		form = ObservationForm(request.POST or None, extra=specified_chars)
 		if form.is_valid():
+			# create observation, insert user-observer, obs-time, item, survey?
+			obs_time = datetime.datetime.now()
+			observer = request.user.pk
+			item = idx
+			# fields included in form.
+			shop_type = form.cleaned_data['shop_type']
+			shop_identifier = form.cleaned_data['shop_identifier']
+			flag = form.cleaned_data['flag']
+			discount = form.cleaned_data['discount']
+			value = form.cleaned_data['value']
+			brand = form.cleaned_data['brand']
+			observed_quantity = form.cleaned_data['observed_quantity']
+			obs_comment = form.cleaned_data['obs_comment']
+			theitem = Item.objects.filter(pk=item)[0]
+			theuser = User.objects.filter(pk=observer)[0]
+			print(theitem)
+			survey = getattr(theitem, 'survey')
+			#survey = Survey.objects.filter(pk=surv.pk)
+			observation = Observation.objects.create(
+				observer=theuser, 
+				obs_time=obs_time, 
+				item=theitem, 
+				shop_type=shop_type,
+				shop_identifier=shop_identifier,
+				flag=flag,
+				discount=discount,
+				value=value,
+				brand=brand,
+				observed_quantity=observed_quantity,
+				obs_comment=obs_comment,
+				survey = survey
+				)
+			#observation.save()
+			print(obs_time, observer, item, shop_type, shop_identifier, flag, discount, value, brand, observed_quantity, obs_comment)
 			for (question, answer) in form.extra_answers():
-				save_answer(request, question, answer)
+				print(question) # label
+				print(answer) # value
+				# create observerd characteristic
+				print(specified_chars.index(question))
+				char_pk = specified_chars_pk[specified_chars.index(question)]
+				# char = Characteristic.objects.filter(pk=char_pk)[0]
+				print(observation.pk)
+				observed_characteristic = ObservedCharacteristic.objects.create(observation=observation,characteristic=spec_chars[specified_chars.index(question)],value=answer)
+				#save_answer(request, question, answer)
 			return redirect(settings.LOGIN_REDIRECT_URL)
 			# for (question, answer) in form.extra_answers():
 		 #    	save_answer(request, question, answer)

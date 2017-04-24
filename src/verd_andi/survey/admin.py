@@ -78,6 +78,8 @@ class CharacteristicAdmin(nested_admin.NestedModelAdmin):
 	search_fields = ['id',]
 	inlines = [ObservedCharacteristicInline,]
 
+class ObservedCharacteristicAdmin(nested_admin.NestedModelAdmin):
+	model = ObservedCharacteristic
 
 admin.site.register(Survey, SurveyAdmin)
 admin.site.register(Item, ItemAdmin)
@@ -85,3 +87,4 @@ admin.site.register(Observation, ObservationAdmin)
 admin.site.register(ItemObserver, ObserverAdmin)
 admin.site.register(Observer, UserObserverAdmin)
 admin.site.register(Characteristic, CharacteristicAdmin)
+admin.site.register(ObservedCharacteristic, ObservedCharacteristicAdmin)

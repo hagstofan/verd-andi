@@ -59,7 +59,7 @@ class Characteristic(models.Model):
 
 @python_2_unicode_compatible
 class Observation(models.Model):
-	obeservation_number = models.IntegerField(blank=True)
+	obeservation_number = models.IntegerField(blank=True, null=True)
 	obs_time = models.DateField()
 	shop_type = models.IntegerField()
 	shop_identifier = models.CharField(max_length=200)
