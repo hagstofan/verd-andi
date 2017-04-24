@@ -119,7 +119,7 @@ def item_observation(request, idx):
 				obs_comment=obs_comment,
 				survey = survey
 				)
-			#observation.save()
+			observation.save()
 			print(obs_time, observer, item, shop_type, shop_identifier, flag, discount, value, brand, observed_quantity, obs_comment)
 			for (question, answer) in form.extra_answers():
 				print(question) # label
@@ -129,7 +129,9 @@ def item_observation(request, idx):
 				char_pk = specified_chars_pk[specified_chars.index(question)]
 				# char = Characteristic.objects.filter(pk=char_pk)[0]
 				print(observation.pk)
-				observed_characteristic = ObservedCharacteristic.objects.create(observation=observation,characteristic=spec_chars[specified_chars.index(question)],value=answer)
+				# adding observed_characteristic, currently relies on order in QueryObject spec_chars bieng same as order inlists derived from it, which I think holds.
+				observed_characteristic = ObservedCharacteristic.objects.create(observation=observation,characteristic=spec_chars[specified_chars.index(question)],value=answer) #
+				observed_characteristic.save()
 				#save_answer(request, question, answer)
 			return redirect(settings.LOGIN_REDIRECT_URL)
 			# for (question, answer) in form.extra_answers():
