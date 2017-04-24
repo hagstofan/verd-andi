@@ -133,7 +133,9 @@ def item_observation(request, idx):
 				observed_characteristic = ObservedCharacteristic.objects.create(observation=observation,characteristic=spec_chars[specified_chars.index(question)],value=answer) #
 				observed_characteristic.save()
 				#save_answer(request, question, answer)
-			return redirect(settings.LOGIN_REDIRECT_URL)
+			#return redirect(settings.LOGIN_REDIRECT_URL)
+			return redirect("/survey/udash")
+			#return redirect('')
 			# for (question, answer) in form.extra_answers():
 		 #    	save_answer(request, question, answer)
 			# 	return redirect("create_user_success")
