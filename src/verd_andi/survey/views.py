@@ -59,7 +59,7 @@ def user_dash(request):
 			items.add(i.item) 
 
 
-		surveys = Survey.objects.all()
+		surveys = Survey.objects.all() # could use filter in the future for current surveys.
 
 		context = {
 			"user_name" : str(request.user),
