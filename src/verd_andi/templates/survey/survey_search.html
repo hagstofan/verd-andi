@@ -1,8 +1,8 @@
-<!-- survey_dash.html -->
+<!-- survey_search.html -->
 {% extends "base.html" %}
 
 {% block content %}
-This is you survey dash.
+This is Item search
 
 {% if items %}
 	<h2>Items</h2>
@@ -13,14 +13,4 @@ This is you survey dash.
 	{% endfor %}
 {% endif %}
 
-
-<hr>
-
-<h3>Item Search for survey:</h3>
-	{% if surveys %}
-		{% for surv in surveys %}
-	<a href="{% url 'survey:survey-search' surv.pk %}">{{ surv.code }}-{{ surv.year }}</a>
-	</br>
-		{% endfor %}
-	{% endif %}
 {% endblock %}

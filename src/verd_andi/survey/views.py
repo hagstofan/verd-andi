@@ -1,7 +1,8 @@
 from django.shortcuts import render
 from django.shortcuts import redirect
-from django.http import HttpResponse
 
+from django.http import HttpResponse, Http404, HttpResponseRedirect
+from django.urls import reverse
 from django.conf import settings
 
 from django.views.generic.list import ListView
@@ -58,10 +59,13 @@ def user_dash(request):
 			items.add(i.item) 
 
 
+		surveys = Survey.objects.all()
+
 		context = {
 			"user_name" : str(request.user),
 			"user_id" : str(request.user.id),
 			"items" : items,
+			"surveys" : surveys,
 		}
 
 		return render(request, "survey/survey_dash.html", context)
@@ -86,7 +90,7 @@ def item_observation(request, idx):
 		specified_chars = list( sc.name for sc in spec_chars)
 		specified_chars_pk = list( sc.pk for sc in spec_chars)
 		form = ObservationForm(request.POST or None, extra=specified_chars)
-		if form.is_valid():
+		if form.is_valid():  #POST request
 			# create observation, insert user-observer, obs-time, item, survey?
 			obs_time = datetime.datetime.now()
 			observer = request.user.pk
@@ -103,7 +107,7 @@ def item_observation(request, idx):
 			theitem = Item.objects.filter(pk=item)[0]
 			theuser = User.objects.filter(pk=observer)[0]
 			print(theitem)
-			survey = getattr(theitem, 'survey')
+			surv = getattr(theitem, 'survey')
 			#survey = Survey.objects.filter(pk=surv.pk)
 			observation = Observation.objects.create(
 				observer=theuser, 
@@ -117,7 +121,7 @@ def item_observation(request, idx):
 				brand=brand,
 				observed_quantity=observed_quantity,
 				obs_comment=obs_comment,
-				survey = survey
+				survey = surv
 				)
 			observation.save()
 			print(obs_time, observer, item, shop_type, shop_identifier, flag, discount, value, brand, observed_quantity, obs_comment)
@@ -134,7 +138,9 @@ def item_observation(request, idx):
 				observed_characteristic.save()
 				#save_answer(request, question, answer)
 			#return redirect(settings.LOGIN_REDIRECT_URL)
-			return redirect("/survey/udash")
+			#return redirect("/survey/udash")
+			#return redirect("survey.views.survey-userdash")
+			return HttpResponseRedirect(reverse('survey:survey-userdash'))
 			#return redirect('')
 			# for (question, answer) in form.extra_answers():
 		 #    	save_answer(request, question, answer)
@@ -151,6 +157,24 @@ def item_observation(request, idx):
 		}
 
 		return render(request, "survey/item_observation.html", context)
+	else:
+		return redirect(settings.LOGIN_REDIRECT_URL)
+
+
+def search(request, pk):
+	if request.user.is_authenticated():
+
+		items = Item.objects.filter(survey=pk)
+
+		context = {
+			"user_name" : str(request.user),
+			"user_id" : str(request.user.id),
+			"items" : items,
+		}
+
+
+		return render(request, "survey/survey_search.html", context)
+
 	else:
 		return redirect(settings.LOGIN_REDIRECT_URL)
 
