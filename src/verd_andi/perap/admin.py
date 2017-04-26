@@ -33,6 +33,7 @@ class CharacteristicInline(nested_admin.NestedTabularInline):
 class ItemAdmin(nested_admin.NestedModelAdmin):
 	inlines = [CharacteristicInline, ObservationInline,]
 	exclude = ('characteristics',)
+	search_fields = ['code','label']
 
 
 class ObservationAdmin(nested_admin.NestedModelAdmin):
