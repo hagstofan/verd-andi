@@ -66,7 +66,6 @@ class Observation(models.Model):
 	flag = models.CharField(max_length=4)
 	discount = models.CharField(max_length=4)
 	value = models.DecimalField(decimal_places=4, max_digits=25)
-	brand = models.CharField(max_length=200, blank=True)
 	observed_quantity = models.DecimalField(decimal_places=4, max_digits=25)
 	item = models.ForeignKey(Item)
 	observer = models.ForeignKey(User, blank=True, related_name='survey_observer', null=True)

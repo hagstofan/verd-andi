@@ -101,7 +101,6 @@ def item_observation(request, idx):
 			flag = form.cleaned_data['flag']
 			discount = form.cleaned_data['discount']
 			value = form.cleaned_data['value']
-			brand = form.cleaned_data['brand']
 			observed_quantity = form.cleaned_data['observed_quantity']
 			obs_comment = form.cleaned_data['obs_comment']
 			theitem = Item.objects.filter(pk=item)[0]
@@ -118,13 +117,12 @@ def item_observation(request, idx):
 				flag=flag,
 				discount=discount,
 				value=value,
-				brand=brand,
 				observed_quantity=observed_quantity,
 				obs_comment=obs_comment,
 				survey = surv
 				)
 			observation.save()
-			print(obs_time, observer, item, shop_type, shop_identifier, flag, discount, value, brand, observed_quantity, obs_comment)
+			print(obs_time, observer, item, shop_type, shop_identifier, flag, discount, value, observed_quantity, obs_comment)
 			for (question, answer) in form.extra_answers():
 				print(question) # label
 				print(answer) # value

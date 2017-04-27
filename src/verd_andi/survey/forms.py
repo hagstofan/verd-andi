@@ -12,7 +12,6 @@ class ObservationForm(forms.Form):
 	flag = forms.CharField(max_length=4)
 	discount = forms.CharField(max_length=4)
 	value = forms.DecimalField(decimal_places=4, max_digits=25)
-	brand = forms.CharField(max_length=200)
 	observed_quantity = forms.DecimalField(decimal_places=4, max_digits=25)
 	#item = forms.ForeignKey(Item)
 	#observer = forms.ForeignKey(User, blank=True, related_name='survey_observer', null=True)
