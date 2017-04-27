@@ -9,7 +9,7 @@ from django.contrib.auth.models import User
 class ObservationForm(forms.Form):
 	shop_type = forms.IntegerField()
 	shop_identifier = forms.CharField()
-	flag = forms.CharField(max_length=4)
+	#flag = forms.CharField(max_length=4)
 	discount = forms.CharField(max_length=4)
 	value = forms.DecimalField(decimal_places=4, max_digits=25)
 	observed_quantity = forms.DecimalField(decimal_places=4, max_digits=25)
