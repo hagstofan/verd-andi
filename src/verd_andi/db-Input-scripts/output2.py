@@ -209,7 +209,27 @@ for i_row in item_rows:
 			cgs_section.append(cgs_observed_quantity)
 
 			observation_number += 1
-			# query for observed chars, create list and add | inbetween
+			# query for observed chars, create list and add | inbetween,... obs_i[0]
+			execute_string2 = 'SELECT * FROM survey_observedcharacteristic WHERE observation_id=' + '"' + str(obs_i[0]) + '"'
+			c.execute(execute_string2)
+			observedcharacteristics = c.fetchall()
+			print("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++")
+			print(str(observedcharacteristics))
+			# [(14, 2872, 17, u'perv')]    <------ example of one
+			#  (id,id_of_char,id_of_obs ,value)
+			for obs_char in observedcharacteristics:
+				obs_char_id = obs_char[0]
+				char_id = obs_char[1]
+				obs_id = obs_char[2]
+				obs_char_value = obs_char[3]
+				# get char Name 
+				"""
+				<cgs:OBSERVED_PRICE OBSERVATION_NUMBER="4" OBS_TIME="2014-5" 
+				SHOP_TYPE="8" SHOP_IDENTIFIER="Rafholt" OBS_COMMENT="" FLAG="O" 
+				DISCOUNT="N" value="25500.0" CHARACTERISTICS="Price of materials=8000|
+				Travel costs=3500|Number of hours worked=2" CHARS_SEPARATOR="|" />
+				"""
+				# set observed price CHARACTERISTICS, CHARS_SEPARATOR='|'
 
 
 
