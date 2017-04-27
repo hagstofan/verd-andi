@@ -193,7 +193,7 @@ for i_row in item_rows:
 			cgs_observed_price.set('OBS_TIME', str(obs_i[1]))
 			cgs_observed_price.set('SHOP_TYPE', str(obs_i[2]))
 			cgs_observed_price.set('SHOP_IDENTIFIER', str(obs_i[3]))
-			cgs_observed_price.set('OBS_COMMENT', str(obs_i[9]))
+			cgs_observed_price.set('OBS_COMMENT', str(obs_i[8]))
 			cgs_observed_price.set('FLAG', str(obs_i[4]))
 			cgs_observed_price.set('DISCOUNT', str(obs_i[5]))
 			cgs_observed_price.set('value', str(obs_i[6]))
@@ -202,9 +202,9 @@ for i_row in item_rows:
 
 			cgs_observed_quantity = Element('cgs:OBSERVED_QUANTITY')
 			cgs_observed_quantity.set('OBSERVATION_NUMBER', str(observation_number))
-			cgs_observed_quantity.set('value', str(obs_i[8]))
+			cgs_observed_quantity.set('value', str(obs_i[7]))
 
-			#cgs_section.append(cgs_observed_quantity)
+			cgs_section.append(cgs_observed_quantity)
 
 			observation_number += 1
 
