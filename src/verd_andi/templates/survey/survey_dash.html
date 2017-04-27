@@ -7,7 +7,7 @@ This is you survey dash.
 {% if items %}
 	<h2>Items</h2>
 	{% for instance in items %}
-		<a href="{% url 'survey:item-observation' instance.code %}"> {{ instance.code }} {{ instance.label }} </a>
+		<a href="{% url 'survey:item-observation' instance.code %}"> {{ instance.label }}  ---  {{ instance.code }}</a>
 		</br>
 
 	{% endfor %}

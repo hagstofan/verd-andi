@@ -209,6 +209,7 @@ for i_row in item_rows:
 			cgs_section.append(cgs_observed_quantity)
 
 			observation_number += 1
+			# query for observed chars, create list and add | inbetween
 
 
 
