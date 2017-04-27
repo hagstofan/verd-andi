@@ -182,27 +182,29 @@ for i_row in item_rows:
 	observations = c.fetchall()
 	if(len(observations) > 0):
 		print("====================================================")
-		#print(str(observations))
+		print(str(observations))
 		observation_number = 1
 		for obs_i in observations:
 			# create observed_quantity and observed-price
 			# (11, u'2017-04-24', 99, u'eMart', u'O', u'N', 15, u'Biggys', 30, u'flaggelation',
 			# u'', u'A.09.4.1.0.01.ha', 1, 1, None)
+			# (31, None, u'2017-04-27', 12, u'charlies', u'O', u'N', 60, 1, u'nice', u'', 
+			# u'A.03.2.2.0.02.aa', 1, 1)
 			cgs_observed_price = Element('cgs:OBSERVED_PRICE')
 			cgs_observed_price.set('OBSERVATION_NUMBER',str(observation_number))
-			cgs_observed_price.set('OBS_TIME', str(obs_i[1]))
-			cgs_observed_price.set('SHOP_TYPE', str(obs_i[2]))
-			cgs_observed_price.set('SHOP_IDENTIFIER', str(obs_i[3]))
-			cgs_observed_price.set('OBS_COMMENT', str(obs_i[8]))
-			cgs_observed_price.set('FLAG', str(obs_i[4]))
-			cgs_observed_price.set('DISCOUNT', str(obs_i[5]))
-			cgs_observed_price.set('value', str(obs_i[6]))
+			cgs_observed_price.set('OBS_TIME', str(obs_i[2]))
+			cgs_observed_price.set('SHOP_TYPE', str(obs_i[3]))
+			cgs_observed_price.set('SHOP_IDENTIFIER', str(obs_i[4]))
+			cgs_observed_price.set('OBS_COMMENT', str(obs_i[9]))
+			cgs_observed_price.set('FLAG', str(obs_i[5]))
+			cgs_observed_price.set('DISCOUNT', str(obs_i[6]))
+			cgs_observed_price.set('value', str(obs_i[7]))
 
 			cgs_section.append(cgs_observed_price)
 
 			cgs_observed_quantity = Element('cgs:OBSERVED_QUANTITY')
 			cgs_observed_quantity.set('OBSERVATION_NUMBER', str(observation_number))
-			cgs_observed_quantity.set('value', str(obs_i[7]))
+			cgs_observed_quantity.set('value', str(obs_i[8]))
 
 			cgs_section.append(cgs_observed_quantity)
 
