@@ -146,6 +146,75 @@ cgs_group.set('CURRENCY','ISK')
 
 root.append(cgs_dataset)
 
+
+
+c.execute('SELECT * FROM survey_item WHERE survey_id=1') # @dynam choose from current survey
+item_rows = c.fetchall()
+print(len(item_rows))
+
+for i_row in item_rows:
+	#print(i_row[0])
+	print(i_row)
+	# for loop later
+	cgs_section = Element('cgs:Section')
+	cgs_section.set("EPC_ITEM",i_row[0])
+	cgs_section.set("VAT","0.255")                   # almost static
+	cgs_section.set("REPRESENTIVITY","true")         # default to true  ---- later to be derived from new model ItemCommentary
+	cgs_section.set("SEASONALITY", "false")          # default to false -----^
+	cgs_section.set("ITEM_COMMENT","")               # default to ""  ----------^
+	cgs_section.set("FINALIZED","true")              # true
+
+	cgs_group.append(cgs_section)
+	# do a select query for observations and add to section, cgs_section.append()<-- observed price
+	"""
+	<cgs:OBSERVED_QUANTITY OBSERVATION_NUMBER="8" value="1.0" />
+        <cgs:OBSERVED_PRICE OBSERVATION_NUMBER="9" OBS_TIME="2014-5" SHOP_TYPE="8" SHOP_IDENTIFIER="Skarinn Kringla" 
+        OBS_COMMENT="" FLAG="O" DISCOUNT="N" value="2800.0" />
+	"""
+	item_i = i_row[0]
+	#c.execute('SELECT * FROM survey_observation WHERE item_id={item_i}'.format(item_i=item_i))	
+	# A.03.2.2.0.02.aa
+	print(item_i)
+	#c.execute('SELECT * FROM survey_observation WHERE item_id="A.09.4.1.0.01.ha"')
+	execute_string = 'SELECT * FROM survey_observation WHERE item_id=' + '"' + item_i + '"'
+	#print(execute_string)
+	c.execute(execute_string)
+	observations = c.fetchall()
+	if(len(observations) > 0):
+		print("====================================================")
+		#print(str(observations))
+		observation_number = 1
+		for obs_i in observations:
+			# create observed_quantity and observed-price
+			# (11, u'2017-04-24', 99, u'eMart', u'O', u'N', 15, u'Biggys', 30, u'flaggelation',
+			# u'', u'A.09.4.1.0.01.ha', 1, 1, None)
+			cgs_observed_price = Element('cgs:OBSERVED_PRICE')
+			cgs_observed_price.set('OBSERVATION_NUMBER',str(observation_number))
+			cgs_observed_price.set('OBS_TIME', str(obs_i[1]))
+			cgs_observed_price.set('SHOP_TYPE', str(obs_i[2]))
+			cgs_observed_price.set('SHOP_IDENTIFIER', str(obs_i[3]))
+			cgs_observed_price.set('OBS_COMMENT', str(obs_i[9]))
+			cgs_observed_price.set('FLAG', str(obs_i[4]))
+			cgs_observed_price.set('DISCOUNT', str(obs_i[5]))
+			cgs_observed_price.set('value', str(obs_i[6]))
+
+			cgs_section.append(cgs_observed_price)
+
+			cgs_observed_quantity = Element('cgs:OBSERVED_QUANTITY')
+			cgs_observed_quantity.set('OBSERVATION_NUMBER', str(observation_number))
+			cgs_observed_quantity.set('value', str(obs_i[8]))
+
+			#cgs_section.append(cgs_observed_quantity)
+
+			observation_number += 1
+
+
+
+"""
+<cgs:Section ECP_ITEM="11.03.22.1.02.aa" VAT="0.255" REPRESENTATIVITY="true" 
+SEASONALITY="false" ITEM_COMMENT="" FINALIZED="true">
+"""
+
 """
  <DataSetAction>Append</DataSetAction>
     <Extracted>2014-06-16T15:00:16+00:00</Extracted>
