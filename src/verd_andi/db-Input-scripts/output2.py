@@ -217,11 +217,18 @@ for i_row in item_rows:
 			print(str(observedcharacteristics))
 			# [(14, 2872, 17, u'perv')]    <------ example of one
 			#  (id,id_of_char,id_of_obs ,value)
+			char_arr = []
 			for obs_char in observedcharacteristics:
 				obs_char_id = obs_char[0]
 				char_id = obs_char[1]
 				obs_id = obs_char[2]
 				obs_char_value = obs_char[3]
+				execute_string3 = 'SELECT * FROM  survey_characteristic WHERE id=' + '"' + str(char_id) + '"'
+				c.execute(execute_string3)
+				characteristic_i = c.fetchall()
+				print("####################################################################")
+				print(characteristic_i[0][1]) # <------ name of characteristic
+				char_name = characteristic_i[0][1]
 				# get char Name 
 				"""
 				<cgs:OBSERVED_PRICE OBSERVATION_NUMBER="4" OBS_TIME="2014-5" 
@@ -230,6 +237,13 @@ for i_row in item_rows:
 				Travel costs=3500|Number of hours worked=2" CHARS_SEPARATOR="|" />
 				"""
 				# set observed price CHARACTERISTICS, CHARS_SEPARATOR='|'
+				char_arr.append(str(char_name)+"="+str(obs_char_value))
+				
+
+			if (len(char_arr) > 0):
+				char_string='|'.join(char_arr)
+				cgs_observed_price.set("CHARACTERISTICS",char_string)
+				cgs_observed_price.set("CHAR_SEPARATOR","|")
 
 
 
