@@ -16,12 +16,11 @@ c =conn.cursor()
 
 c.execute('SELECT * FROM survey_observation WHERE item_id="A.09.3.2.0.01.fa"')
 all_rows = c.fetchall()
-print(len(all_rows))
 
 
 c.execute('SELECT * FROM survey_characteristic WHERE item_id="A.09.3.2.0.01.fa"')
 all_rows = c.fetchall()
-print(len(all_rows))
+
 
 
 
@@ -150,23 +149,30 @@ root.append(cgs_dataset)
 
 c.execute('SELECT * FROM survey_item WHERE survey_id=1') # @dynam choose from current survey
 item_rows = c.fetchall()
-print(len(item_rows))
+
 
 for i_row in item_rows:
 	#print(i_row[0])
-	print(i_row)
 	# get commentary if exists.
 	x_string = 'SELECT * FROM survey_itemcommentary WHERE item_id='+ '"' + i_row[0] + '"'
 	c.execute(x_string)
-	commentary = c.fetchall()
+	commentarys = c.fetchall()
+	if (len(commentarys) > 0):
+		commentary = commentarys[0]
+		commentary_seasonality = "true" if commentary[0] else "false"
+		commentary_representativity = "true" if commentary[4] else "false"
+		commentary_comment = commentary[1]
+		commentary_vat = str(commentary[2])
+	else:
+		commentary_vat = commentary_comment = commentary_representativity = commentary_seasonality = False
 	
 	# for loop later
 	cgs_section = Element('cgs:Section')
 	cgs_section.set("EPC_ITEM",i_row[0])
-	cgs_section.set("VAT","0.255")                   # almost static
-	cgs_section.set("REPRESENTIVITY","true")         # default to true  ---- later to be derived from new model ItemCommentary
-	cgs_section.set("SEASONALITY", "false")          # default to false -----^
-	cgs_section.set("ITEM_COMMENT","")               # default to ""  ----------^
+	cgs_section.set("VAT", commentary_vat if commentary_vat else "0.255")                   # almost static
+	cgs_section.set("REPRESENTIVITY", commentary_representativity if commentary_representativity else "true")         # default to true  ---- later to be derived from new model ItemCommentary
+	cgs_section.set("SEASONALITY", commentary_seasonality if commentary_seasonality else "false")          # default to false -----^
+	cgs_section.set("ITEM_COMMENT", commentary_comment if commentary_comment else "")               # default to ""  ----------^
 	cgs_section.set("FINALIZED","true")              # true
 
 	cgs_group.append(cgs_section)
@@ -179,15 +185,12 @@ for i_row in item_rows:
 	item_i = i_row[0]
 	#c.execute('SELECT * FROM survey_observation WHERE item_id={item_i}'.format(item_i=item_i))	
 	# A.03.2.2.0.02.aa
-	print(item_i)
 	#c.execute('SELECT * FROM survey_observation WHERE item_id="A.09.4.1.0.01.ha"')
 	execute_string = 'SELECT * FROM survey_observation WHERE item_id=' + '"' + item_i + '"'
 	#print(execute_string)
 	c.execute(execute_string)
 	observations = c.fetchall()
 	if(len(observations) > 0):
-		print("====================================================")
-		print(str(observations))
 		observation_number = 1
 		for obs_i in observations:
 			# create observed_quantity and observed-price
@@ -218,8 +221,7 @@ for i_row in item_rows:
 			execute_string2 = 'SELECT * FROM survey_observedcharacteristic WHERE observation_id=' + '"' + str(obs_i[0]) + '"'
 			c.execute(execute_string2)
 			observedcharacteristics = c.fetchall()
-			print("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++")
-			print(str(observedcharacteristics))
+
 			# [(14, 2872, 17, u'perv')]    <------ example of one
 			#  (id,id_of_char,id_of_obs ,value)
 			char_arr = []
@@ -231,8 +233,6 @@ for i_row in item_rows:
 				execute_string3 = 'SELECT * FROM  survey_characteristic WHERE id=' + '"' + str(char_id) + '"'
 				c.execute(execute_string3)
 				characteristic_i = c.fetchall()
-				print("####################################################################")
-				print(characteristic_i[0][1]) # <------ name of characteristic
 				char_name = characteristic_i[0][1]
 				# get char Name 
 				"""
