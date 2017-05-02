@@ -187,16 +187,23 @@ def ItemCommentaryView(request, idx):
 		commentary = ItemCommentary.objects.get_or_create(pk=idx)[0]
 		print(str(commentary))
 
-		form = ItemCommentaryForm(request.POST or None)
+		data = {
+			'seasonality': commentary.seasonality, 
+			'representativity':commentary.representativity,
+			'comment':commentary.comment,
+			'vat':commentary.vat
+			}
+
+		form = ItemCommentaryForm(request.POST or None, initial=data)
 		if form.is_valid():  #POST request
 			#shop_type = form.cleaned_data['shop_type']
 			seasonality = form.cleaned_data['seasonality']
-			representivity = form.cleaned_data['representivity']
+			representativity = form.cleaned_data['representativity']
 			comment = form.cleaned_data['comment']
 			vat = form.cleaned_data['vat']
 
 			commentary.seasonality = seasonality
-			commentary.representivity = representivity
+			commentary.representativity = representativity
 			commentary.comment = comment
 			commentary.vat = vat
 

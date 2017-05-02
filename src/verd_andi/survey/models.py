@@ -50,7 +50,7 @@ class ItemCommentary(models.Model):
         primary_key=True,
     )
 	seasonality = models.BooleanField(default=False)
-	representivity = models.BooleanField(default=True)
+	representativity = models.BooleanField(default=True)
 	comment = models.CharField(max_length=300, blank=True, default="")
 	vat = models.DecimalField(decimal_places=4, max_digits=4, default=0.24)
 

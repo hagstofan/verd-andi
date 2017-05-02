@@ -51,10 +51,10 @@ class ObservationForm(forms.Form):
 
 
 class ItemCommentaryForm(forms.Form):
-	seasonality = forms.BooleanField()
-	representivity = forms.BooleanField()
-	comment = forms.CharField(max_length=300)
-	vat = forms.DecimalField(decimal_places=4, max_digits=4)
+	seasonality = forms.BooleanField(required=False)
+	representativity = forms.BooleanField(required=False)
+	comment = forms.CharField(max_length=300,required=False)
+	vat = forms.DecimalField(decimal_places=4, max_digits=4,required=False)
 	"""
 	seasonality = models.BooleanField(default=False)
 	representivity = models.BooleanField(default=True)
