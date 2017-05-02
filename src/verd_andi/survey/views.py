@@ -7,10 +7,13 @@ from django.conf import settings
 
 from django.views.generic.list import ListView
 from django.views.generic import DetailView
+from django.views.generic.edit import UpdateView
+from django.views.generic.edit import FormView
 from django.utils import timezone
 import datetime
-from .models import Survey, User, Item, ItemObserver, Characteristic, Observation, ObservedCharacteristic
-from .forms import ObservationForm
+from .models import Survey, User, Item, ItemObserver, Characteristic, Observation, ObservedCharacteristic, ItemCommentary
+from .forms import ObservationForm, ItemCommentaryForm
+from django.contrib.auth.views import redirect_to_login
 
 # Create your views here.
 def index(request):
@@ -176,6 +179,66 @@ def search(request, pk):
 	else:
 		return redirect(settings.LOGIN_REDIRECT_URL)
 
+
+
+
+def ItemCommentaryView(request, idx):
+	if request.user.is_superuser:
+		commentary = ItemCommentary.objects.get_or_create(pk=idx)[0]
+		print(str(commentary))
+
+		form = ItemCommentaryForm(request.POST or None)
+		if form.is_valid():  #POST request
+			#shop_type = form.cleaned_data['shop_type']
+			seasonality = form.cleaned_data['seasonality']
+			representivity = form.cleaned_data['representivity']
+			comment = form.cleaned_data['comment']
+			vat = form.cleaned_data['vat']
+
+			commentary.seasonality = seasonality
+			commentary.representivity = representivity
+			commentary.comment = comment
+			commentary.vat = vat
+
+			commentary.save()
+			print("form was good")
+			return HttpResponseRedirect(reverse('survey:survey-userdash'))
+
+		context = {
+			"form" : form,
+		}
+
+		return render(request, "survey/itemcommentary_update_form.html", context)
+
+		#return HttpResponse("Hey, you superuser you")
+	else:  # not superuser
+		return HttpResponse("YOU ARE NOT AUTHORIZED!")
+
+
+
+
+# ================================================================================
+
+
+class ItemCommentaryUpdate(UpdateView):
+	model = ItemCommentary
+	fields = ['vat','comment','seasonality','representivity']
+	template_name_suffix = '_update_form'
+
+
+	def user_passes_test(self, request, pk):
+		if request.user.is_superuser:
+			#Model.objects.get_or_create()
+			#self.object = ItemCommentary.objects.get_or_create(pk)
+			return True
+		return False
+
+	def dispatch(self, request, *args, **kwargs):
+		#print args
+		#print kwargs['pk']
+		if not self.user_passes_test(request, kwargs['pk']):
+			return redirect_to_login(request.get_full_path())
+		return super(ItemCommentaryUpdate, self).dispatch(request, *args, **kwargs)
 # def survey(request):
 # 	if request.user.is_authenticated():
 

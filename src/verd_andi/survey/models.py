@@ -43,6 +43,22 @@ class Item(models.Model):
 		return self.label + "-" + self.code
 
 @python_2_unicode_compatible
+class ItemCommentary(models.Model):
+	item =	models.OneToOneField(
+        Item,
+        on_delete=models.CASCADE,
+        primary_key=True,
+    )
+	seasonality = models.BooleanField(default=False)
+	representivity = models.BooleanField(default=True)
+	comment = models.CharField(max_length=300, blank=True, default="")
+	vat = models.DecimalField(decimal_places=4, max_digits=4, default=0.24)
+
+	def __str__(self):
+		return str(self.item.label)
+
+
+@python_2_unicode_compatible
 class Characteristic(models.Model):
 	name = models.CharField(max_length=200)
 	enName = models.CharField(max_length=200)
