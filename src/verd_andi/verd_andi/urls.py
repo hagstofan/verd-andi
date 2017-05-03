@@ -21,7 +21,7 @@ from django.views.generic import RedirectView
 
 
 urlpatterns = [
-    url(r'^$', RedirectView.as_view(url='/survey/udash/')),
+    url(r'^$', RedirectView.as_view(url='/survey/udash/'), name='dash'),
 	#url(r'^$', home, name='index'),
     url(r'^perap/', include('perap.urls')),
     url(r'^admin/', admin.site.urls),
