@@ -31,7 +31,7 @@ class ObservationForm(forms.Form):
 	observed_quantity = forms.DecimalField(decimal_places=4, max_digits=25)
 	#item = forms.ForeignKey(Item)
 	#observer = forms.ForeignKey(User, blank=True, related_name='survey_observer', null=True)
-	obs_comment = forms.CharField(max_length=300)
+	obs_comment = forms.CharField(max_length=300, required=False)
 	#specified_characteristics = forms.CharField(max_length=400, blank=True)
 	#survey = forms.ForeignKey(Survey)
 
