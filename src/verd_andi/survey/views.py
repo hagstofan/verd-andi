@@ -73,7 +73,7 @@ def user_dash(request):
 
 		return render(request, "survey/survey_dash.html", context)
 	else:
-		return redirect(settings.LOGIN_REDIRECT_URL)
+		return redirect(settings.REDIRECT_TO_LOGIN)
 
 
 def item_observation(request, idx):

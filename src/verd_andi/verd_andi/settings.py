@@ -153,3 +153,5 @@ STATICFILES_DIRS = (
 
 LOGIN_REDIRECT_URL = '/'
 
+REDIRECT_TO_LOGIN = '/accounts/login/'
+
