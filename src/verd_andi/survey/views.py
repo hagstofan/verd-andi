@@ -269,11 +269,7 @@ def ObservationUpdate(request, idx):
 				value = form.cleaned_data['value']
 				observed_quantity = form.cleaned_data['observed_quantity']
 				obs_comment = form.cleaned_data['obs_comment']
-				"""
-				obj = Product.objects.get(pk=pk)
-				obj.name = "some_new_value"
-				obj.save()
-				"""
+				# updating the observation
 				observation.shop_type = shop_type
 				observation.shop_identifier = shop_identifier
 				observation.discount = discount
@@ -281,6 +277,7 @@ def ObservationUpdate(request, idx):
 				observation.observed_quantity = observed_quantity
 				observation.obs_comment = obs_comment
 				observation.save()
+				# updating observed characteristics
 
 			return render(request, "survey/item_observation.html", context)
 		else:
