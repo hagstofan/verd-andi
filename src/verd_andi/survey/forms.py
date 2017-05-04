@@ -39,8 +39,17 @@ class ObservationForm(forms.Form):
 		extra = kwargs.pop('extra')
 		super(ObservationForm, self).__init__(*args, **kwargs)
 
+		if "initial" in kwargs:
+			initial = kwargs.pop('initial')
+		else:
+			initial = {}
+
 		for i, question in enumerate(extra):
-			self.fields['custom_%s' % i] = forms.CharField(label=question)
+			if question in initial:
+				print('its in')
+				self.fields['custom_%s' % i] = forms.CharField(label=question, initial=initial[question])
+			else:
+				self.fields['custom_%s' % i] = forms.CharField(label=question)
 
 
 	def extra_answers(self):

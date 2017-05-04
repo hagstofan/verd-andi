@@ -222,6 +222,72 @@ def ItemCommentaryView(request, idx):
 		return HttpResponse("YOU ARE NOT AUTHORIZED!")
 
 
+def ObservationUpdate(request, idx):
+	if request.user.is_authenticated():
+		observation = Observation.objects.get(pk=idx)
+		if (request.user.id == observation.observer.id or request.user.is_superuser):
+			# continue to do thing.
+			item_id = observation.item.code
+			item = Item.objects.filter(pk=item_id)
+			# get item, get characteristics of item ..
+			chars = Characteristic.objects.filter(item=item_id)
+			observations = Observation.objects.filter(item=item_id)
+			
+			spec_chars = chars.filter(specify=True)
+			specified_chars = list( sc.name for sc in spec_chars)
+			specified_chars_pk = list( sc.pk for sc in spec_chars)
+
+			data = {
+			'obs_time': observation.obs_time, 
+			'shop_type':observation.shop_type,
+			'shop_identifier':observation.shop_identifier,
+			'flag':observation.flag,
+			'discount':observation.discount,
+			'value':observation.value,
+			'observed_quantity':observation.observed_quantity,
+			'obs_comment':observation.obs_comment
+			}
+			# adding specified chars to form
+			for idp, schar_pk in enumerate(specified_chars_pk):
+				schar = ObservedCharacteristic.objects.get(characteristic=schar_pk, observation=observation.pk)
+				data[specified_chars[idp]]=schar.value
+
+			form = ObservationForm(request.POST or None, extra=specified_chars, initial=data)
+			context = {
+			"form" : form,
+			"user_name" : str(request.user),
+			"user_id" : str(request.user.id),
+			"item" : item,
+			"characteristics" : chars,
+			"observations" : observations,
+			}
+			if form.is_valid():  #POST request
+				shop_type = form.cleaned_data['shop_type']
+				shop_identifier = form.cleaned_data['shop_identifier']
+				#flag = form.cleaned_data['flag']
+				discount = form.cleaned_data['discount']
+				value = form.cleaned_data['value']
+				observed_quantity = form.cleaned_data['observed_quantity']
+				obs_comment = form.cleaned_data['obs_comment']
+				"""
+				obj = Product.objects.get(pk=pk)
+				obj.name = "some_new_value"
+				obj.save()
+				"""
+				observation.shop_type = shop_type
+				observation.shop_identifier = shop_identifier
+				observation.discount = discount
+				observation.value = value
+				observation.observed_quantity = observed_quantity
+				observation.obs_comment = obs_comment
+				observation.save()
+
+			return render(request, "survey/item_observation.html", context)
+		else:
+			return HttpResponse("you don't have permission to edit this observation")
+
+	else:
+		return redirect(settings.LOGIN_REDIRECT_URL)
 
 
 # ================================================================================
@@ -246,18 +312,5 @@ class ItemCommentaryUpdate(UpdateView):
 		if not self.user_passes_test(request, kwargs['pk']):
 			return redirect_to_login(request.get_full_path())
 		return super(ItemCommentaryUpdate, self).dispatch(request, *args, **kwargs)
-# def survey(request):
-# 	if request.user.is_authenticated():
 
-# 		org_qs = Org.objects.filter(members=request.user.id).order_by('name')
 
-# 		context = {
-
-# 			"user_name": str(request.user),
-# 			"user_id": str(request.user.id),
-# 			"orgs": org_qs,
-# 		}
-	
-# 		return render(request, "user_dash.html", context)
-# 	else:
-# 		return redirect(settings.LOGIN_REDIRECT_URL)
