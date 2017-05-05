@@ -248,9 +248,11 @@ def ObservationUpdate(request, idx):
 			'obs_comment':observation.obs_comment
 			}
 			# adding specified chars to form
+			ochars = []
 			for idp, schar_pk in enumerate(specified_chars_pk):
 				schar = ObservedCharacteristic.objects.get(characteristic=schar_pk, observation=observation.pk)
 				data[specified_chars[idp]]=schar.value
+				ochars.append(schar)
 
 			form = ObservationForm(request.POST or None, extra=specified_chars, initial=data)
 			context = {
@@ -261,6 +263,12 @@ def ObservationUpdate(request, idx):
 			"characteristics" : chars,
 			"observations" : observations,
 			}
+
+			for sc in ochars:
+				print(sc.pk)
+				print(sc.value)
+				print(sc.characteristic.name)
+
 			if form.is_valid():  #POST request
 				shop_type = form.cleaned_data['shop_type']
 				shop_identifier = form.cleaned_data['shop_identifier']
@@ -278,6 +286,21 @@ def ObservationUpdate(request, idx):
 				observation.obs_comment = obs_comment
 				observation.save()
 				# updating observed characteristics
+				for (question, answer) in form.extra_answers():
+					print(question) # label
+					print(answer) # value
+					# create observerd characteristic
+					print(specified_chars.index(question))
+					char_pk = specified_chars_pk[specified_chars.index(question)]
+					# char = Characteristic.objects.filter(pk=char_pk)[0]
+					print(observation.pk)
+					for sc in ochars:
+						if (sc.characteristic.name == question):
+							sc.value = answer
+							sc.save()
+					# adding observed_characteristic, currently relies on order in QueryObject spec_chars bieng same as order inlists derived from it, which I think holds.
+					#observed_characteristic = ObservedCharacteristic.objects.create(observation=observation,characteristic=spec_chars[specified_chars.index(question)],value=answer) #
+					#observed_characteristic.save()
 
 			return render(request, "survey/item_observation.html", context)
 		else:
