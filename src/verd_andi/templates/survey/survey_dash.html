@@ -25,26 +25,20 @@
 
 
 {% if observations %}
-	<div class="row">
-        <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <a class="panel-group-toggle collapse-icon collapsed" href="#previous-observations-more" data-parent="#previous-observations" data-toggle="collapse">
-                            <strong>
-                                Previous Observatinos:
-                            </strong>
-                        </a>
-                    </div>
-        </div>
-        <div id="previous-observations-more" class="panel-collapse collapse" style="height: 0px;">
+<hr>
+        <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#previous-observations-more">	<strong>
+                Previous Observations
+            </strong>
+        </button>
+          
+        <div id="previous-observations-more" class="collapse">
             <!-- observations here -->
-            {% for obs in observations %}
-		<a href="{% url 'survey:observation-update' obs.pk %}">{{ obs.obs_time }} {{ obs.item }} </a>
-		</br>
-	{% endfor %}
-           
-        </div>
+		    {% for obs in observations %}
+				<a href="{% url 'survey:observation-update' obs.pk %}">   {{ obs.obs_time }} {{ obs.item }} </a>
+				</br>
 
-    </div>
+			{% endfor %}
+        </div>   
 {% endif %}
 
 {% endblock %}
