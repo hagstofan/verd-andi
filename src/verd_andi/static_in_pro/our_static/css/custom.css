@@ -10,3 +10,17 @@
 .fa-pencil-square-o {
 	color: orange;
 }
+
+.img-responsive {
+    margin: 0 auto;
+}
+
+
+body {
+	background-color: black;
+	color: black;
+}
+
+h1, h2, h3, h4, h5, th, td, strong, label {
+	color:white;
+}
