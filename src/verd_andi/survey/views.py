@@ -64,11 +64,14 @@ def user_dash(request):
 
 		surveys = Survey.objects.all() # could use filter in the future for current surveys.
 
+		user_observations = Observation.objects.filter(observer=request.user.id)
+
 		context = {
 			"user_name" : str(request.user),
 			"user_id" : str(request.user.id),
 			"items" : items,
 			"surveys" : surveys,
+			"observations": user_observations,
 		}
 
 		return render(request, "survey/survey_dash.html", context)

@@ -58,7 +58,7 @@
 {% if observations %}
 	<h2>Previous observations </h2>
 	{% for obs in observations %}
-		{{ obs.obs_time }} {{ obs.observer }} -- {{obs.pk}}
+		<a href="{% url 'survey:observation-update' obs.pk %}">{{ obs.obs_time }} {{ obs.observer }} </a>
 		</br>
 	{% endfor %}
 {% endif %}

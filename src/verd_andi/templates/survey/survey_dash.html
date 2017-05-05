@@ -22,4 +22,14 @@
 	</br>
 		{% endfor %}
 	{% endif %}
+
+
+{% if observations %}
+	<h2>Previous observations </h2>
+	{% for obs in observations %}
+		<a href="{% url 'survey:observation-update' obs.pk %}">{{ obs.obs_time }} {{ obs.observer }} </a>
+		</br>
+	{% endfor %}
+{% endif %}
+	
 {% endblock %}
