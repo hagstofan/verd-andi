@@ -79,17 +79,13 @@ def user_dash(request):
 def item_observation(request, idx):
 	if request.user.is_authenticated():
 		item = Item.objects.filter(pk=idx)
-		#print(item)
 		# get item, get characteristics of item ..
 		chars = Characteristic.objects.filter(item=idx)
-		#print(chars)
 		observations = Observation.objects.filter(item=idx)
 
 		#form = ObservationForm(request.POST or None)
 		#if request.method == 'POST':
 		spec_chars = chars.filter(specify=True)
-		#print(spec_chars[0].pk)
-		#print(spec_chars[0].name)
 		specified_chars = list( sc.name for sc in spec_chars)
 		specified_chars_pk = list( sc.pk for sc in spec_chars)
 		form = ObservationForm(request.POST or None, extra=specified_chars)
@@ -108,7 +104,6 @@ def item_observation(request, idx):
 			obs_comment = form.cleaned_data['obs_comment']
 			theitem = Item.objects.filter(pk=item)[0]
 			theuser = User.objects.filter(pk=observer)[0]
-			print(theitem)
 			surv = getattr(theitem, 'survey')
 			#survey = Survey.objects.filter(pk=surv.pk)
 			observation = Observation.objects.create(
@@ -125,27 +120,18 @@ def item_observation(request, idx):
 				survey = surv
 				)
 			observation.save()
-			print(obs_time, observer, item, shop_type, shop_identifier, discount, value, observed_quantity, obs_comment)
+
 			for (question, answer) in form.extra_answers():
-				print(question) # label
-				print(answer) # value
 				# create observerd characteristic
-				print(specified_chars.index(question))
 				char_pk = specified_chars_pk[specified_chars.index(question)]
-				# char = Characteristic.objects.filter(pk=char_pk)[0]
-				print(observation.pk)
 				# adding observed_characteristic, currently relies on order in QueryObject spec_chars bieng same as order inlists derived from it, which I think holds.
 				observed_characteristic = ObservedCharacteristic.objects.create(observation=observation,characteristic=spec_chars[specified_chars.index(question)],value=answer) #
 				observed_characteristic.save()
-				#save_answer(request, question, answer)
+				
 			#return redirect(settings.LOGIN_REDIRECT_URL)
 			#return redirect("/survey/udash")
 			#return redirect("survey.views.survey-userdash")
 			return HttpResponseRedirect(reverse('survey:survey-userdash'))
-			#return redirect('')
-			# for (question, answer) in form.extra_answers():
-		 #    	save_answer(request, question, answer)
-			# 	return redirect("create_user_success")
 			
 
 		context = {
@@ -226,7 +212,7 @@ def ObservationUpdate(request, idx):
 	if request.user.is_authenticated():
 		observation = Observation.objects.get(pk=idx)
 		if (request.user.id == observation.observer.id or request.user.is_superuser):
-			# continue to do thing.
+			# user is qualified to update observation
 			item_id = observation.item.code
 			item = Item.objects.filter(pk=item_id)
 			# get item, get characteristics of item ..
@@ -252,7 +238,7 @@ def ObservationUpdate(request, idx):
 			for idp, schar_pk in enumerate(specified_chars_pk):
 				schar = ObservedCharacteristic.objects.get(characteristic=schar_pk, observation=observation.pk)
 				data[specified_chars[idp]]=schar.value
-				ochars.append(schar)
+				ochars.append(schar) # for use later in case of POST request.
 
 			form = ObservationForm(request.POST or None, extra=specified_chars, initial=data)
 			context = {
@@ -263,11 +249,6 @@ def ObservationUpdate(request, idx):
 			"characteristics" : chars,
 			"observations" : observations,
 			}
-
-			for sc in ochars:
-				print(sc.pk)
-				print(sc.value)
-				print(sc.characteristic.name)
 
 			if form.is_valid():  #POST request
 				shop_type = form.cleaned_data['shop_type']
@@ -287,24 +268,15 @@ def ObservationUpdate(request, idx):
 				observation.save()
 				# updating observed characteristics
 				for (question, answer) in form.extra_answers():
-					print(question) # label
-					print(answer) # value
-					# create observerd characteristic
-					print(specified_chars.index(question))
-					char_pk = specified_chars_pk[specified_chars.index(question)]
-					# char = Characteristic.objects.filter(pk=char_pk)[0]
-					print(observation.pk)
 					for sc in ochars:
 						if (sc.characteristic.name == question):
 							sc.value = answer
 							sc.save()
-					# adding observed_characteristic, currently relies on order in QueryObject spec_chars bieng same as order inlists derived from it, which I think holds.
-					#observed_characteristic = ObservedCharacteristic.objects.create(observation=observation,characteristic=spec_chars[specified_chars.index(question)],value=answer) #
-					#observed_characteristic.save()
+
 
 			return render(request, "survey/item_observation.html", context)
 		else:
-			return HttpResponse("you don't have permission to edit this observation")
+			return HttpResponse("you don't have permission to edit this observation.")
 
 	else:
 		return redirect(settings.LOGIN_REDIRECT_URL)
