@@ -13,7 +13,7 @@
       {% for field in form %}
                 <div class="form-group {% if field.errors %}has-error{% endif %}">
                 <div class="col-sm-12">
-                <label for="{{ field.id_for_label }}" class="control-label">{{ field.label }}</label>
+                <label for="{{ field.id_for_label }}" class="control-label">{{ field.label }}</label></br>
                 
                  <!--    <input autofocus="" id="{{ field.id_for_label }}" maxlength="254" name="username" value="{{ field.value }}" required="" type="{{ field.is_hidden }}" > -->
                     {{ field }}
