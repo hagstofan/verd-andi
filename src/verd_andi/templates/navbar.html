@@ -1,5 +1,5 @@
 {% load staticfiles %}
-    <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
         <div class="navbar-header">
           <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar1" aria-controls="navbar">
             <span class="sr-only">Toggle navigation</span>
@@ -12,14 +12,18 @@
 
         </div>
         <div id="navbar1"  class="collapse navbar-collapse collapse">
-          <ul class="nav navbar-nav">
-            <li class="active"><a href="{% url 'survey:survey-userdash' %}">V<i class="fa fa-eur" aria-hidden="true"></i>R₫-A₦Di</a></li>
-            <li><a href="#"></a></li>
-            <li><a href="#"></a></li>
+          <ul class="nav navbar-nav logo-list-item">
+            <li class="active logo-list-item"><a class="bottom-align-text" href="{% url 'survey:survey-userdash' %}"><img src="{% static 'img/logo-hagstofa-blue2.png' %}"><span class="logo-button-hags-text">V<i class="fa fa-eur" aria-hidden="true"></i>R₫-A₦Di </span></a></li>
+
+
+
+<!--             <li id="logo-button-hags">  <a href="#" class="navbar-left"><img src="{% static 'img/logo-hagstofa-blue2.png' %}"></a> </li>
+ -->
+
           </ul>
             {% if user.is_authenticated %}
             <ul class="nav navbar-nav navbar-right">
-                <li class="active"><a href="./">{{ user.username }}<span class="sr-only">(current)</span></a></li>
+                <li class="active logo-button-hags"><a href="./">{{ user.username }}<span class="sr-only">(current)</span></a></li>
                 <li><a href="{% url 'auth_logout' %}">Log out</a></li>
                 <li><a href="{% url 'auth_password_change' %}">Change password</a></li>
                 <li><a href="#"></a></li>
