@@ -44,6 +44,13 @@ body {
   body {
     padding-top: 78px;
   }
+
+}
+
+@media (min-width: 768px) {
+	  .navbar-nav > li > a {
+    line-height: 50px !important;
+    }
 }
 
 
