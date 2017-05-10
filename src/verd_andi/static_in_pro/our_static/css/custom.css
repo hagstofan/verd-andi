@@ -34,6 +34,11 @@
 	/*margin-right: 2500;*/
 }
 
+
+body {
+	padding-top: 65px;
+}
+
 @import url("https://fonts.googleapis.com/css?family=Roboto:300,400,500,700");/*!
  * bootswatch v3.3.7
  * Homepage: http://bootswatch.com
