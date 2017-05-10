@@ -5,7 +5,7 @@
 {% if items %}
 	<h2>Items</h2>
 	{% for instance in items %}
-		<a href="{% url 'survey:item-observation' instance.code %}"> {{ instance.label }}  ---  {{ instance.code }}</a> {% if request.user.is_superuser %}  -   <a href="{% url 'survey:item-commentary-edit' instance.code %}"><i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+		<a href="{% url 'survey:item-observation' instance.code %}"> {{ instance.label }}</a> {% if request.user.is_superuser %}  -   <a href="{% url 'survey:item-commentary-edit' instance.code %}"><i class="fa fa-pencil-square-o" aria-hidden="true"></i>
 </a> {% endif %}
 		</br>
 
@@ -34,7 +34,7 @@
         <div id="previous-observations-more" class="collapse">
             <!-- observations here -->
 		    {% for obs in observations %}
-				<a href="{% url 'survey:observation-update' obs.pk %}">   {{ obs.obs_time }} {{ obs.item }} </a>
+				<a href="{% url 'survey:observation-update' obs.pk %}">   {{ obs.obs_time }} {{ obs.item.label }} </a>
 				</br>
 
 			{% endfor %}
