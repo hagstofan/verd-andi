@@ -12,20 +12,6 @@
 
 <body>
     {% include 'navbar.html' %}
-    <div id="header">
-        {% block header %}
-        <a href="{% url 'index' %}">Home</a> | 
-
-        {% if user.is_authenticated %}
-            Logged in: {{ user.username }} 
-            (<a href="{% url 'auth_logout' %}">Log out</a> | 
-            <a href="{% url 'auth_password_change' %}">Change password</a>)
-        {% else %}
-           <a href="{% url 'auth_login' %}">Log in</a>
-        {% endif %}
-        
-        {% endblock %}
-    </div>
 
     <div id="content" class="container">
     {% block content %}{% endblock %}
