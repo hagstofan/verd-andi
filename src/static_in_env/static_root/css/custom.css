@@ -25,13 +25,18 @@
 */
 .logo-button-hags-text {
  			/*position: absolute;*/
- 			position:static;
+ 			position:relative;
 		    bottom: 0;
 		    left: 200;
 }
 
 .logo-list-item {
 	/*margin-right: 2500;*/
+}
+
+
+body {
+	padding-top: 65px;
 }
 
 @import url("https://fonts.googleapis.com/css?family=Roboto:300,400,500,700");/*!
