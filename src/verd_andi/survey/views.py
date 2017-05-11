@@ -287,7 +287,17 @@ def ObservationUpdate(request, idx):
 
 def ObserversManagement(request):
 	if request.user.is_superuser:
-		return HttpResponse("This is ItemObserversManagement")
+		observers = User.objects.all()
+		#items = Item.objects.filter(survey=1)
+		#itemObs = ItemObserver.objects.all()
+
+		context = {
+			"user_name" : str(request.user),
+			"user_id" : str(request.user.id),
+			"observers" : observers,
+		}
+
+		return render(request, "survey/observers_management.html", context)
 	else:
 		return HttpResponse("You are not authorized.")
 
