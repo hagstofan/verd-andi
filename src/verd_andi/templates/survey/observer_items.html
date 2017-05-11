@@ -1,0 +1,24 @@
+<!-- observer_items.html -->
+{% extends "base.html" %}
+
+{% block content %}
+
+{% if items %}
+
+	{% for item in items %}
+
+
+		<div class="input-group">
+      <span class="input-group-addon">
+        <input type="checkbox" aria-label="...">
+      </span> <label class="control-label">{{ item.label }}</label>
+
+      </div>
+		</br>
+
+	{% endfor %}
+
+{% endif %}
+
+
+{% endblock %}

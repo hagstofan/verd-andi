@@ -7,7 +7,7 @@
 
 	{% for observer in observers %}
 
-		<a href="#">{{ observer.username }} -- {{ observer.pk }}</a>
+		<a href="{% url 'survey:observer-items' observer.pk %}">{{ observer.username }} -- {{ observer.pk }}</a>
 		</br>
 
 	{% endfor %}

@@ -302,6 +302,26 @@ def ObserversManagement(request):
 		return HttpResponse("You are not authorized.")
 
 
+def ObserverItems(request, idx):
+	if request.user.is_superuser:
+		user = User.objects.filter(pk=idx)
+		items = Item.objects.all()
+		itemObs = ItemObserver.objects.filter(user=idx)
+
+		print(user)
+		print(itemObs)
+
+		context = {
+			"user_name" : str(request.user),
+			"user_id": str(request.user.id),
+			"items": items,
+			"itemObservers": itemObs,
+		}
+		# should be like a form .. edit kinda thing ..
+		return render(request, "survey/observer_items.html", context)
+	else:
+		return HttpResponse("You are not authorized.")
+
 # ================================================================================
 
 
