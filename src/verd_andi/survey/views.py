@@ -285,6 +285,13 @@ def ObservationUpdate(request, idx):
 		return redirect(settings.LOGIN_REDIRECT_URL)
 
 
+def ObserversManagement(request):
+	if request.user.is_superuser:
+		return HttpResponse("This is ItemObserversManagement")
+	else:
+		return HttpResponse("You are not authorized.")
+
+
 # ================================================================================
 
 

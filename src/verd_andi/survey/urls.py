@@ -16,5 +16,6 @@ urlpatterns = [
     url(r'(?P<pk>[0-9]+)/$', views.SurveyDetailView.as_view(), name='survey-detail'),
     #url(r'^commentary/(?P<pk>[\w{}.-]{1,40})/$', views.ItemCommentaryUpdate.as_view(), name='commentary-update'),
     url(r'^itemcommentary/(?P<idx>[\w{}.-]{1,40})/$', views.ItemCommentaryView, name='item-commentary-edit'),
+    url(r'^observers-management/', views.ObserversManagement, name='observers-management'),
 
 ]

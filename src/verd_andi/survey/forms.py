@@ -9,19 +9,19 @@ from django.contrib.auth.models import User
 class ObservationForm(forms.Form):
 	#shop_type = forms.IntegerField()
 	CHOICES = (
-        ('1', 'Department store'),
-        ('2', 'Hypermarkets, supermarkets'),
-        ('3', 'Discount stores'),
-        ('4', 'Convenience stores, ect.'),
-        ('5', 'Specialized shop chains'),
-        ('6', 'Specialized shops'),
-        ('7', 'Markets'),
-        ('8','Private service providers'),
-        ('9', 'Public and semi public service providers'),
-        ('10','Mail order, Internet'),
-        ('11', 'Other kinds of outlets'),
-        ('12', 'Black Market'),
-        ('99', 'CPI data'),
+        ('1', '1 Department store'),
+        ('2', '2 Hypermarkets, supermarkets'),
+        ('3', '3 Discount stores'),
+        ('4', '4 Convenience stores, ect.'),
+        ('5', '5 Specialized shop chains'),
+        ('6', '6 Specialized shops'),
+        ('7', '7 Markets'),
+        ('8','8 Private service providers'),
+        ('9', '9 Public and semi public service providers'),
+        ('10','10 Mail order, Internet'),
+        ('11', '11 Other kinds of outlets'),
+        ('12', '12 Black Market'),
+        ('99', '99 CPI data'),
     )
 	shop_type = forms.ChoiceField(choices=CHOICES)
 	shop_identifier = forms.CharField()
