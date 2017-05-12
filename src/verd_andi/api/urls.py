@@ -8,4 +8,5 @@ urlpatterns = [
     url(r'^$', views.ItemList.as_view()),
     url(r'^observer-items/(?P<pk>[0-9]+)/update$',views.ItemObserverUpdateAPIView.as_view()),
     url(r'^observer-items/(?P<pk>[0-9]+)/destroy$',views.ItemObserverDestroyAPIView.as_view()),
+    url(r'^observer-items/create/',views.ItemObserverCreateAPIView.as_view()),
 ]
