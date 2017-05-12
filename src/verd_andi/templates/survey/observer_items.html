@@ -4,19 +4,42 @@
 {% block content %}
 
 {% if items %}
-
+	<input type="text" id="myInput" onkeyup="myFunction()" placeholder="&#xf002;">
+	<ul id="myUL">
 	{% for item in items %}
 
 
-		<div class="input-group">
-      <span class="input-group-addon">
+	<li>
+		<span>
         <input type="checkbox" aria-label="...">
-      </span> <label class="control-label">{{ item.label }}</label>
-
-      </div>
-		</br>
+        <a href="#">{{ item.label }}</a>
+        </span>
+    </li>
 
 	{% endfor %}
+	</ul>
+
+	<script>
+	function myFunction() {
+	    // Declare variables
+	    var input, filter, ul, li, a, i;
+	    input = document.getElementById('myInput');
+	    filter = input.value.toUpperCase();
+	    ul = document.getElementById("myUL");
+	    li = ul.getElementsByTagName('li');
+
+	    // Loop through all list items, and hide those who don't match the search query
+	    for (i = 0; i < li.length; i++) {
+	        a = li[i].getElementsByTagName("a")[0];
+	        if (a.innerHTML.toUpperCase().indexOf(filter) > -1) {
+	            li[i].style.display = "";
+	        } else {
+	            li[i].style.display = "none";
+	        }
+	    }
+	}
+	</script>
+
 
 {% endif %}
 
