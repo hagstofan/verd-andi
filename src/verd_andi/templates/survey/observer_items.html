@@ -14,7 +14,7 @@
 		{% for citem in chosen_items %}
 		<li>
 		<span>
-        <input type="checkbox" aria-label="..." onchange="onCheckboxChange(this)" data="{{ citem.code }}" checked="true">
+        <input type="checkbox" aria-label="..." onchange="onCheckboxChange(this)" data="{{ citem.code }}" checked="true" iobspk="{{ citem.iobspk }}">
         <a href="#">{{ citem.label }}</a>
         </span>
     </li>
