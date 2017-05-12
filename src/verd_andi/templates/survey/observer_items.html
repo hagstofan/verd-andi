@@ -3,20 +3,36 @@
 
 {% block content %}
 
-{% if items %}
+{% if target_user_id %}
+<p hidden id="user_id">{{ target_user_id }}</p>
+{% endif %}
+
+{% if items or chosen_items %}
 	<input type="text" id="myInput" onkeyup="myFunction()" placeholder="&#xf002;">
 	<ul id="myUL">
-	{% for item in items %}
-
-
-	<li>
+	{% if chosen_items %}
+		{% for citem in chosen_items %}
+		<li>
 		<span>
-        <input type="checkbox" aria-label="...">
-        <a href="#">{{ item.label }}</a>
+        <input type="checkbox" aria-label="..." onchange="onCheckboxChange(this)" data="{{ citem.code }}" checked="true">
+        <a href="#">{{ citem.label }}</a>
         </span>
     </li>
+		{% endfor %}
+	{% endif %}
+	{% if items %}
+		{% for item in items %}
 
-	{% endfor %}
+
+		<li>
+			<span>
+	        <input type="checkbox" aria-label="..." onchange="onCheckboxChange(this)" data="{{ item.code }}">
+	        <a href="#">{{ item.label }}</a>
+	        </span>
+	    </li>
+
+		{% endfor %}
+	{% endif %}
 	</ul>
 
 	<script>
@@ -37,6 +53,13 @@
 	            li[i].style.display = "none";
 	        }
 	    }
+	}
+	function onCheckboxChange(thing) {
+		var uid = $('#user_id')[0].innerHTML;
+		var item_id = thing.getAttribute("data");
+		var checked = thing.checked
+		// if true do create, if false do destroy
+		alert(thing.getAttribute("data").concat(" ").concat(checked) );
 	}
 	</script>
 

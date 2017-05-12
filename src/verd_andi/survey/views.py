@@ -305,17 +305,31 @@ def ObserversManagement(request):
 def ObserverItems(request, idx):
 	if request.user.is_superuser:
 		user = User.objects.filter(pk=idx)
-		items = Item.objects.all()
 		itemObs = ItemObserver.objects.filter(user=idx)
+		chosen_items = set()
+		for i in itemObs.select_related('item'):
+			chosen_items.add(i.item)
+
+		chosen_item_pks = itemObs.values('item')
+		ch_i_pk = []
+		for i in chosen_item_pks:
+			ch_i_pk.append(i["item"])
+		print(ch_i_pk)
+		items = Item.objects.exclude(code__in=ch_i_pk)
+		#items = Item.objects.all()
+
 
 		print(user)
 		print(itemObs)
-
+		print(chosen_item_pks)
+		#still need to take away non chosens from rest.
 		context = {
 			"user_name" : str(request.user),
 			"user_id": str(request.user.id),
 			"items": items,
 			"itemObservers": itemObs,
+			"target_user_id": idx,
+			"chosen_items": chosen_items,
 		}
 		# should be like a form .. edit kinda thing ..
 		return render(request, "survey/observer_items.html", context)
