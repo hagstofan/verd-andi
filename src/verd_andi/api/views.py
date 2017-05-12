@@ -32,7 +32,7 @@ class ItemObserverUpdateAPIView(UpdateAPIView):
 class ItemObserverDestroyAPIView(DestroyAPIView):
 	queryset = ItemObserver.objects.all()
 	serializer_class = ItemObserverSerializer
-	permission_classes = (IsAdminUser,)
+	#permission_classes = (IsAdminUser,)
 
 class ItemObserverCreateAPIView(CreateAPIView):
 	queryset = ItemObserver.objects.all()

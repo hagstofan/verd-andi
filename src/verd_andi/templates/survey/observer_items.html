@@ -59,7 +59,46 @@
 		var item_id = thing.getAttribute("data");
 		var checked = thing.checked
 		// if true do create, if false do destroy
-		alert(thing.getAttribute("data").concat(" ").concat(checked) );
+		if(! checked){
+			//alert("mokey");
+			var obs_item = thing.getAttribute("iobspk");
+			var template_string = "{% url 'api:obs-item-destroy' 1 %}";
+			var csrf_token = "{% csrf_token %}";
+			var tarr = template_string.split("/");
+
+			tarr[3] = obs_item;
+			var newstr = tarr.join("/");
+			//alert(newstr);
+
+			console.log(csrf_token);
+			$.ajax({
+		    //url: '/api/observer-items/',
+		    url: newstr,
+		    method: 'DELETE',
+		    data: {'CSRF':csrf_token,'username': "{{ user_name }}"},
+		    headers: {
+		    	"X-CSRFToken":csrf_token
+		    },
+
+
+
+
+
+		      // beforeSend: function(xhr, settings) {
+        //           if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+        //                   xhr.setRequestHeader("X-CSRFToken", {% csrf_token %});
+        //        }
+        //   },
+		    success: function(result) {
+		        // Do something with the result
+		        console.log(result);
+		    }
+			});
+		}
+		else{
+			alert(thing.getAttribute("data").concat(" ").concat(checked) );
+		}
+		
 	}
 	</script>
 
