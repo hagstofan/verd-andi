@@ -52,6 +52,9 @@ class ItemAdmin(nested_admin.NestedModelAdmin):
 class ObservationAdmin(nested_admin.NestedModelAdmin):
 	model = Observation
 	inlines = [ObservedCharacteristicInline,]
+	list_filter = (
+		('observer', admin.RelatedOnlyFieldListFilter),
+		)
 
 
 class SurveyAdmin(nested_admin.NestedModelAdmin):
