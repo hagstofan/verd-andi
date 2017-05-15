@@ -37,6 +37,6 @@ class ItemObserverDestroyAPIView(DestroyAPIView):
 class ItemObserverCreateAPIView(CreateAPIView):
 	queryset = ItemObserver.objects.all()
 	serializer_class = ItemObserverSerializer
-	permission_classes = (IsAdminUser,)
+	#permission_classes = (IsAdminUser,)
  
 

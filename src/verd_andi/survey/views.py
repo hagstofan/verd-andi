@@ -154,16 +154,34 @@ def item_observation(request, idx):
 def search(request, pk):
 	if request.user.is_authenticated():
 
-		items = Item.objects.filter(survey=pk)
+		user = User.objects.filter(pk=request.user.id)
+		itemObs = ItemObserver.objects.filter(user=request.user.id)
+		chosen_items = set()
+		for i in itemObs.select_related('item'):
+			#print(i.item.survey.pk)
+			i.item.iobspk = i.pk
+			if(int(i.item.survey.pk) == int(pk)):
+				chosen_items.add(i.item)
 
+		chosen_item_pks = itemObs.values('item')
+		ch_i_pk = []
+		for i in chosen_item_pks:
+			ch_i_pk.append(i["item"])
+		
+		items = Item.objects.exclude(code__in=ch_i_pk) # taking away already chosen items.
+		#items = Item.objects.all()
+		items = items.filter(survey=pk)
 		context = {
 			"user_name" : str(request.user),
-			"user_id" : str(request.user.id),
-			"items" : items,
+			"user_id": str(request.user.id),
+			"items": items,
+			"itemObservers": itemObs,
+			"target_user_id": request.user.id,
+			"chosen_items": chosen_items,
+			"target_user": user[0],
 		}
-
-
-		return render(request, "survey/survey_search.html", context)
+		
+		return render(request, "survey/observer_items.html", context)
 
 	else:
 		return redirect(settings.LOGIN_REDIRECT_URL)
@@ -305,7 +323,6 @@ def ObserversManagement(request):
 def ObserverItems(request, idx):
 	if request.user.is_superuser:
 		user = User.objects.filter(pk=idx)
-		print(user[0])
 		itemObs = ItemObserver.objects.filter(user=idx)
 		chosen_items = set()
 		for i in itemObs.select_related('item'):
@@ -331,7 +348,7 @@ def ObserverItems(request, idx):
 			"chosen_items": chosen_items,
 			"target_user": user[0],
 		}
-		# should be like a form .. edit kinda thing ..
+		
 		return render(request, "survey/observer_items.html", context)
 	else:
 		return HttpResponse("You are not authorized.")
