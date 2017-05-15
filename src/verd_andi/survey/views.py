@@ -316,10 +316,12 @@ def ObserverItems(request, idx):
 		ch_i_pk = []
 		for i in chosen_item_pks:
 			ch_i_pk.append(i["item"])
+
+		current_survey = Survey.objects.get(current=True)
 		
 		items = Item.objects.exclude(code__in=ch_i_pk) # taking away already chosen items.
 		#items = Item.objects.all()
-
+		items = items.filter(survey=current_survey)
 		context = {
 			"user_name" : str(request.user),
 			"user_id": str(request.user.id),

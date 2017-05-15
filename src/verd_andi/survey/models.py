@@ -22,7 +22,7 @@ class Survey(models.Model):
 	code = models.CharField(max_length=100)
 	year = models.IntegerField(max_length=4, choices=YEAR_CHOICES, default=datetime.datetime.now().year)
 	dataflowID = models.CharField(max_length=100)
-	# possibly add current Boolean field.
+	current = models.BooleanField()
 
 	class Meta:
 		unique_together = (("code", "year"),)
