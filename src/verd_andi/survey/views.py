@@ -305,6 +305,7 @@ def ObserversManagement(request):
 def ObserverItems(request, idx):
 	if request.user.is_superuser:
 		user = User.objects.filter(pk=idx)
+		print(user[0])
 		itemObs = ItemObserver.objects.filter(user=idx)
 		chosen_items = set()
 		for i in itemObs.select_related('item'):
@@ -326,6 +327,7 @@ def ObserverItems(request, idx):
 			"itemObservers": itemObs,
 			"target_user_id": idx,
 			"chosen_items": chosen_items,
+			"target_user": user[0],
 		}
 		# should be like a form .. edit kinda thing ..
 		return render(request, "survey/observer_items.html", context)

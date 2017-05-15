@@ -3,6 +3,11 @@
 
 {% block content %}
 
+{% if target_user %}
+<h4>  Observer Items for user: {{target_user}} </h4>
+{% endif %}
+
+
 {% if target_user_id %}
 <p hidden id="user_id">{{ target_user_id }}</p>
 {% endif %}
@@ -120,7 +125,45 @@
 			});
 		}
 		else{
-			alert(thing.getAttribute("data").concat(" ").concat(checked) );
+
+			var obs_item = thing.getAttribute("data");
+			var user_id = $("#user_id")[0].innerHTML;
+			var url_string = "{% url 'api:obs-item-create' %}";
+
+
+			console.log(url_string);
+			//alert(thing.getAttribute("data").concat(" ").concat(checked) );
+
+			var csrftoken = getCookie('csrftoken');
+			var datastring = '{' + '"user"' +':' + user_id + ',' + '"item"' +':'+ '"' +obs_item + '"' + '}' ;
+			console.log(datastring);
+			$.ajax({
+		    //url: '/api/observer-items/',
+		    url: url_string,
+		    method: 'POST',
+		    type:'POST',
+		    data: datastring,
+		    headers: {
+		    	"X-CSRFToken":csrftoken,
+		    	"Content-Type":"application/json",
+		    	//"Authorization": "Token " + localStorage.token
+		    },
+		    dataType:"json",
+
+		    // beforeSend: function(xhr, settings) {
+      //             if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+      //                     xhr.setRequestHeader("X-CSRFToken", csrftoken);
+      //          }
+      //       },
+
+
+		    success: function(result) {
+		        // Do something with the result
+		        console.log(result);
+		    }
+			});
+
+
 		}
 		
 	}
