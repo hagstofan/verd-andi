@@ -85,7 +85,6 @@
 		if(! checked){
 			var obs_item = thing.getAttribute("iobspk");
 			var template_string = "{% url 'api:obs-item-destroy' 1 %}";
-			var csrf_token = "{% csrf_token %}";
 			var tarr = template_string.split("/");
 
 			tarr[3] = obs_item;
@@ -95,7 +94,6 @@
 			$.ajax({
 		    url: newstr,
 		    method: 'DELETE',
-		    data: {'CSRF':csrftoken,'username': "{{ user_name }}"},
 		    headers: {
 		    	"X-CSRFToken":csrftoken
 		    },
