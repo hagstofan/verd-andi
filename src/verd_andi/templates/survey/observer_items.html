@@ -83,7 +83,6 @@
 		var checked = thing.checked
 		// if true do create, if false do destroy
 		if(! checked){
-			//alert("mokey");
 			var obs_item = thing.getAttribute("iobspk");
 			var template_string = "{% url 'api:obs-item-destroy' 1 %}";
 			var csrf_token = "{% csrf_token %}";
@@ -91,35 +90,17 @@
 
 			tarr[3] = obs_item;
 			var newstr = tarr.join("/");
-			//alert(newstr);
-
-			console.log(csrf_token);
-			console.log(newstr);
-
 			var csrftoken = getCookie('csrftoken');
 
 			$.ajax({
-		    //url: '/api/observer-items/',
 		    url: newstr,
 		    method: 'DELETE',
 		    data: {'CSRF':csrftoken,'username': "{{ user_name }}"},
 		    headers: {
 		    	"X-CSRFToken":csrftoken
-		    	//"Authorization": "Token " + localStorage.token
 		    },
 		    dataType:"json",
-
-
-
-
-
-		      // beforeSend: function(xhr, settings) {
-        //           if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
-        //                   xhr.setRequestHeader("X-CSRFToken", {% csrf_token %});
-        //        }
-        //   },
 		    success: function(result) {
-		        // Do something with the result
 		        console.log(result);
 		    }
 			});
@@ -130,15 +111,9 @@
 			var user_id = $("#user_id")[0].innerHTML;
 			var url_string = "{% url 'api:obs-item-create' %}";
 
-
-			console.log(url_string);
-			//alert(thing.getAttribute("data").concat(" ").concat(checked) );
-
 			var csrftoken = getCookie('csrftoken');
 			var datastring = '{' + '"user"' +':' + user_id + ',' + '"item"' +':'+ '"' +obs_item + '"' + '}' ;
-			console.log(datastring);
 			$.ajax({
-		    //url: '/api/observer-items/',
 		    url: url_string,
 		    method: 'POST',
 		    type:'POST',
@@ -146,19 +121,10 @@
 		    headers: {
 		    	"X-CSRFToken":csrftoken,
 		    	"Content-Type":"application/json",
-		    	//"Authorization": "Token " + localStorage.token
 		    },
 		    dataType:"json",
 
-		    // beforeSend: function(xhr, settings) {
-      //             if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
-      //                     xhr.setRequestHeader("X-CSRFToken", csrftoken);
-      //          }
-      //       },
-
-
 		    success: function(result) {
-		        // Do something with the result
 		        console.log(result);
 		    }
 			});
