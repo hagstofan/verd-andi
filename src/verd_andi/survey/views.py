@@ -193,6 +193,7 @@ def ItemCommentaryView(request, idx):
 	if request.user.is_superuser:
 		commentary = ItemCommentary.objects.get_or_create(pk=idx)[0]
 		print(str(commentary))
+		item = Item.objects.get(code=idx)
 
 		data = {
 			'seasonality': commentary.seasonality, 
@@ -220,6 +221,7 @@ def ItemCommentaryView(request, idx):
 
 		context = {
 			"form" : form,
+			"item" : item,
 		}
 
 		return render(request, "survey/itemcommentary_update_form.html", context)
