@@ -54,6 +54,24 @@
 	        }
 	    }
 	}
+
+	function getCookie(name) {
+    var cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        var cookies = document.cookie.split(';');
+        for (var i = 0; i < cookies.length; i++) {
+            var cookie = jQuery.trim(cookies[i]);
+            // Does this cookie string begin with the name we want?
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+	}
+
+
 	function onCheckboxChange(thing) {
 		var uid = $('#user_id')[0].innerHTML;
 		var item_id = thing.getAttribute("data");
@@ -71,14 +89,20 @@
 			//alert(newstr);
 
 			console.log(csrf_token);
+			console.log(newstr);
+
+			var csrftoken = getCookie('csrftoken');
+
 			$.ajax({
 		    //url: '/api/observer-items/',
 		    url: newstr,
 		    method: 'DELETE',
-		    data: {'CSRF':csrf_token,'username': "{{ user_name }}"},
+		    data: {'CSRF':csrftoken,'username': "{{ user_name }}"},
 		    headers: {
-		    	"X-CSRFToken":csrf_token
+		    	"X-CSRFToken":csrftoken
+		    	//"Authorization": "Token " + localStorage.token
 		    },
+		    dataType:"json",
 
 
 
