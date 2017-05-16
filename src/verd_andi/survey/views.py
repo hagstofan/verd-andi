@@ -15,6 +15,7 @@ from .models import Survey, User, Item, ItemObserver, Characteristic, Observatio
 from .forms import ObservationForm, ItemCommentaryForm
 from django.contrib.auth.views import redirect_to_login
 
+
 # Create your views here.
 def index(request):
         return HttpResponse("Hello, world. You're at the survey index.")
@@ -355,6 +356,13 @@ def ObserverItems(request, idx):
 	else:
 		return HttpResponse("You are not authorized.")
 
+
+def SurveyXML(request, pk):
+	
+
+	return HttpResponse("future xml")
+	#tree.write(open('person.xml','w'))
+
 # ================================================================================
 
 
@@ -377,5 +385,6 @@ class ItemCommentaryUpdate(UpdateView):
 		if not self.user_passes_test(request, kwargs['pk']):
 			return redirect_to_login(request.get_full_path())
 		return super(ItemCommentaryUpdate, self).dispatch(request, *args, **kwargs)
+
 
 
