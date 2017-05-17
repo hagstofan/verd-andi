@@ -448,7 +448,7 @@ def SurveyXML(request, pk):
 	header_Extracted.text = dt.strftime('%Y-%m-%dT%H:%m:%S+00:00')
 	header_ReportingBegin = Element('ReportingBegin')
 	#header_ReportingBegin.text = '2014-01-01'
-	header_ReportingBegin.text = str(survey.year) + '-01-01' 
+	header_ReportingBegin.text = str(survey.year) + '-01-01' # perhaps change to erliest obs_time ?
 	obs_latest = Observation.objects.filter(survey=pk).order_by('-id')[0] 
 	header_ReportingEnd = Element('ReportingEnd')
 	#header_ReportingEnd.text = '2014-12-31'
