@@ -363,6 +363,8 @@ def ObserverItems(request, idx):
 
 
 def SurveyXML(request, pk):
+	survey = Survey.objects.get(pk=pk)
+
 
 	root=Element('CrossSectionalData')
 	tree=ElementTree(root)
@@ -382,7 +384,9 @@ def SurveyXML(request, pk):
 
 
 	header.append(header_ID)
-	header_ID.text = 'PPP_SRVIC_3'
+	#header_ID.text = 'PPP_SRVIC_3'
+	header_ID.text = survey.dataflowID
+	
 
 	header_Test = Element('Test')
 	header_Test.text = 'false'
@@ -397,7 +401,9 @@ def SurveyXML(request, pk):
 	header.append(header_Name)
 
 	header_Prepared = Element('Prepared') # date , timedate.now typathing  @dynam
-	header_Prepared.text = '2014-06-16T15:00:16+00:00'
+	#header_Prepared.text = '2014-06-16T15:00:16+00:00'
+	dt = datetime.datetime.now()
+	header_Prepared.text = dt.strftime('%Y-%m-%dT%H:%m:%S+00:00')
 	header.append(header_Prepared)
 
 	header_Sender = Element('Sender')
@@ -433,15 +439,20 @@ def SurveyXML(request, pk):
 	header.append(header_Receiver)
 
 	header_DataSetID = Element('DataSetID')
-	header_DataSetID.text = "PPP_SRVIC_3-2014-06-16T15:00:16"  # time stuff @dynam
+	#header_DataSetID.text = "PPP_SRVIC_3-2014-06-16T15:00:16"  # time stuff @dynam dt.strftime('%Y-%m-%dT%H:%m:%S
+	header_DataSetID.text = survey.dataflowID + "-" + dt.strftime('%Y-%m-%dT%H:%m:%S')
 	header_DataSetAction = Element('DataSetAction')
 	header_DataSetAction.text = 'Append'
 	header_Extracted = Element('Extracted')
-	header_Extracted.text = '2014-06-16T15:00:16+00:00'
+	#header_Extracted.text = '2014-06-16T15:00:16+00:00'
+	header_Extracted.text = dt.strftime('%Y-%m-%dT%H:%m:%S+00:00')
 	header_ReportingBegin = Element('ReportingBegin')
-	header_ReportingBegin.text = '2014-01-01'
+	#header_ReportingBegin.text = '2014-01-01'
+	header_ReportingBegin.text = str(survey.year) + '-01-01' 
+	obs_latest = Observation.objects.filter(survey=pk).order_by('-id')[0] 
 	header_ReportingEnd = Element('ReportingEnd')
-	header_ReportingEnd.text = '2014-12-31'
+	#header_ReportingEnd.text = '2014-12-31'
+	header_ReportingEnd.text = obs_latest.obs_time.strftime('%Y-%m-%d')
 
 	header.append(header_DataSetID)
 	header.append(header_DataSetAction)
@@ -457,22 +468,22 @@ def SurveyXML(request, pk):
 	cgs_dataset.append(cgs_group)
 
 
-	cgs_group.set('REFERENCE_YEAR','2014')   # @dynam year from survey
-	cgs_group.set('PPP_SURVEY','SRVIC')      # @dynam survey code
+	#cgs_group.set('REFERENCE_YEAR','2014')   # @dynam year from survey
+	cgs_group.set('REFERENCE_YEAR', str(dt.year))
+	#cgs_group.set('PPP_SURVEY','SRVIC')      # @dynam survey code
+	cgs_group.set('PPP_SURVEY', survey.code)
 	cgs_group.set('REPORTING_COUNTRY','IS')  
 	cgs_group.set('CURRENCY','ISK')
 
 	root.append(cgs_dataset)
 
 	item_rows = Item.objects.filter(survey=pk).values_list()
-	print(len(item_rows))
 	for i_row in item_rows:
 		#print("hey dude")
 		commentarys = ItemCommentary.objects.filter(item=i_row).values_list()
 		#print(len(commentarys))
 		if (len(commentarys) > 0):
 			commentary = commentarys[0]
-			print(commentary)
 			commentary_seasonality = "true" if commentary[1] else "false"
 			commentary_representativity = "true" if commentary[2] else "false"
 			commentary_comment = commentary[3]
@@ -544,12 +555,12 @@ def SurveyXML(request, pk):
 					cgs_observed_price.set("CHAR_SEPARATOR","|")
 					
 
-	string2 = etree.tostring(root)
-	print(string2)
+	xml_string = etree.tostring(root)
+	#print(string2)
 	#return HttpResponse(string2)
 	#return HttpResponse(string2, mime_type='application/xml')
 	#tree.write(open('person.xml','w'))
-	return HttpResponse(string2, content_type="text/plain")
+	return HttpResponse(xml_string, content_type="text/plain")
 
 # ================================================================================
 
