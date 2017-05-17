@@ -6,22 +6,6 @@ from django.contrib.auth.models import User
 from .models import Observation, Item, UserObservation, Characteristic, Survey, ObservedCharacteristic, ItemObserver, Observer, ItemCommentary
 
 
-# class UserInline(nested_admin.NestedTabularInline):
-# 	model = UserObservation
-# 	max_num = 1
-
-# class ObservationInline(nested_admin.NestedTabularInline):
-# 	model = Observation
-# 	# extra = 3
-# 	inlines = [UserInline,]
-
-# class ItemAdmin(nested_admin.NestedModelAdmin):
-# 	inlines = [ObservationInline,]
-	
-
-
-# admin.site.register(Item, ItemAdmin)
-
 class ObservedCharacteristicInline(nested_admin.NestedTabularInline):
 	model = ObservedCharacteristic
 	#form = ObservedCharacteristicForm

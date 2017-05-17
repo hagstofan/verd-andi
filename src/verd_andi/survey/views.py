@@ -557,36 +557,8 @@ def SurveyXML(request, pk):
 						
 
 		xml_string = etree.tostring(root)
-		#print(string2)
-		#return HttpResponse(string2)
-		#return HttpResponse(string2, mime_type='application/xml')
-		#tree.write(open('person.xml','w'))
+
 		return HttpResponse(xml_string, content_type="text/plain")
 	else:
 		return HttpResponse("You are not authorized.")
-
-# ================================================================================
-
-
-class ItemCommentaryUpdate(UpdateView):
-	model = ItemCommentary
-	fields = ['vat','comment','seasonality','representivity']
-	template_name_suffix = '_update_form'
-
-
-	def user_passes_test(self, request, pk):
-		if request.user.is_superuser:
-			#Model.objects.get_or_create()
-			#self.object = ItemCommentary.objects.get_or_create(pk)
-			return True
-		return False
-
-	def dispatch(self, request, *args, **kwargs):
-		#print args
-		#print kwargs['pk']
-		if not self.user_passes_test(request, kwargs['pk']):
-			return redirect_to_login(request.get_full_path())
-		return super(ItemCommentaryUpdate, self).dispatch(request, *args, **kwargs)
-
-
 

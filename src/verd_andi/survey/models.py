@@ -38,8 +38,7 @@ class Item(models.Model):
 	label = models.CharField(max_length=200)
 	unit = models.CharField(max_length=100)
 	survey = models.ForeignKey(Survey)
-	# characteristics = models.ManyToManyField(Characteristic, related_name="characteristics")
-
+	
 	def __str__(self):
 		return self.label + "-" + self.code
 
@@ -107,30 +106,6 @@ class ObservedCharacteristic(models.Model):
 	def __str__(self):
 		return str(self.characteristic)
 
-
-# class ObservedCharacteristicForm(forms.ModelForm):
-# 	class Meta:
-# 		model = ObservedCharacteristic
-# 		fields = '__all__'
-			
-
-# 	def __init__(self, *args, **kwargs):
-# 		super(ObservedCharacteristicForm, self).__init__(*args, **kwargs)
-# 		if 'initial' in kwargs:
-# 			# Characteristic.objects.filter(item = self.observation.item)
-# 			#obs_id = initial.
-# 			#list(Observation.objects.filter(pk=1))[0].item.pk
-# 			# Characteristic.objects.filter(item=list(Observation.objects.all())[1].item.pk)  
-
-# 			#item_idx = list(Observation.objects.filter(pk=initial.observation))[0].item.pk  # geting item
-# 			# item_idx = initial.item
-# 			# print("bla bla" + str(item_idx))
-# 			# self.fields['characteristic'].queryset = Characteristic.objects.filter(item=item_idx)
-# 			print("bla this bla")
-# 		print(kwargs)
-# 		item_idx = "A.09.4.1.0.01.ha"
-# 		#print(self.parent_object)
-# 		self.fields['characteristic'].queryset = Characteristic.objects.filter(item=item_idx)
 
 @python_2_unicode_compatible
 class UserObservation(models.Model):
