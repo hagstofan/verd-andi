@@ -6,6 +6,8 @@
 {% if request.user.is_superuser %}
 	<h3>Admin tools:</h3>
 	<a href="{% url 'survey:observers-management' %}">Manage ItemObservers</a>
+	</br>
+	<a href="{% url 'survey:survey-list' %}">surveys</a>
 {% endif %}
 
 

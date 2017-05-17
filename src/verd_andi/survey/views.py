@@ -363,204 +363,207 @@ def ObserverItems(request, idx):
 
 
 def SurveyXML(request, pk):
-	survey = Survey.objects.get(pk=pk)
+	if request.user.is_superuser:
+		survey = Survey.objects.get(pk=pk)
 
 
-	root=Element('CrossSectionalData')
-	tree=ElementTree(root)
-	#xmlns=Element('xmlns')
-	# root.append(xmlns)
-	# xmlns.text("http://www.SDMX.org/resources/SDMXML/schemas/v2_0/message")
+		root=Element('CrossSectionalData')
+		tree=ElementTree(root)
+		#xmlns=Element('xmlns')
+		# root.append(xmlns)
+		# xmlns.text("http://www.SDMX.org/resources/SDMXML/schemas/v2_0/message")
 
-	root.set('xmlns','http://www.SDMX.org/resources/SDMXML/schemas/v2_0/message')
-	root.set('xmlns:cgs',"urn:sdmx:org.sdmx.infomodel.keyfamily.KeyFamily=ESTAT:PPP_CGS:cross")
-	root.set('xmlns:cross',"http://www.SDMX.org/resources/SDMXML/schemas/v2_0/cross")
-	root.set('xmlns:xsi',"http://www.w3.org/2001/XMLSchema-instance")
-	root.set('xsi:schemaLocation',"http://www.SDMX.org/resources/SDMXML/schemas/v2_0/message SDMXMessage.xsd urn:sdmx:org.sdmx.infomodel.keyfamily.KeyFamily=ESTAT:PPP_CGS:cross ESTAT_PPP_CGS_COUNTRY_Cross.xsd http://www.SDMX.org/resources/SDMXML/schemas/v2_0/cross SDMXCrossSectionalData.xsd")
+		root.set('xmlns','http://www.SDMX.org/resources/SDMXML/schemas/v2_0/message')
+		root.set('xmlns:cgs',"urn:sdmx:org.sdmx.infomodel.keyfamily.KeyFamily=ESTAT:PPP_CGS:cross")
+		root.set('xmlns:cross',"http://www.SDMX.org/resources/SDMXML/schemas/v2_0/cross")
+		root.set('xmlns:xsi',"http://www.w3.org/2001/XMLSchema-instance")
+		root.set('xsi:schemaLocation',"http://www.SDMX.org/resources/SDMXML/schemas/v2_0/message SDMXMessage.xsd urn:sdmx:org.sdmx.infomodel.keyfamily.KeyFamily=ESTAT:PPP_CGS:cross ESTAT_PPP_CGS_COUNTRY_Cross.xsd http://www.SDMX.org/resources/SDMXML/schemas/v2_0/cross SDMXCrossSectionalData.xsd")
 
-	header = Element('Header')
-	root.append(header)
-	header_ID = Element('ID')
-
-
-	header.append(header_ID)
-	#header_ID.text = 'PPP_SRVIC_3'
-	header_ID.text = survey.dataflowID
-	
-
-	header_Test = Element('Test')
-	header_Test.text = 'false'
-	header.append(header_Test)
-
-	header_Truncated = Element('Truncated')
-	header_Truncated.text = 'false' 
-	header.append(header_Truncated)
-
-	header_Name = Element('Name')
-	header_Name.text = 'PPP Dataset'
-	header.append(header_Name)
-
-	header_Prepared = Element('Prepared') # date , timedate.now typathing  @dynam
-	#header_Prepared.text = '2014-06-16T15:00:16+00:00'
-	dt = datetime.datetime.now()
-	header_Prepared.text = dt.strftime('%Y-%m-%dT%H:%m:%S+00:00')
-	header.append(header_Prepared)
-
-	header_Sender = Element('Sender')
-	header_Sender.set('id','IS')
-	header.append(header_Sender)
-
-	header_Sender_Name = Element('Name')
-	header_Sender_Name.text = 'Statistic Iceland'
-	header_Sender.append(header_Sender_Name)
-
-	header_Sender_Contact = Element('Contact')
-	header_Sender_Contact_Name = Element('Name')
-	header_Sender_Contact_Department = Element('Department')
-	header_Sender_Contact_Role = Element('Role')
-	header_Sender_Contact_Telephone = Element('Telephone')
-	header_Sender_Contact_Fax = Element('Fax')
-	header_Sender_Contact_Email = Element('Email')
-
-	header_Sender_Contact.append(header_Sender_Contact_Name)
-	header_Sender_Contact.append(header_Sender_Contact_Department)
-	header_Sender_Contact.append(header_Sender_Contact_Role)
-	header_Sender_Contact.append(header_Sender_Contact_Telephone)
-	header_Sender_Contact.append(header_Sender_Contact_Fax)
-	header_Sender_Contact.append(header_Sender_Contact_Email)
-
-	header_Sender.append(header_Sender_Contact)
-
-	header_Receiver = Element('Receiver')
-	header_Receiver.set('id','EUROSTAT')
-	header_Receiver_Name = Element('Name')
-	header_Receiver.append(header_Receiver_Name)
-
-	header.append(header_Receiver)
-
-	header_DataSetID = Element('DataSetID')
-	#header_DataSetID.text = "PPP_SRVIC_3-2014-06-16T15:00:16"  # time stuff @dynam dt.strftime('%Y-%m-%dT%H:%m:%S
-	header_DataSetID.text = survey.dataflowID + "-" + dt.strftime('%Y-%m-%dT%H:%m:%S')
-	header_DataSetAction = Element('DataSetAction')
-	header_DataSetAction.text = 'Append'
-	header_Extracted = Element('Extracted')
-	#header_Extracted.text = '2014-06-16T15:00:16+00:00'
-	header_Extracted.text = dt.strftime('%Y-%m-%dT%H:%m:%S+00:00')
-	header_ReportingBegin = Element('ReportingBegin')
-	#header_ReportingBegin.text = '2014-01-01'
-	header_ReportingBegin.text = str(survey.year) + '-01-01' # perhaps change to erliest obs_time ?
-	obs_latest = Observation.objects.filter(survey=pk).order_by('-id')[0] 
-	header_ReportingEnd = Element('ReportingEnd')
-	#header_ReportingEnd.text = '2014-12-31'
-	header_ReportingEnd.text = obs_latest.obs_time.strftime('%Y-%m-%d')
-
-	header.append(header_DataSetID)
-	header.append(header_DataSetAction)
-	header.append(header_Extracted)
-	header.append(header_ReportingBegin)
-	header.append(header_ReportingEnd)
-
-	# end header
-
-	cgs_dataset = Element('cgs:dataset')
-	cgs_group = Element('cgs:group')
-
-	cgs_dataset.append(cgs_group)
+		header = Element('Header')
+		root.append(header)
+		header_ID = Element('ID')
 
 
-	#cgs_group.set('REFERENCE_YEAR','2014')   # @dynam year from survey
-	cgs_group.set('REFERENCE_YEAR', str(dt.year))
-	#cgs_group.set('PPP_SURVEY','SRVIC')      # @dynam survey code
-	cgs_group.set('PPP_SURVEY', survey.code)
-	cgs_group.set('REPORTING_COUNTRY','IS')  
-	cgs_group.set('CURRENCY','ISK')
-
-	root.append(cgs_dataset)
-
-	item_rows = Item.objects.filter(survey=pk).values_list()
-	for i_row in item_rows:
-		#print("hey dude")
-		commentarys = ItemCommentary.objects.filter(item=i_row).values_list()
-		#print(len(commentarys))
-		if (len(commentarys) > 0):
-			commentary = commentarys[0]
-			commentary_seasonality = "true" if commentary[1] else "false"
-			commentary_representativity = "true" if commentary[2] else "false"
-			commentary_comment = commentary[3]
-			commentary_vat = str(commentary[4])
-			#print commentary, commentary_seasonality, commentary_representativity, commentary_comment, commentary_vat
-		else:
-			commentary_vat = commentary_comment = commentary_representativity = commentary_seasonality = False
+		header.append(header_ID)
+		#header_ID.text = 'PPP_SRVIC_3'
+		header_ID.text = survey.dataflowID
 		
-		#print commentary, commentary_seasonality, commentary_representativity, commentary_comment
-		# cgs_section stuff
-		cgs_section = Element('cgs:Section')
-		cgs_section.set("EPC_ITEM",i_row[0])
-		cgs_section.set("VAT", commentary_vat if commentary_vat else "0.255")                   # almost static
-		cgs_section.set("REPRESENTIVITY", commentary_representativity if commentary_representativity else "true")         # default to true  ---- later to be derived from new model ItemCommentary
-		cgs_section.set("SEASONALITY", commentary_seasonality if commentary_seasonality else "false")          # default to false -----^
-		cgs_section.set("ITEM_COMMENT", commentary_comment if commentary_comment else "")               # default to ""  ----------^
-		cgs_section.set("FINALIZED","true")              # true
 
-		cgs_group.append(cgs_section)
+		header_Test = Element('Test')
+		header_Test.text = 'false'
+		header.append(header_Test)
+
+		header_Truncated = Element('Truncated')
+		header_Truncated.text = 'false' 
+		header.append(header_Truncated)
+
+		header_Name = Element('Name')
+		header_Name.text = 'PPP Dataset'
+		header.append(header_Name)
+
+		header_Prepared = Element('Prepared') # date , timedate.now typathing  @dynam
+		#header_Prepared.text = '2014-06-16T15:00:16+00:00'
+		dt = datetime.datetime.now()
+		header_Prepared.text = dt.strftime('%Y-%m-%dT%H:%m:%S+00:00')
+		header.append(header_Prepared)
+
+		header_Sender = Element('Sender')
+		header_Sender.set('id','IS')
+		header.append(header_Sender)
+
+		header_Sender_Name = Element('Name')
+		header_Sender_Name.text = 'Statistic Iceland'
+		header_Sender.append(header_Sender_Name)
+
+		header_Sender_Contact = Element('Contact')
+		header_Sender_Contact_Name = Element('Name')
+		header_Sender_Contact_Department = Element('Department')
+		header_Sender_Contact_Role = Element('Role')
+		header_Sender_Contact_Telephone = Element('Telephone')
+		header_Sender_Contact_Fax = Element('Fax')
+		header_Sender_Contact_Email = Element('Email')
+
+		header_Sender_Contact.append(header_Sender_Contact_Name)
+		header_Sender_Contact.append(header_Sender_Contact_Department)
+		header_Sender_Contact.append(header_Sender_Contact_Role)
+		header_Sender_Contact.append(header_Sender_Contact_Telephone)
+		header_Sender_Contact.append(header_Sender_Contact_Fax)
+		header_Sender_Contact.append(header_Sender_Contact_Email)
+
+		header_Sender.append(header_Sender_Contact)
+
+		header_Receiver = Element('Receiver')
+		header_Receiver.set('id','EUROSTAT')
+		header_Receiver_Name = Element('Name')
+		header_Receiver.append(header_Receiver_Name)
+
+		header.append(header_Receiver)
+
+		header_DataSetID = Element('DataSetID')
+		#header_DataSetID.text = "PPP_SRVIC_3-2014-06-16T15:00:16"  # time stuff @dynam dt.strftime('%Y-%m-%dT%H:%m:%S
+		header_DataSetID.text = survey.dataflowID + "-" + dt.strftime('%Y-%m-%dT%H:%m:%S')
+		header_DataSetAction = Element('DataSetAction')
+		header_DataSetAction.text = 'Append'
+		header_Extracted = Element('Extracted')
+		#header_Extracted.text = '2014-06-16T15:00:16+00:00'
+		header_Extracted.text = dt.strftime('%Y-%m-%dT%H:%m:%S+00:00')
+		header_ReportingBegin = Element('ReportingBegin')
+		#header_ReportingBegin.text = '2014-01-01'
+		header_ReportingBegin.text = str(survey.year) + '-01-01' # perhaps change to erliest obs_time ?
+		obs_latest = Observation.objects.filter(survey=pk).order_by('-id')[0] 
+		header_ReportingEnd = Element('ReportingEnd')
+		#header_ReportingEnd.text = '2014-12-31'
+		header_ReportingEnd.text = obs_latest.obs_time.strftime('%Y-%m-%d')
+
+		header.append(header_DataSetID)
+		header.append(header_DataSetAction)
+		header.append(header_Extracted)
+		header.append(header_ReportingBegin)
+		header.append(header_ReportingEnd)
+
+		# end header
+
+		cgs_dataset = Element('cgs:dataset')
+		cgs_group = Element('cgs:group')
+
+		cgs_dataset.append(cgs_group)
 
 
-		observations = Observation.objects.filter(item=i_row[0]).values_list()
-		if(len(observations) > 0):
-			observation_number = 1
-			for obs_i in observations:
-				cgs_observed_price = Element('cgs:OBSERVED_PRICE')
-				cgs_observed_price.set('OBSERVATION_NUMBER',str(observation_number))
-				cgs_observed_price.set('OBS_TIME', str(obs_i[2]))
-				cgs_observed_price.set('SHOP_TYPE', str(obs_i[3]))
-				cgs_observed_price.set('SHOP_IDENTIFIER', str(obs_i[4]))
-				cgs_observed_price.set('OBS_COMMENT', str(obs_i[9]))
-				cgs_observed_price.set('FLAG', str(obs_i[5]))
-				cgs_observed_price.set('DISCOUNT', str(obs_i[6]))
-				cgs_observed_price.set('value', str(obs_i[7]))
+		#cgs_group.set('REFERENCE_YEAR','2014')   # @dynam year from survey
+		cgs_group.set('REFERENCE_YEAR', str(dt.year))
+		#cgs_group.set('PPP_SURVEY','SRVIC')      # @dynam survey code
+		cgs_group.set('PPP_SURVEY', survey.code)
+		cgs_group.set('REPORTING_COUNTRY','IS')  
+		cgs_group.set('CURRENCY','ISK')
 
-				cgs_section.append(cgs_observed_price)
+		root.append(cgs_dataset)
 
-				cgs_observed_quantity = Element('cgs:OBSERVED_QUANTITY')
-				cgs_observed_quantity.set('OBSERVATION_NUMBER', str(observation_number))
-				cgs_observed_quantity.set('value', str(obs_i[8]))
+		item_rows = Item.objects.filter(survey=pk).values_list()
+		for i_row in item_rows:
+			#print("hey dude")
+			commentarys = ItemCommentary.objects.filter(item=i_row).values_list()
+			#print(len(commentarys))
+			if (len(commentarys) > 0):
+				commentary = commentarys[0]
+				commentary_seasonality = "true" if commentary[1] else "false"
+				commentary_representativity = "true" if commentary[2] else "false"
+				commentary_comment = commentary[3]
+				commentary_vat = str(commentary[4])
+				#print commentary, commentary_seasonality, commentary_representativity, commentary_comment, commentary_vat
+			else:
+				commentary_vat = commentary_comment = commentary_representativity = commentary_seasonality = False
+			
+			#print commentary, commentary_seasonality, commentary_representativity, commentary_comment
+			# cgs_section stuff
+			cgs_section = Element('cgs:Section')
+			cgs_section.set("EPC_ITEM",i_row[0])
+			cgs_section.set("VAT", commentary_vat if commentary_vat else "0.255")                   # almost static
+			cgs_section.set("REPRESENTIVITY", commentary_representativity if commentary_representativity else "true")         # default to true  ---- later to be derived from new model ItemCommentary
+			cgs_section.set("SEASONALITY", commentary_seasonality if commentary_seasonality else "false")          # default to false -----^
+			cgs_section.set("ITEM_COMMENT", commentary_comment if commentary_comment else "")               # default to ""  ----------^
+			cgs_section.set("FINALIZED","true")              # true
 
-				cgs_section.append(cgs_observed_quantity)
-				observation_number += 1
-				observedcharacteristics = ObservedCharacteristic.objects.filter(observation=str(obs_i[0])).values_list()
-				char_arr = []
-				for obs_char in observedcharacteristics:
-					obs_char_id = obs_char[0]
-					char_id = obs_char[1]
-					obs_id = obs_char[2]
-					obs_char_value = obs_char[3]
-					# execute_string3 = 'SELECT * FROM  survey_characteristic WHERE id=' + '"' + str(char_id) + '"'
-					# c.execute(execute_string3)
-					# characteristic_i = c.fetchall()
-					characteristic_i = Characteristic.objects.filter(pk=str(char_id)).values_list()
-					char_name = characteristic_i[0][1]
-					# get char Name 
-					"""
-					<cgs:OBSERVED_PRICE OBSERVATION_NUMBER="4" OBS_TIME="2014-5" 
-					SHOP_TYPE="8" SHOP_IDENTIFIER="Rafholt" OBS_COMMENT="" FLAG="O" 
-					DISCOUNT="N" value="25500.0" CHARACTERISTICS="Price of materials=8000|
-					Travel costs=3500|Number of hours worked=2" CHARS_SEPARATOR="|" />
-					"""
-					# set observed price CHARACTERISTICS, CHARS_SEPARATOR='|'
-					char_arr.append(str(char_name)+"="+str(obs_char_value))
+			cgs_group.append(cgs_section)
 
-				if (len(char_arr) > 0):
-					char_string='|'.join(char_arr)
-					cgs_observed_price.set("CHARACTERISTICS",char_string)
-					cgs_observed_price.set("CHAR_SEPARATOR","|")
-					
 
-	xml_string = etree.tostring(root)
-	#print(string2)
-	#return HttpResponse(string2)
-	#return HttpResponse(string2, mime_type='application/xml')
-	#tree.write(open('person.xml','w'))
-	return HttpResponse(xml_string, content_type="text/plain")
+			observations = Observation.objects.filter(item=i_row[0]).values_list()
+			if(len(observations) > 0):
+				observation_number = 1
+				for obs_i in observations:
+					cgs_observed_price = Element('cgs:OBSERVED_PRICE')
+					cgs_observed_price.set('OBSERVATION_NUMBER',str(observation_number))
+					cgs_observed_price.set('OBS_TIME', str(obs_i[2]))
+					cgs_observed_price.set('SHOP_TYPE', str(obs_i[3]))
+					cgs_observed_price.set('SHOP_IDENTIFIER', str(obs_i[4]))
+					cgs_observed_price.set('OBS_COMMENT', str(obs_i[9]))
+					cgs_observed_price.set('FLAG', str(obs_i[5]))
+					cgs_observed_price.set('DISCOUNT', str(obs_i[6]))
+					cgs_observed_price.set('value', str(obs_i[7]))
+
+					cgs_section.append(cgs_observed_price)
+
+					cgs_observed_quantity = Element('cgs:OBSERVED_QUANTITY')
+					cgs_observed_quantity.set('OBSERVATION_NUMBER', str(observation_number))
+					cgs_observed_quantity.set('value', str(obs_i[8]))
+
+					cgs_section.append(cgs_observed_quantity)
+					observation_number += 1
+					observedcharacteristics = ObservedCharacteristic.objects.filter(observation=str(obs_i[0])).values_list()
+					char_arr = []
+					for obs_char in observedcharacteristics:
+						obs_char_id = obs_char[0]
+						char_id = obs_char[1]
+						obs_id = obs_char[2]
+						obs_char_value = obs_char[3]
+						# execute_string3 = 'SELECT * FROM  survey_characteristic WHERE id=' + '"' + str(char_id) + '"'
+						# c.execute(execute_string3)
+						# characteristic_i = c.fetchall()
+						characteristic_i = Characteristic.objects.filter(pk=str(char_id)).values_list()
+						char_name = characteristic_i[0][1]
+						# get char Name 
+						"""
+						<cgs:OBSERVED_PRICE OBSERVATION_NUMBER="4" OBS_TIME="2014-5" 
+						SHOP_TYPE="8" SHOP_IDENTIFIER="Rafholt" OBS_COMMENT="" FLAG="O" 
+						DISCOUNT="N" value="25500.0" CHARACTERISTICS="Price of materials=8000|
+						Travel costs=3500|Number of hours worked=2" CHARS_SEPARATOR="|" />
+						"""
+						# set observed price CHARACTERISTICS, CHARS_SEPARATOR='|'
+						char_arr.append(str(char_name)+"="+str(obs_char_value))
+
+					if (len(char_arr) > 0):
+						char_string='|'.join(char_arr)
+						cgs_observed_price.set("CHARACTERISTICS",char_string)
+						cgs_observed_price.set("CHAR_SEPARATOR","|")
+						
+
+		xml_string = etree.tostring(root)
+		#print(string2)
+		#return HttpResponse(string2)
+		#return HttpResponse(string2, mime_type='application/xml')
+		#tree.write(open('person.xml','w'))
+		return HttpResponse(xml_string, content_type="text/plain")
+	else:
+		return HttpResponse("You are not authorized.")
 
 # ================================================================================
 
