@@ -15,6 +15,10 @@ from .models import Survey, User, Item, ItemObserver, Characteristic, Observatio
 from .forms import ObservationForm, ItemCommentaryForm
 from django.contrib.auth.views import redirect_to_login
 
+from django.views.generic.edit import DeleteView
+from django.urls import reverse_lazy
+from django.http import Http404
+
 # xml stuff
 from xml.dom import minidom
 from xml.etree.ElementTree import ElementTree
@@ -309,6 +313,17 @@ def ObservationUpdate(request, idx):
 
 	else:
 		return redirect(settings.LOGIN_REDIRECT_URL)
+
+class ObservationDelete(DeleteView):
+	model = Observation
+	success_url = reverse_lazy('survey:survey-userdash')
+
+	def get_object(self, queryset=None):
+		""" Hook to ensure object is owned by request.user. """
+		obj = super(ObservationDelete, self).get_object()
+		if not ((obj.observer == self.request.user) or self.request.user.is_superuser):
+		    raise Http404
+		return obj
 
 
 def ObserversManagement(request):

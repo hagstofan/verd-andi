@@ -8,6 +8,7 @@ app_name = 'survey'
 urlpatterns = [
     url(r'^observer-items/(?P<idx>[0-9]+)/$', views.ObserverItems, name='observer-items'),
 	url(r'^observation/(?P<idx>[0-9]+)/$', views.ObservationUpdate, name='observation-update'),
+    url(r'^observation/(?P<pk>[0-9]+)/delete/', views.ObservationDelete.as_view(), name='observation-delete'),
     #url(r'^$', views.index, name='index'),
     url(r'^$', views.SurveyListView.as_view(), name='survey-list'),
     #url(r'^obs/(?P<id>[\w{}.-]{1,40})/$', views.survey_dash, name='survey-observation'),
