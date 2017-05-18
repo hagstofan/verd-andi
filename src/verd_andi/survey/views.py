@@ -17,7 +17,8 @@ from django.contrib.auth.views import redirect_to_login
 
 from django.views.generic.edit import DeleteView
 from django.urls import reverse_lazy
-from django.http import Http404
+from django.http import Http404, HttpResponseForbidden
+from django.core.exceptions import PermissionDenied
 
 # xml stuff
 from xml.dom import minidom
@@ -238,7 +239,7 @@ def ItemCommentaryView(request, idx):
 
 		#return HttpResponse("Hey, you superuser you")
 	else:  # not superuser
-		return HttpResponse("YOU ARE NOT AUTHORIZED!")
+		raise PermissionDenied
 
 
 def ObservationUpdate(request, idx):
@@ -309,7 +310,7 @@ def ObservationUpdate(request, idx):
 
 			return render(request, "survey/item_observation.html", context)
 		else:
-			return HttpResponse("you don't have permission to edit this observation.")
+			raise PermissionDenied
 
 	else:
 		return redirect(settings.LOGIN_REDIRECT_URL)
@@ -322,7 +323,8 @@ class ObservationDelete(DeleteView):
 		""" Hook to ensure object is owned by request.user. """
 		obj = super(ObservationDelete, self).get_object()
 		if not ((obj.observer == self.request.user) or self.request.user.is_superuser):
-		    raise Http404
+		    #raise Http404
+		    raise PermissionDenied
 		return obj
 
 
@@ -340,7 +342,7 @@ def ObserversManagement(request):
 
 		return render(request, "survey/observers_management.html", context)
 	else:
-		return HttpResponse("You are not authorized.")
+		raise PermissionDenied
 
 
 def ObserverItems(request, idx):
@@ -374,7 +376,7 @@ def ObserverItems(request, idx):
 		
 		return render(request, "survey/observer_items.html", context)
 	else:
-		return HttpResponse("You are not authorized.")
+		raise PermissionDenied
 
 
 def SurveyXML(request, pk):
@@ -580,5 +582,5 @@ def SurveyXML(request, pk):
 
 		return HttpResponse(xml_string, content_type="text/plain")
 	else:
-		return HttpResponse("You are not authorized.")
+		raise PermissionDenied
 
