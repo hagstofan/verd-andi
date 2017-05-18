@@ -11,6 +11,10 @@
 	color: orange;
 }
 
+.fa-trash {
+    color: red;
+}
+
 .img-responsive {
     margin: 0 auto;
 }
