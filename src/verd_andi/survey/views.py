@@ -539,7 +539,7 @@ def SurveyXML(request, pk):
 					cgs_observed_price.set('SHOP_IDENTIFIER', unicode(obs_i[4]))
 					cgs_observed_price.set('OBS_COMMENT', unicode(obs_i[9]))
 					cgs_observed_price.set('FLAG', str(obs_i[5]))
-					cgs_observed_price.set('DISCOUNT', str(obs_i[6]))
+					cgs_observed_price.set('DISCOUNT', unicode(obs_i[6]))
 					cgs_observed_price.set('value', str(obs_i[7]))
 
 					cgs_section.append(cgs_observed_price)
