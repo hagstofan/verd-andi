@@ -570,7 +570,7 @@ def SurveyXML(request, pk):
 						Travel costs=3500|Number of hours worked=2" CHARS_SEPARATOR="|" />
 						"""
 						# set observed price CHARACTERISTICS, CHARS_SEPARATOR='|'
-						char_arr.append(str(char_name)+"="+str(obs_char_value))
+						char_arr.append(str(char_name)+"="+unicode(obs_char_value))
 
 					if (len(char_arr) > 0):
 						char_string='|'.join(char_arr)
