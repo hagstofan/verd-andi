@@ -38,6 +38,7 @@ class ObservationAdmin(nested_admin.NestedModelAdmin):
 	inlines = [ObservedCharacteristicInline,]
 	list_filter = (
 		('observer', admin.RelatedOnlyFieldListFilter),
+		('survey', admin.RelatedOnlyFieldListFilter),
 		)
 
 
