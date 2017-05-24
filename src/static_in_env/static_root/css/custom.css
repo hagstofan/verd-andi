@@ -99,6 +99,9 @@ Filter search list.
     background-color: #eee; /* Add a hover effect to all links, except for headers */
 }
 
+#id_discount {
+    width: 70px;
+}
 
 @import url("https://fonts.googleapis.com/css?family=Roboto:300,400,500,700");/*!
  * bootswatch v3.3.7

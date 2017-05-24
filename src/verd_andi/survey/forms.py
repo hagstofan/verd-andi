@@ -22,10 +22,16 @@ class ObservationForm(forms.Form):
         ('12', '12 Black Market'),
         ('99', '99 CPI data'),
     )
+	DISCOUNTCHOICES = (
+		('N', '  N  '),
+		('R', '  R  '),
+		('Q', '  Q  '),
+		('T', '  T  '),
+	)
 	shop_type = forms.ChoiceField(choices=CHOICES)
 	shop_identifier = forms.CharField()
 	#flag = forms.CharField(max_length=4)
-	discount = forms.CharField(max_length=4)
+	discount = forms.ChoiceField(choices=DISCOUNTCHOICES, initial='N')
 	value = forms.DecimalField(decimal_places=4, max_digits=25)
 	observed_quantity = forms.DecimalField(decimal_places=4, max_digits=25)
 	#item = forms.ForeignKey(Item)
