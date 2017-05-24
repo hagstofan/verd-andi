@@ -518,7 +518,7 @@ def SurveyXML(request, pk):
 				commentary_seasonality = "true" if commentary[1] else "false"
 				commentary_representativity = "true" if commentary[2] else "false"
 				commentary_comment = commentary[3]
-				commentary_vat = str(commentary[4])
+				commentary_vat = commentary[4]
 				#print commentary, commentary_seasonality, commentary_representativity, commentary_comment, commentary_vat
 			else:
 				commentary_vat = commentary_comment = commentary_representativity = commentary_seasonality = False
