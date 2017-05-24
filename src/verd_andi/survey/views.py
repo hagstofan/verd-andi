@@ -425,20 +425,27 @@ def SurveyXML(request, pk):
 		header.append(header_Prepared)
 
 		header_Sender = Element('Sender')
-		header_Sender.set('id','IS')
+		header_Sender.set('id','statice')
 		header.append(header_Sender)
 
 		header_Sender_Name = Element('Name')
-		header_Sender_Name.text = 'Statistic Iceland'
+		header_Sender_Name.text = 'Statistics Iceland'
 		header_Sender.append(header_Sender_Name)
 
 		header_Sender_Contact = Element('Contact')
+
 		header_Sender_Contact_Name = Element('Name')
+		header_Sender_Contact_Name.text = "Snorri Gunnarsson"
 		header_Sender_Contact_Department = Element('Department')
+		header_Sender_Contact_Department.text = "Price Statistics"
 		header_Sender_Contact_Role = Element('Role')
+		header_Sender_Contact_Role.text = "xx"
 		header_Sender_Contact_Telephone = Element('Telephone')
+		header_Sender_Contact_Telephone.text = "xx"
 		header_Sender_Contact_Fax = Element('Fax')
+		header_Sender_Contact_Fax.text = "xx"
 		header_Sender_Contact_Email = Element('Email')
+		header_Sender_Contact_Email.text = "Snorri.Gunnarsson@hagstofa.is"
 
 		header_Sender_Contact.append(header_Sender_Contact_Name)
 		header_Sender_Contact.append(header_Sender_Contact_Department)
@@ -452,6 +459,7 @@ def SurveyXML(request, pk):
 		header_Receiver = Element('Receiver')
 		header_Receiver.set('id','EUROSTAT')
 		header_Receiver_Name = Element('Name')
+		header_Receiver_Name.text = 'EUROSTAT'
 		header_Receiver.append(header_Receiver_Name)
 
 		header.append(header_Receiver)
@@ -485,8 +493,8 @@ def SurveyXML(request, pk):
 
 		# end header
 
-		cgs_dataset = Element('cgs:dataset')
-		cgs_group = Element('cgs:group')
+		cgs_dataset = Element('cgs:DataSet')
+		cgs_group = Element('cgs:Group')
 
 		cgs_dataset.append(cgs_group)
 
@@ -518,49 +526,62 @@ def SurveyXML(request, pk):
 			#print commentary, commentary_seasonality, commentary_representativity, commentary_comment
 			# cgs_section stuff
 			cgs_section = Element('cgs:Section')
-			cgs_section.set("EPC_ITEM",i_row[0])
-			cgs_section.set("VAT", commentary_vat if commentary_vat else "0.255")                   # almost static
-			cgs_section.set("REPRESENTIVITY", commentary_representativity if commentary_representativity else "true")         # default to true  ---- later to be derived from new model ItemCommentary
-			cgs_section.set("SEASONALITY", commentary_seasonality if commentary_seasonality else "false")          # default to false -----^
+			cgs_section.set("ECP_ITEM",i_row[0])
+			if(commentary_vat):
+				cgs_section.set("VAT", str(round(commentary_vat, 2)) if commentary_vat else "0.24")                   # almost static
+			if (commentary_representativity):
+				cgs_section.set("REPRESENTATIVITY", commentary_representativity if commentary_representativity else "true")         # default to true  ---- later to be derived from new model ItemCommentary
+			if (commentary_seasonality):
+				cgs_section.set("SEASONALITY", commentary_seasonality if commentary_seasonality else "false")          # default to false -----^
 			cgs_section.set("ITEM_COMMENT", commentary_comment if commentary_comment else "")               # default to ""  ----------^
 			cgs_section.set("FINALIZED","true")              # true
 
-			cgs_group.append(cgs_section)
+			#cgs_group.append(cgs_section)
 
 
 			observations = Observation.objects.filter(item=i_row[0]).values_list()
+			if( len(observations) <= 0):
+				cgs_group.append(cgs_section)
+
 			if(len(observations) > 0):
+				cgs_section.set("VAT", str(round(commentary_vat, 2)) if commentary_vat else "0.24")
+				cgs_section.set("REPRESENTATIVITY", commentary_representativity if commentary_representativity else "true")
+				cgs_section.set("SEASONALITY", commentary_seasonality if commentary_seasonality else "false")
+				cgs_group.append(cgs_section)
 				observation_number = 1
+
 				for obs_i in observations:
 					cgs_observed_price = Element('cgs:OBSERVED_PRICE')
 					cgs_observed_price.set('OBSERVATION_NUMBER',str(observation_number))
-					cgs_observed_price.set('OBS_TIME', str(obs_i[2]))
+					cgs_observed_price.set('OBS_TIME', str(obs_i[2].strftime('%Y-%-m')))
 					cgs_observed_price.set('SHOP_TYPE', str(obs_i[3]))
 					cgs_observed_price.set('SHOP_IDENTIFIER', unicode(obs_i[4]))
-					cgs_observed_price.set('OBS_COMMENT', unicode(obs_i[9]))
+					cgs_observed_price.set('OBS_COMMENT', unicode(obs_i[11]))
 					cgs_observed_price.set('FLAG', str(obs_i[5]))
 					cgs_observed_price.set('DISCOUNT', unicode(obs_i[6]))
-					cgs_observed_price.set('value', str(obs_i[7]))
+					cgs_observed_price.set('value', str(round(obs_i[7], 1)))
 
 					cgs_section.append(cgs_observed_price)
 
 					cgs_observed_quantity = Element('cgs:OBSERVED_QUANTITY')
 					cgs_observed_quantity.set('OBSERVATION_NUMBER', str(observation_number))
-					cgs_observed_quantity.set('value', str(obs_i[8]))
+					cgs_observed_quantity.set('value', str(round(obs_i[8],1)))
 
 					cgs_section.append(cgs_observed_quantity)
 					observation_number += 1
+			
 					observedcharacteristics = ObservedCharacteristic.objects.filter(observation=str(obs_i[0])).values_list()
 					char_arr = []
 					for obs_char in observedcharacteristics:
 						obs_char_id = obs_char[0]
-						char_id = obs_char[1]
-						obs_id = obs_char[2]
+						char_id = obs_char[2]
+						obs_id = obs_char[1]
 						obs_char_value = obs_char[3]
 						# execute_string3 = 'SELECT * FROM  survey_characteristic WHERE id=' + '"' + str(char_id) + '"'
 						# c.execute(execute_string3)
 						# characteristic_i = c.fetchall()
 						characteristic_i = Characteristic.objects.filter(pk=str(char_id)).values_list()
+						#print(characteristic_i)
 						char_name = characteristic_i[0][1]
 						# get char Name 
 						"""
@@ -575,10 +596,11 @@ def SurveyXML(request, pk):
 					if (len(char_arr) > 0):
 						char_string='|'.join(char_arr)
 						cgs_observed_price.set("CHARACTERISTICS",char_string)
-						cgs_observed_price.set("CHAR_SEPARATOR","|")
+						cgs_observed_price.set("CHARS_SEPARATOR","|")
 						
 
-		xml_string = etree.tostring(root)
+		#xml_string = etree.tostring(root)
+		xml_string = '<?xml version="1.0" encoding="UTF-8"?>\n' + etree.tostring(root)
 
 		return HttpResponse(xml_string, content_type="text/plain")
 	else:
