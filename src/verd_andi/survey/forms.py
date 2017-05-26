@@ -5,6 +5,15 @@ from .models import Item, Characteristic
 from django.forms.models import inlineformset_factory
 from django.contrib.auth.models import User
 
+from django.core.exceptions import ValidationError
+from decimal import Decimal
+
+# some validators.
+def validate_observed_quantity(value):
+	print("monkeys")
+	#print(value)
+	return value
+
 
 class ObservationForm(forms.Form):
 	CHOICES = (
@@ -28,11 +37,12 @@ class ObservationForm(forms.Form):
 		('Q', '  Q  '),
 		('T', '  T  '),
 	)
+	discount = forms.ChoiceField(choices=DISCOUNTCHOICES, initial='N')
 	shop_type = forms.ChoiceField(choices=CHOICES)
 	shop_identifier = forms.CharField()
 	#flag = forms.CharField(max_length=4)
-	discount = forms.ChoiceField(choices=DISCOUNTCHOICES, initial='N')
-	value = forms.DecimalField(decimal_places=4, max_digits=25)
+	
+	value = forms.DecimalField(decimal_places=4, max_digits=25) # later should validate within min max
 	observed_quantity = forms.DecimalField(decimal_places=4, max_digits=25)
 	#item = forms.ForeignKey(Item)
 	#observer = forms.ForeignKey(User, blank=True, related_name='survey_observer', null=True)
@@ -41,7 +51,11 @@ class ObservationForm(forms.Form):
 	#survey = forms.ForeignKey(Survey)
 
 	def __init__(self, *args, **kwargs):
+		#self.extra = extra = kwargs.pop('extra') # for validation of extra
 		extra = kwargs.pop('extra')
+		self.max_quantity = kwargs.pop('max_quantity') # for validation
+		self.min_quantity = kwargs.pop('min_quantity') # for validation
+		#print(self.max_quantity)
 		super(ObservationForm, self).__init__(*args, **kwargs)
 
 		if "initial" in kwargs:
@@ -51,16 +65,33 @@ class ObservationForm(forms.Form):
 
 		for i, question in enumerate(extra):
 			if question in initial:
-				print('its in')
 				self.fields['custom_%s' % i] = forms.CharField(label=question, initial=initial[question])
 			else:
 				self.fields['custom_%s' % i] = forms.CharField(label=question)
+
+
 
 
 	def extra_answers(self):
 		for name, value in self.cleaned_data.items():
 			if name.startswith('custom_'):
 				yield (self.fields[name].label, value)
+
+
+	def clean_observed_quantity(self):
+		observed_quantity = self.cleaned_data['observed_quantity']
+		if self.max_quantity:
+			if(observed_quantity > Decimal(self.max_quantity)):
+				raise forms.ValidationError("quantity exceeds maximum quantity.")
+		if self.min_quantity:
+			if(observed_quantity < Decimal(self.min_quantity)):
+				raise forms.ValidationError("quantity is below minimum quantity.")
+		
+		return observed_quantity
+
+
+
+
 
 
 

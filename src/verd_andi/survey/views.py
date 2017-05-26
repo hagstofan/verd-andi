@@ -15,6 +15,8 @@ from .models import Survey, User, Item, ItemObserver, Characteristic, Observatio
 from .forms import ObservationForm, ItemCommentaryForm
 from django.contrib.auth.views import redirect_to_login
 
+from django.db.models import Q
+
 from django.views.generic.edit import DeleteView
 from django.urls import reverse_lazy
 from django.http import Http404, HttpResponseForbidden
@@ -102,7 +104,13 @@ def item_observation(request, idx):
 		spec_chars = chars.filter(specify=True)
 		specified_chars = list( sc.name for sc in spec_chars)
 		specified_chars_pk = list( sc.pk for sc in spec_chars)
-		form = ObservationForm(request.POST or None, extra=specified_chars)
+
+		# min max stuff.
+		max_quantity_char = chars.filter(name="Maximum quantity")
+		min_quantity_char = chars.filter(name="Minimum quantity")
+
+
+		form = ObservationForm(request.POST or None, extra=specified_chars, max_quantity=max_quantity_char[0].value if max_quantity_char else [], min_quantity=min_quantity_char[0].value if min_quantity_char else [])
 		if form.is_valid():  #POST request
 			# create observation, insert user-observer, obs-time, item, survey?
 			obs_time = datetime.datetime.now()
@@ -274,7 +282,12 @@ def ObservationUpdate(request, idx):
 				data[specified_chars[idp]]=schar.value
 				ochars.append(schar) # for use later in case of POST request.
 
-			form = ObservationForm(request.POST or None, extra=specified_chars, initial=data)
+			max_quantity_char = chars.filter(name="Maximum quantity")
+			min_quantity_char = chars.filter(name="Minimum quantity")
+
+
+			form = ObservationForm(request.POST or None, extra=specified_chars, initial=data, max_quantity=max_quantity_char[0].value if max_quantity_char else [], min_quantity=min_quantity_char[0].value if min_quantity_char else [])
+
 			context = {
 			"form" : form,
 			"user_name" : str(request.user),
