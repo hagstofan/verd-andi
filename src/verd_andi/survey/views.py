@@ -121,7 +121,7 @@ def item_observation(request, idx):
 			shop_identifier = form.cleaned_data['shop_identifier']
 			#flag = form.cleaned_data['flag']
 			discount = form.cleaned_data['discount']
-			value = form.cleaned_data['value']
+			observed_price = form.cleaned_data['observed_price']
 			observed_quantity = form.cleaned_data['observed_quantity']
 			obs_comment = form.cleaned_data['obs_comment']
 			theitem = Item.objects.filter(pk=item)[0]
@@ -136,7 +136,7 @@ def item_observation(request, idx):
 				shop_identifier=shop_identifier,
 				flag="O",
 				discount=discount,
-				value=value,
+				observed_price=observed_price,
 				observed_quantity=observed_quantity,
 				obs_comment=obs_comment,
 				survey = surv
@@ -271,7 +271,7 @@ def ObservationUpdate(request, idx):
 			'shop_identifier':observation.shop_identifier,
 			'flag':observation.flag,
 			'discount':observation.discount,
-			'value':observation.value,
+			'observed_price':observation.observed_price,
 			'observed_quantity':observation.observed_quantity,
 			'obs_comment':observation.obs_comment
 			}
@@ -302,14 +302,14 @@ def ObservationUpdate(request, idx):
 				shop_identifier = form.cleaned_data['shop_identifier']
 				#flag = form.cleaned_data['flag']
 				discount = form.cleaned_data['discount']
-				value = form.cleaned_data['value']
+				observed_price = form.cleaned_data['observed_price']
 				observed_quantity = form.cleaned_data['observed_quantity']
 				obs_comment = form.cleaned_data['obs_comment']
 				# updating the observation
 				observation.shop_type = shop_type
 				observation.shop_identifier = shop_identifier
 				observation.discount = discount
-				observation.value = value
+				observation.observed_price = observed_price
 				observation.observed_quantity = observed_quantity
 				observation.obs_comment = obs_comment
 				observation.save()

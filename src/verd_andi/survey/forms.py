@@ -42,7 +42,7 @@ class ObservationForm(forms.Form):
 	shop_identifier = forms.CharField()
 	#flag = forms.CharField(max_length=4)
 	
-	value = forms.DecimalField(decimal_places=4, max_digits=25) # later should validate within min max
+	observed_price = forms.DecimalField(decimal_places=4, max_digits=25) # later should validate within min max
 	observed_quantity = forms.DecimalField(decimal_places=4, max_digits=25)
 	#item = forms.ForeignKey(Item)
 	#observer = forms.ForeignKey(User, blank=True, related_name='survey_observer', null=True)
