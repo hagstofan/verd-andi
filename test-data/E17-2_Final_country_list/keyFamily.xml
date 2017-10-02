@@ -1,0 +1,971 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Structure xmlns="http://www.SDMX.org/resources/SDMXML/schemas/v2_0/message"
+    xmlns:common="http://www.SDMX.org/resources/SDMXML/schemas/v2_0/common"
+    xmlns:compact="http://www.SDMX.org/resources/SDMXML/schemas/v2_0/compact"
+    xmlns:cross="http://www.SDMX.org/resources/SDMXML/schemas/v2_0/cross"
+    xmlns:generic="http://www.SDMX.org/resources/SDMXML/schemas/v2_0/generic"
+    xmlns:query="http://www.SDMX.org/resources/SDMXML/schemas/v2_0/query"
+    xmlns:structure="http://www.SDMX.org/resources/SDMXML/schemas/v2_0/structure"
+    xmlns:utility="http://www.SDMX.org/resources/SDMXML/schemas/v2_0/utility"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.SDMX.org/resources/SDMXML/schemas/v2_0/message SDMXMessage.xsd">
+    <Header>
+        <ID>PPP_CGS_COUNTRY</ID>
+        <Test>false</Test>
+        <Prepared>2012-07-06T20:17:47-05:00</Prepared>
+        <Sender id="ESTAT"/>
+    </Header>
+    <CodeLists>
+        <structure:CodeList agencyID="ESTAT" id="CL_PPP_CGS_SURVEY" isFinal="true" version="2.0">
+            <structure:Name xml:lang="en">Consumer Goods Surveys</structure:Name>
+            <structure:Code value="FBETO">
+                <structure:Description xml:lang="en">Foods, Drinks and Tobacco</structure:Description>
+            </structure:Code>
+            <structure:Code value="FRHEA">
+                <structure:Description xml:lang="en">Furniture and Health</structure:Description>
+            </structure:Code>
+            <structure:Code value="HOGAR">
+                <structure:Description xml:lang="en">House and Garden</structure:Description>
+            </structure:Code>
+            <structure:Code value="PERAP">
+                <structure:Description xml:lang="en">Personal Appearance</structure:Description>
+            </structure:Code>
+            <structure:Code value="SRVIC">
+                <structure:Description xml:lang="en">Services</structure:Description>
+            </structure:Code>
+            <structure:Code value="TREHO">
+                <structure:Description xml:lang="en">Transport, Restaurant and Hotels</structure:Description>
+            </structure:Code>
+            <structure:Code value="DAP">
+                <structure:Description xml:lang="en">Detailed average prices</structure:Description>
+            </structure:Code>
+        </structure:CodeList>
+        <structure:CodeList agencyID="ESTAT" id="CL_PPP_COUNTRY" isFinal="true" version="2.1">
+            <structure:Name xml:lang="en">PPP Countries</structure:Name>
+            <structure:Code value="AT">
+                <structure:Description xml:lang="en">Austria</structure:Description>
+            </structure:Code>
+            <structure:Code value="BE">
+                <structure:Description xml:lang="en">Belgium</structure:Description>
+            </structure:Code>
+            <structure:Code value="BG">
+                <structure:Description xml:lang="en">Bulgaria</structure:Description>
+            </structure:Code>
+            <structure:Code value="CH">
+                <structure:Description xml:lang="en">Switzerland</structure:Description>
+            </structure:Code>
+            <structure:Code value="CY">
+                <structure:Description xml:lang="en">Cyprus</structure:Description>
+            </structure:Code>
+            <structure:Code value="CZ">
+                <structure:Description xml:lang="en">Czech Republic</structure:Description>
+            </structure:Code>
+            <structure:Code value="DE">
+                <structure:Description xml:lang="en">Germany</structure:Description>
+            </structure:Code>
+            <structure:Code value="BN">
+                <structure:Description xml:lang="en">Germany - Bonn</structure:Description>
+            </structure:Code>
+            <structure:Code value="BR">
+                <structure:Description xml:lang="en">Germany - Berlin</structure:Description>
+            </structure:Code>
+            <structure:Code value="KR">
+                <structure:Description xml:lang="en">Germany - Karlsruhe</structure:Description>
+            </structure:Code>
+            <structure:Code value="MN">
+                <structure:Description xml:lang="en">Germany - Munich</structure:Description>
+            </structure:Code>
+            <structure:Code value="DK">
+                <structure:Description xml:lang="en">Denmark</structure:Description>
+            </structure:Code>
+            <structure:Code value="EE">
+                <structure:Description xml:lang="en">Estonia</structure:Description>
+            </structure:Code>
+            <structure:Code value="ES">
+                <structure:Description xml:lang="en">Spain</structure:Description>
+            </structure:Code>
+            <structure:Code value="FI">
+                <structure:Description xml:lang="en">Finland</structure:Description>
+            </structure:Code>
+            <structure:Code value="FR">
+                <structure:Description xml:lang="en">France</structure:Description>
+            </structure:Code>
+            <structure:Code value="HU">
+                <structure:Description xml:lang="en">Hungary</structure:Description>
+            </structure:Code>
+            <structure:Code value="IE">
+                <structure:Description xml:lang="en">Ireland</structure:Description>
+            </structure:Code>
+            <structure:Code value="IS">
+                <structure:Description xml:lang="en">Iceland</structure:Description>
+            </structure:Code>
+            <structure:Code value="IT">
+                <structure:Description xml:lang="en">Italy</structure:Description>
+            </structure:Code>
+            <structure:Code value="VA">
+                <structure:Description xml:lang="en">Italy - Varese</structure:Description>
+            </structure:Code>
+            <structure:Code value="LT">
+                <structure:Description xml:lang="en">Lithuania</structure:Description>
+            </structure:Code>
+            <structure:Code value="LU">
+                <structure:Description xml:lang="en">Luxembourg</structure:Description>
+            </structure:Code>
+            <structure:Code value="LV">
+                <structure:Description xml:lang="en">Latvia</structure:Description>
+            </structure:Code>
+            <structure:Code value="MT">
+                <structure:Description xml:lang="en">Malta</structure:Description>
+            </structure:Code>
+            <structure:Code value="NL">
+                <structure:Description xml:lang="en">Netherlands</structure:Description>
+            </structure:Code>
+            <structure:Code value="NO">
+                <structure:Description xml:lang="en">Norway</structure:Description>
+            </structure:Code>
+            <structure:Code value="PL">
+                <structure:Description xml:lang="en">Poland</structure:Description>
+            </structure:Code>
+            <structure:Code value="PT">
+                <structure:Description xml:lang="en">Portugal</structure:Description>
+            </structure:Code>
+            <structure:Code value="RO">
+                <structure:Description xml:lang="en">Romania</structure:Description>
+            </structure:Code>
+            <structure:Code value="SE">
+                <structure:Description xml:lang="en">Sweden</structure:Description>
+            </structure:Code>
+            <structure:Code value="SI">
+                <structure:Description xml:lang="en">Slovenia</structure:Description>
+            </structure:Code>
+            <structure:Code value="SK">
+                <structure:Description xml:lang="en">Slovak Republic</structure:Description>
+            </structure:Code>
+            <structure:Code value="TR">
+                <structure:Description xml:lang="en">Turkey</structure:Description>
+            </structure:Code>
+            <structure:Code value="UK">
+                <structure:Description xml:lang="en">United Kingdom</structure:Description>
+            </structure:Code>
+            <structure:Code value="HR">
+                <structure:Description xml:lang="en">Croatia</structure:Description>
+            </structure:Code>
+            <structure:Code value="MK">
+                <structure:Description xml:lang="en">FYR of Macedonia</structure:Description>
+            </structure:Code>
+            <structure:Code value="EL">
+                <structure:Description xml:lang="en">Greece</structure:Description>
+            </structure:Code>
+            <structure:Code value="AL">
+                <structure:Description xml:lang="en">Albania</structure:Description>
+            </structure:Code>
+            <structure:Code value="BA">
+                <structure:Description xml:lang="en">Bosnia-Herzegovina</structure:Description>
+            </structure:Code>
+            <structure:Code value="BB">
+                <structure:Description xml:lang="en">Bosnia-Herzegovina - Banja Luka</structure:Description>
+            </structure:Code>
+            <structure:Code value="BS">
+                <structure:Description xml:lang="en">Bosnia-Herzegovina - Sarajevo</structure:Description>
+            </structure:Code>
+            <structure:Code value="ME">
+                <structure:Description xml:lang="en">Montenegro</structure:Description>
+            </structure:Code>
+            <structure:Code value="RS">
+                <structure:Description xml:lang="en">Serbia</structure:Description>
+            </structure:Code>
+            <structure:Code value="XK">
+                <structure:Description xml:lang="en">Kosovo</structure:Description>
+            </structure:Code>
+        </structure:CodeList>
+        <structure:CodeList agencyID="ESTAT" id="CL_PPP_CGS_COU_MT" isFinal="true" version="1.0">
+            <structure:Name xml:lang="en">PPP CGS Country Measure Types (price, quantity)</structure:Name>
+            <structure:Code value="P">
+                <structure:Description xml:lang="en">Observed Price</structure:Description>
+            </structure:Code>
+            <structure:Code value="Q">
+                <structure:Description xml:lang="en">Observed Quantity</structure:Description>
+            </structure:Code>
+        </structure:CodeList>
+        <structure:CodeList agencyID="ESTAT" id="CL_PPP_CURRENCY" isFinal="true" version="1.0">
+            <structure:Name xml:lang="en">PPP Currencies</structure:Name>
+            <structure:Code value="EUR">
+                <structure:Description xml:lang="en">Euro</structure:Description>
+            </structure:Code>
+            <structure:Code value="BGN">
+                <structure:Description xml:lang="en">Bulgarian Lev</structure:Description>
+            </structure:Code>
+            <structure:Code value="CHF">
+                <structure:Description xml:lang="en">Swiss Franc</structure:Description>
+            </structure:Code>
+            <structure:Code value="CYP">
+                <structure:Description xml:lang="en">Cyprus Pound</structure:Description>
+            </structure:Code>
+            <structure:Code value="CZK">
+                <structure:Description xml:lang="en">Czech Koruna</structure:Description>
+            </structure:Code>
+            <structure:Code value="DKK">
+                <structure:Description xml:lang="en">Danish Krone</structure:Description>
+            </structure:Code>
+            <structure:Code value="EEK">
+                <structure:Description xml:lang="en">Estonian Kroon</structure:Description>
+            </structure:Code>
+            <structure:Code value="HUF">
+                <structure:Description xml:lang="en">Hungarian Forint</structure:Description>
+            </structure:Code>
+            <structure:Code value="ISK">
+                <structure:Description xml:lang="en">Iceland Krona</structure:Description>
+            </structure:Code>
+            <structure:Code value="LTL">
+                <structure:Description xml:lang="en">Lithuanian Litas</structure:Description>
+            </structure:Code>
+            <structure:Code value="LVL">
+                <structure:Description xml:lang="en">Latvian Lats</structure:Description>
+            </structure:Code>
+            <structure:Code value="MTL">
+                <structure:Description xml:lang="en">Maltese Lira</structure:Description>
+            </structure:Code>
+            <structure:Code value="NOK">
+                <structure:Description xml:lang="en">Norwegian Krone</structure:Description>
+            </structure:Code>
+            <structure:Code value="PLN">
+                <structure:Description xml:lang="en">Zloty</structure:Description>
+            </structure:Code>
+            <structure:Code value="RON">
+                <structure:Description xml:lang="en">Romanian Leu</structure:Description>
+            </structure:Code>
+            <structure:Code value="SEK">
+                <structure:Description xml:lang="en">Swedish Krona</structure:Description>
+            </structure:Code>
+            <structure:Code value="SKK">
+                <structure:Description xml:lang="en">Slovak Koruna</structure:Description>
+            </structure:Code>
+            <structure:Code value="TRY">
+                <structure:Description xml:lang="en">Turkish Lira</structure:Description>
+            </structure:Code>
+            <structure:Code value="GBP">
+                <structure:Description xml:lang="en">Pound Sterling</structure:Description>
+            </structure:Code>
+            <structure:Code value="HRK">
+                <structure:Description xml:lang="en">Croatian Kuna</structure:Description>
+            </structure:Code>
+            <structure:Code value="MKD">
+                <structure:Description xml:lang="en">Macedonian Denar</structure:Description>
+            </structure:Code>
+            <structure:Code value="ALB">
+                <structure:Description xml:lang="en">Albanian Lek</structure:Description>
+            </structure:Code>
+            <structure:Code value="BAM">
+                <structure:Description xml:lang="en">Bosnia and Herzegovina Convertible Mark</structure:Description>
+            </structure:Code>
+            <structure:Code value="CSD">
+                <structure:Description xml:lang="en">Serbian Dinar</structure:Description>
+            </structure:Code>
+        </structure:CodeList>
+
+        <structure:CodeList agencyID="ESTAT" id="CL_PPP_FLAG" isFinal="true" version="1.1">
+            <structure:Name xml:lang="en">Flag</structure:Name>
+            <structure:Code value="O">
+                <structure:Description xml:lang="en">Original</structure:Description>
+            </structure:Code>
+            <structure:Code value="M">
+                <structure:Description xml:lang="en">Modified</structure:Description>
+            </structure:Code>
+            
+            <structure:Code value="E">
+                <structure:Description xml:lang="en">Eliminated</structure:Description>
+            </structure:Code>
+        </structure:CodeList>
+
+        <structure:CodeList agencyID="ESTAT" id="CL_PPP_SHOP_TYPE" isFinal="true" version="2.0">
+                        
+            <structure:Name xml:lang="en">Shop Type</structure:Name>
+            <structure:Code value="1">
+                <structure:Description xml:lang="en">Department stores</structure:Description>
+            </structure:Code>
+            <structure:Code value="2">
+                <structure:Description xml:lang="en">Hypermarkets, supermarkets</structure:Description>
+            </structure:Code>
+            <structure:Code value="3">
+                <structure:Description xml:lang="en">Discount stores</structure:Description>
+            </structure:Code>
+            <structure:Code value="4">
+                <structure:Description xml:lang="en">Convenience stores, mini-markets, service station shops, neighbourhood shops, corner shops and kiosks</structure:Description>
+            </structure:Code>
+            <structure:Code value="5">
+                <structure:Description xml:lang="en">Specialised shop chains</structure:Description>
+            </structure:Code>
+            <structure:Code value="6">
+                <structure:Description xml:lang="en">Specialised shops</structure:Description>
+            </structure:Code>
+            <structure:Code value="7">
+                <structure:Description xml:lang="en">Markets</structure:Description>
+            </structure:Code>
+            <structure:Code value="8">
+                <structure:Description xml:lang="en">Private service providers</structure:Description>
+            </structure:Code>
+            <structure:Code value="9">
+                <structure:Description xml:lang="en">Public and semi public service providers</structure:Description>
+            </structure:Code>
+            <structure:Code value="10">
+                <structure:Description xml:lang="en">Mail order, internet</structure:Description>
+            </structure:Code>
+            <structure:Code value="11">
+                <structure:Description xml:lang="en">Other kinds of outlets</structure:Description>
+            </structure:Code>
+            <structure:Code value="12">
+                <structure:Description xml:lang="en">Black market</structure:Description>
+            </structure:Code>
+            <structure:Code value="99">
+                <structure:Description xml:lang="en">CPI data</structure:Description>
+            </structure:Code>
+        </structure:CodeList>
+        
+        <structure:CodeList agencyID="ESTAT" id="CL_PPP_DISCOUNT_FLAG" isFinal="true" version="1.0">
+            <structure:Name xml:lang="en">Discount flag</structure:Name>
+            <structure:Code value="N">
+                <structure:Description xml:lang="en">No discount</structure:Description>
+            </structure:Code>
+            <structure:Code value="R">
+                <structure:Description xml:lang="en">Regular prices corresponding to discounted prices</structure:Description>
+            </structure:Code>
+            <structure:Code value="Q">
+                <structure:Description xml:lang="en">Quantity discount</structure:Description>
+            </structure:Code>
+            <structure:Code value="T">
+                <structure:Description xml:lang="en">Temporary discount</structure:Description>
+            </structure:Code>
+        </structure:CodeList>
+
+    </CodeLists>
+    
+     <Concepts>
+             <structure:ConceptScheme agencyID="ESTAT" id="PPP_CONCEPTS" isFinal="true" version="7.3">
+            <structure:Name>PPP CONCEPTS</structure:Name>
+        	
+        	<structure:Concept id="REFERENCE_YEAR" version="1.0">
+        		<structure:Name xml:lang="en">Reference Year</structure:Name>
+        		<structure:Description xml:lang="en">Year of Survey</structure:Description>
+        		<structure:TextFormat textType="Year"/>
+        	</structure:Concept>
+            
+        	<structure:Concept agencyID="ESTAT" id="MEASURE_TYPE" version="1.0">
+                <structure:Name xml:lang="en">Type of measure (e.g. price, quantity).</structure:Name>
+                <structure:Description xml:lang="en">Corresponds to the measure dimension for non-cross sectional SDMX formats</structure:Description>
+            </structure:Concept>
+            
+        	<structure:Concept agencyID="ESTAT" id="PPP_SURVEY" version="1.0">
+                <structure:Name xml:lang="en">PPP Survey</structure:Name>
+                <structure:Description xml:lang="en">PPP Survey</structure:Description>
+            </structure:Concept>
+            
+        	<structure:Concept id="ECP_ITEM" version="1.0">
+        		<structure:Name xml:lang="en">ECP Item</structure:Name>
+        		<structure:Description xml:lang="en">ECP item to be priced</structure:Description>
+        		<structure:TextFormat textType="String"/>
+        	</structure:Concept>
+            
+        	<structure:Concept agencyID="ESTAT" id="ECP_SPD" version="1.0">
+                <structure:Name xml:lang="en">ECP SPD</structure:Name>
+                <structure:Description xml:lang="en">SPD to which the item belongs</structure:Description>
+            	<structure:TextFormat textType="String"/>
+        	</structure:Concept>
+        	
+        	<structure:Concept agencyID="ESTAT" id="ECP_BH" version="1.0">
+        		<structure:Name xml:lang="en">ECP BH</structure:Name>
+        		<structure:Description xml:lang="en">Basic Heading</structure:Description>
+        		<structure:TextFormat textType="String"/>
+        	</structure:Concept>
+            
+        	<structure:Concept agencyID="ESTAT" id="REPORTING_COUNTRY" version="1.0">
+                <structure:Name xml:lang="en">Country</structure:Name>
+                <structure:Description xml:lang="en">Reporting country</structure:Description>
+            </structure:Concept>
+            
+        	<structure:Concept agencyID="ESTAT" id="WEIGHT" version="1.0">
+                <structure:Name xml:lang="en">Weight</structure:Name>
+                <structure:Description xml:lang="en">Percentage weight within the SPD (Sararies survey)/ BH weight (CPI survey)</structure:Description>
+                <structure:TextFormat textType="Double"/>
+        	</structure:Concept>
+        	
+        	<structure:Concept agencyID="ESTAT" id="DATA_VERSION" version="1.0">
+        		<structure:Name xml:lang="en">Data Version</structure:Name>
+        		<structure:Description xml:lang="en">Version of the dataset</structure:Description>
+        		<structure:TextFormat textType="Integer"/>
+        	</structure:Concept>
+            
+        	<structure:Concept agencyID="ESTAT" id="OBS_SKILL_LEVEL" version="1.0">
+                <structure:Name xml:lang="en">Observed Skill Level</structure:Name>
+                <structure:Description xml:lang="en">Observed skill level</structure:Description>
+                <structure:TextFormat textType="Integer"/>
+            </structure:Concept>
+            
+        	<structure:Concept agencyID="ESTAT" id="AVG_AN_GROSS_SALARY" version="1.0">
+                <structure:Name xml:lang="en">Average Annual Gross Salary</structure:Name>
+                <structure:Description xml:lang="en">Average annual gross salary</structure:Description>
+                <structure:TextFormat textType="Double"/>
+            </structure:Concept>
+            
+        	<structure:Concept agencyID="ESTAT" id="EMPL_SOCIAL_CONTR_ACTUAL_RATIO" version="1.0">
+                <structure:Name xml:lang="en">Actual Employer Contribution</structure:Name>
+                <structure:Description xml:lang="en">Employers' actual social contributions (national account ratio)</structure:Description>
+                <structure:TextFormat textType="Double"/>
+            </structure:Concept>
+            
+        	<structure:Concept agencyID="ESTAT" id="EMPL_SOCIAL_CONTR_IMPUTED_RATIO" version="1.0">
+                <structure:Name xml:lang="en">Imputed Employer Contribution</structure:Name>
+                <structure:Description xml:lang="en">Employers' imputed social contributions (national account ratio)</structure:Description>
+                <structure:TextFormat textType="Double"/>
+            </structure:Concept>
+            
+        	<structure:Concept agencyID="ESTAT" id="HOURS_PER_WEEK" version="1.0">
+                <structure:Name xml:lang="en">Contractual Working Week</structure:Name>
+                <structure:Description xml:lang="en">Contractual working week (number of hours)</structure:Description>
+                <structure:TextFormat textType="Double"/>
+            </structure:Concept>
+            
+        	<structure:Concept agencyID="ESTAT" id="HOLIDAY_ENTITLEMENT" version="1.0">
+                <structure:Name xml:lang="en">Holiday Entitlement</structure:Name>
+                <structure:Description xml:lang="en">Holiday entitlement (number of days)</structure:Description>
+                <structure:TextFormat textType="Double"/>
+            </structure:Concept>
+            
+        	<structure:Concept agencyID="ESTAT" id="PUBLIC_HOLIDAYS" version="1.0">
+                <structure:Name xml:lang="en">Public Holidays</structure:Name>
+                <structure:Description xml:lang="en">Public holidays (number of days)</structure:Description>
+                <structure:TextFormat textType="Double"/>
+            </structure:Concept>
+          
+        	<structure:Concept agencyID="ESTAT" id="OBS_VALUE" version="1.0">
+                <structure:Name xml:lang="en">Observation value</structure:Name>
+                <structure:Description xml:lang="en">Observation value. Primary measure for non-cross sectional SDMX formats</structure:Description>
+                <structure:TextFormat textType="Decimal"/>
+            </structure:Concept>
+            
+        	<structure:Concept agencyID="ESTAT" id="CURRENCY" version="1.0">
+                <structure:Name xml:lang="en">Currency</structure:Name>
+                <structure:Description xml:lang="en">Currency of the observed values</structure:Description>
+            </structure:Concept>
+        	
+        	<structure:Concept id="MODEL" version="1.0">
+        		<structure:Name xml:lang="en">Model of item</structure:Name>
+        		<structure:Description xml:lang="en">Model of item</structure:Description>
+        		<structure:TextFormat textType="String"/>
+        	</structure:Concept>
+        	
+        	<structure:Concept id="CHARS_SEPARATOR" version="1.0">
+        		<structure:Name xml:lang="en">Separator</structure:Name>
+        		<structure:Description xml:lang="en">Separator used in the SPECIFICATIONS attribute to distinguish the different name / value pairs</structure:Description>
+        		<structure:TextFormat textType="String"/>
+        	</structure:Concept>
+        	
+        	<structure:Concept id="REPRESENTATIVITY" version="1.0">
+        		<structure:Name xml:lang="en">Representativity of the item to be priced</structure:Name>
+        		<structure:Description xml:lang="en">Indicates whether the product/item priced is representative or not</structure:Description>
+        		<structure:TextFormat textType="Boolean"/>
+        	</structure:Concept>
+        	
+        	<structure:Concept id="MAKE" version="1.0">
+        		<structure:Name xml:lang="en">Make (and nationality)</structure:Name>
+        		<structure:Description xml:lang="en">Make (and nationality) of the priced item</structure:Description>
+        		<structure:TextFormat textType="String"/>
+        	</structure:Concept>
+        	
+        	<structure:Concept id="COMPARABILITY" version="1.0">
+        		<structure:Name xml:lang="en">Comparability</structure:Name>
+        		<structure:Description xml:lang="en">Indicates whether the product/item priced and the product/item specified are identical (1) or equivalent (2)</structure:Description>
+        		<structure:TextFormat textType="Integer" startValue="1.0" endValue="2.0"/>
+        	</structure:Concept>
+        	
+        	<structure:Concept id="SPECIFICATIONS" version="1.0">
+        		<structure:Name xml:lang="en">Item Specifications</structure:Name>
+        		<structure:Description xml:lang="en">Item specifications (List name / value pairs) for Equipment Goods items</structure:Description>
+        		<structure:TextFormat textType="String"/>
+        	</structure:Concept>
+        	
+        	<structure:Concept id="ORDER_QUANTITY" version="1.0">
+        		<structure:Name xml:lang="en">Order quantity</structure:Name>
+        		<structure:Description xml:lang="en">Order quantity specified in terms and conditions of sale</structure:Description>
+        		<structure:TextFormat textType="String"/>
+        	</structure:Concept>
+        	
+        	<structure:Concept id="UNIT_PRICE" version="1.0">
+        		<structure:Name xml:lang="en">Unit price</structure:Name>
+        		<structure:Description xml:lang="en">Unit price specified in terms and conditions of sale</structure:Description>
+        		<structure:TextFormat textType="Double"/>
+        	</structure:Concept>
+        	
+        	<structure:Concept id="INSTALL_COST" version="1.0">
+        		<structure:Name xml:lang="en">Installation costs</structure:Name>
+        		<structure:Description xml:lang="en">Installation costs to be included</structure:Description>
+        		<structure:TextFormat textType="Double"/>
+        	</structure:Concept>
+        	
+        	<structure:Concept id="DELIVER_COST" version="1.0">
+        		<structure:Name xml:lang="en">Delivery costs</structure:Name>
+        		<structure:Description xml:lang="en">Delivery costs to be included</structure:Description>
+        		<structure:TextFormat textType="Double"/>
+        	</structure:Concept>
+        	
+        	<structure:Concept id="DISCOUNT" version="1.0">
+        		<structure:Name xml:lang="en">Discount</structure:Name>
+        		<structure:Description xml:lang="en">Discount to be included</structure:Description>
+        		<structure:TextFormat textType="Double"/>
+        	</structure:Concept>
+        	
+        	<structure:Concept id="NON_DEDUCT_TAX" version="1.0">
+        		<structure:Name xml:lang="en">Non-deductible taxes</structure:Name>
+        		<structure:Description xml:lang="en">Non-deductible taxes to be included</structure:Description>
+        		<structure:TextFormat textType="Double"/>
+        	</structure:Concept>
+        	
+        	<structure:Concept id="OPTIONS" version="1.0">
+        		<structure:Name xml:lang="en">Options</structure:Name>
+        		<structure:Description xml:lang="en">Used to store any other options/information at item level</structure:Description>
+        		<structure:TextFormat textType="String"/>
+        	</structure:Concept>
+        	
+        	<structure:Concept id="TOTAL_UNIT_PRICE" version="1.0">
+        		<structure:Name xml:lang="en">Total unit price without VAT</structure:Name>
+        		<structure:Description xml:lang="en">Total, net of VAT, of the amounts that purchasers actually pay for the item of equipment to be delivered, assembled and installed in working order at the production site where it will be used. The price should also be net of discounts. Represents the primary measure in Equipment Goods survey</structure:Description>
+        		<structure:TextFormat textType="Double"/>
+        	</structure:Concept>
+        	
+        	<structure:Concept id="FLAG" version="1.0">
+        		<structure:Name xml:lang="en">Flag</structure:Name>
+        		<structure:Description xml:lang="en">Indicates the status of a price (e.g. modified, original, etc)</structure:Description>
+        	</structure:Concept>
+        	
+        	<structure:Concept agencyID="ESTAT" id="OBSERVATION_NUMBER" version="1.0">
+        		<structure:Name xml:lang="en">Observation Number</structure:Name>
+        		<structure:Description xml:lang="en">A sequential number for distinguishing the different prices reported for the same item, country and survey instance</structure:Description>
+        		<structure:TextFormat interval="1" isSequence="true" textType="Count"/>
+        	</structure:Concept>
+        	
+        	<structure:Concept agencyID="ESTAT" id="OBSERVED_QUANTITY" version="1.0">
+        		<structure:Name xml:lang="en">Quantity</structure:Name>
+        		<structure:Description xml:lang="en">Observed quantity</structure:Description>
+        		<structure:TextFormat textType="Decimal"/>
+        	</structure:Concept>
+        	
+        	<structure:Concept agencyID="ESTAT" id="OBSERVED_PRICE" version="1.0">
+        		<structure:Name xml:lang="en">Price</structure:Name>
+        		<structure:Description xml:lang="en">Observed price</structure:Description>
+        		<structure:TextFormat textType="Decimal"/>
+        	</structure:Concept>
+        	
+        	<structure:Concept agencyID="ESTAT" id="OBS_TIME" version="1.0">
+        		<structure:Name xml:lang="en">Time of observation</structure:Name>
+        		<structure:Description xml:lang="en">Time of price observation</structure:Description>
+        		<structure:TextFormat textType="YearMonth"/>
+        	</structure:Concept>
+        	
+        	<structure:Concept agencyID="ESTAT" id="BRAND" version="1.0">
+        		<structure:Name xml:lang="en">Brand</structure:Name>
+        		<structure:Description xml:lang="en">Brand</structure:Description>
+        		<structure:TextFormat textType="String"/>
+        	</structure:Concept>
+        	
+        	<structure:Concept agencyID="ESTAT" id="SHOP_TYPE" version="1.0">
+        		<structure:Name xml:lang="en">Shop Type</structure:Name>
+        		<structure:Description xml:lang="en">Type of shop, from which the price was collected</structure:Description>
+        		<structure:TextFormat textType="String"/>
+        	</structure:Concept>
+        	
+        	<structure:Concept agencyID="ESTAT" id="SHOP_IDENTIFIER" version="1.0">
+        		<structure:Name xml:lang="en">Shop identifier</structure:Name>
+        		<structure:Description xml:lang="en">Specific shop, from which the price was collected</structure:Description>
+        		<structure:TextFormat textType="String"/>
+        	</structure:Concept>
+        	
+        	
+        	<structure:Concept agencyID="ESTAT" id="CHARACTERISTICS" version="1.0">
+        		<structure:Name xml:lang="en">Other characteristics / values</structure:Name>
+        		<structure:Description xml:lang="en">Other characteristics (List of name / value pairs)</structure:Description>
+        		<structure:TextFormat textType="String"/>
+        	</structure:Concept>
+        	
+        	<structure:Concept agencyID="ESTAT" id="VAT" version="1.0">
+        		<structure:Name xml:lang="en">VAT</structure:Name>
+        		<structure:Description xml:lang="en">VAT</structure:Description>
+        		<structure:TextFormat textType="Decimal"/>
+        	</structure:Concept>
+        	
+        	<structure:Concept agencyID="ESTAT" id="OBS_COMMENT" version="1.0">
+        		<structure:Name xml:lang="en">Observation Comment</structure:Name>
+        		<structure:Description xml:lang="en">Comments at observation level</structure:Description>
+        		<structure:TextFormat textType="String"/>
+        	</structure:Concept>
+        	
+        	<structure:Concept agencyID="ESTAT" id="ITEM_COMMENT" version="1.0">
+        		<structure:Name xml:lang="en">Item Comment</structure:Name>
+        		<structure:Description xml:lang="en">Comments at item level</structure:Description>
+        		<structure:TextFormat textType="String"/>
+        	</structure:Concept>
+        	
+        	<structure:Concept agencyID="ESTAT" id="OTHER" version="1.0">
+        		<structure:Name xml:lang="en">Other</structure:Name>
+        		<structure:Description xml:lang="en">Used to store any other information at item level. The contents of this field are name-value pairs separated by the character indicated in "CHARS_SEPARATOR". For the moments it is used to store local comments at item level. This must be indicated in the content of this field like this. LOCALCOMMENTS=bla bla bla</structure:Description>
+        		<structure:TextFormat textType="String"/>
+        	</structure:Concept>
+        	
+        	<structure:Concept agencyID="ESTAT" id="LOCAL_USE" version="1.0">
+        		<structure:Name xml:lang="en">Locale use</structure:Name>
+        		<structure:Description xml:lang="en">Used to store any other information at observation level for local use. The contents of this field are name-value pairs separated by the character indicated in "CHARS_SEPARATOR". For the moments it is used to store the price collector and a free text value for local user. Example of usage: LOCAL_USE="COLLECTOR=Maria|OTHER=other comments goes here".</structure:Description>
+        		<structure:TextFormat textType="String"/>
+        	</structure:Concept>
+        	
+        	<structure:Concept agencyID="ESTAT" id="FINALIZED" version="1.0">
+        		<structure:Name xml:lang="en">Finilised</structure:Name>
+        		<structure:Description xml:lang="en">Indicates the finalisation status of an item.</structure:Description>
+        		<structure:TextFormat textType="Boolean"/>
+        	</structure:Concept>
+        	
+        	<structure:Concept agencyID="ESTAT" id="GDP_ACTUAL_RENTS" version="1.0">
+        		<structure:Name xml:lang="en">Actual rents</structure:Name>
+        		<structure:Description xml:lang="en">Actual rents</structure:Description>
+        		<structure:TextFormat textType="Double"/>
+        	</structure:Concept>
+        	
+        	<structure:Concept agencyID="ESTAT" id="GDP_IMPUTED_RENTS" version="1.0">
+        		<structure:Name xml:lang="en">Imputed rents</structure:Name>
+        		<structure:Description xml:lang="en">Imputed rents</structure:Description>
+        		<structure:TextFormat textType="Double"/>
+        	</structure:Concept>
+        	
+        	<structure:Concept agencyID="ESTAT" id="RENT_PER_SQUARE_METER" version="1.0">
+        		<structure:Name xml:lang="en">Montly rent per square meter</structure:Name>
+        		<structure:Description xml:lang="en">Monthly rent per square meter</structure:Description>
+        		<structure:TextFormat textType="Double"/>
+        	</structure:Concept>
+        	
+        	<structure:Concept agencyID="ESTAT" id="SURFACE" version="1.0">
+        		<structure:Name xml:lang="en">Surface in square meter</structure:Name>
+        		<structure:Description xml:lang="en">Surface in square meter</structure:Description>
+        		<structure:TextFormat textType="Double"/>
+        	</structure:Concept>
+        	
+        	<structure:Concept agencyID="ESTAT" id="RENT_PER_DWELLING" version="1.0">
+        		<structure:Name xml:lang="en">Monthly rent per dwelling</structure:Name>
+        		<structure:Description xml:lang="en">Monthly rent per dwelling</structure:Description>
+        		<structure:TextFormat textType="Double"/>
+        	</structure:Concept>
+        	
+        	<structure:Concept agencyID="ESTAT" id="NO_OF_DWELLINGS" version="1.0">
+        		<structure:Name xml:lang="en">Number of dwellings</structure:Name>
+        		<structure:Description xml:lang="en">Number of dwellings</structure:Description>
+        		<structure:TextFormat textType="Double"/>
+        	</structure:Concept>
+        	
+        	<structure:Concept agencyID="ESTAT" id="CPI" version="1.0">
+        		<structure:Name xml:lang="en">Monthly CPI</structure:Name>
+        		<structure:Description xml:lang="en">Monthly CPI</structure:Description>
+        		<structure:TextFormat textType="Double"/>
+        	</structure:Concept> 
+        	
+        	<structure:Concept agencyID="ESTAT" id="MONTH" version="1.0">
+        		<structure:Name xml:lang="en">Reference month</structure:Name>
+        		<structure:Description xml:lang="en">Reference month</structure:Description>
+        		<structure:TextFormat textType="Integer"/>
+        	</structure:Concept> 
+        	
+        	<structure:Concept agencyID="ESTAT" id="FEES" version="1.0">
+        		<structure:Name xml:lang="en">Architect and engineer's fees</structure:Name>
+        		<structure:Description xml:lang="en">Architect and engineer's fees</structure:Description>
+        		<structure:TextFormat textType="Double"/>
+        	</structure:Concept>
+        	
+        	<structure:Concept agencyID="ESTAT" id="GROSS_FACTOR" version="1.0">
+        		<structure:Name xml:lang="en">Grossing factor</structure:Name>
+        		<structure:Description xml:lang="en">Grossing factor</structure:Description>
+        		<structure:TextFormat textType="Double"/>
+        	</structure:Concept>
+        	        
+        	<structure:Concept id="EXP_WITHOUT_TIPS" agencyID="ESTAT" version="1.0">
+                <structure:Name xml:lang="en">Expenditures without tips</structure:Name>
+                <structure:Description xml:lang="en">Expenditures without tips</structure:Description>
+                <structure:TextFormat textType="Double"/>
+            </structure:Concept>
+            
+            <structure:Concept id="EXP_WITH_TIPS" agencyID="ESTAT" version="1.0">
+                <structure:Name xml:lang="en">Expenditures with tips</structure:Name>
+                <structure:Description xml:lang="en">Expenditures with tips</structure:Description>
+                <structure:TextFormat textType="Double"/>
+            </structure:Concept>
+            
+            <structure:Concept id="TIPS_RATE" agencyID="ESTAT" version="1.0">
+                <structure:Name xml:lang="en">Rate of tips</structure:Name>
+                <structure:Description xml:lang="en">Rate of tips</structure:Description>
+                <structure:TextFormat textType="Double"/>
+            </structure:Concept>
+            
+             <structure:Concept id="EXP_WITHOUT_VAT" agencyID="ESTAT" version="1.0">
+                <structure:Name xml:lang="en">Expenditures without VAT</structure:Name>
+                <structure:Description xml:lang="en">Expenditures without VAT</structure:Description>
+                <structure:TextFormat textType="Double"/>
+            </structure:Concept>
+            
+            <structure:Concept id="EXP_WITH_VAT" agencyID="ESTAT" version="1.0">
+                <structure:Name xml:lang="en">Expenditures with VAT</structure:Name>
+                <structure:Description xml:lang="en">Expenditures with VAT</structure:Description>
+                <structure:TextFormat textType="Double"/>
+            </structure:Concept>
+            
+            <structure:Concept id="AVG_VAT_RATE" agencyID="ESTAT" version="1.0">
+                <structure:Name xml:lang="en">Average rate of VAT</structure:Name>
+                <structure:Description xml:lang="en">Average rate of VAT</structure:Description>
+                <structure:TextFormat textType="Double"/>
+            </structure:Concept>
+            
+            <structure:Concept id="FULL_RATE" agencyID="ESTAT" version="1.0">
+                <structure:Name xml:lang="en">Full rate of VAT</structure:Name>
+                <structure:Description xml:lang="en">Full rate of VAT</structure:Description>
+                <structure:TextFormat textType="Double"/>
+            </structure:Concept>
+            
+            <structure:Concept id="SECTOR" agencyID="ESTAT" version="1.0">
+        		<structure:Name xml:lang="en">Institutional sector</structure:Name>
+        		<structure:Description xml:lang="en">Institutional sector</structure:Description>
+        		<structure:TextFormat textType="String"/>
+        	</structure:Concept>
+        	
+        	<structure:Concept id="SEASONALITY">
+                <structure:Name xml:lang="en">Seasonality of the item to be priced</structure:Name>
+                <structure:Description xml:lang="en">Indicates if the item is seasonal or not</structure:Description>
+                <structure:TextFormat textType="Boolean"/>
+            </structure:Concept>
+            
+            <structure:Concept id="DISCOUNT">
+                <structure:Name xml:lang="en">The discount flag of an observation</structure:Name>
+                <structure:Description xml:lang="en">The discount flag at observation level</structure:Description>
+            </structure:Concept>   
+                
+             <structure:Concept id="EXP_WEIGHT" agencyID="ESTAT" version="1.0">
+                    <structure:Name xml:lang="en">GDP expenditure weight</structure:Name>
+                    <structure:Description xml:lang="en">GDP expenditure weight</structure:Description>
+                    <structure:TextFormat textType="Double"/>
+             </structure:Concept>    
+                
+              <structure:Concept agencyID="ESTAT" id="VAR_COEFF" version="1.0">
+        		<structure:Name xml:lang="en">Variation Coefficient</structure:Name>
+        		<structure:Description xml:lang="en">Variation Coefficient</structure:Description>
+        		<structure:TextFormat textType="Decimal"/>
+        	</structure:Concept>
+        	
+        	<structure:Concept agencyID="ESTAT" id="NO_OF_OBS" version="1.0">
+        		<structure:Name xml:lang="en">Number of observations</structure:Name>
+        		<structure:Description xml:lang="en">Number of observations</structure:Description>
+        		<structure:TextFormat textType="Integer"/>
+        	</structure:Concept>
+        	
+        	<structure:Concept agencyID="ESTAT" id="MIN_PRICE" version="1.0">
+        		<structure:Name xml:lang="en">Minimum of prices</structure:Name>
+        		<structure:Description xml:lang="en">Minimum of prices</structure:Description>
+        		<structure:TextFormat textType="Decimal"/>
+        	</structure:Concept>
+        	
+        	<structure:Concept agencyID="ESTAT" id="MAX_PRICE" version="1.0">
+        		<structure:Name xml:lang="en">Maximum of prices</structure:Name>
+        		<structure:Description xml:lang="en">Maximum of prices</structure:Description>
+        		<structure:TextFormat textType="Decimal"/>
+        	</structure:Concept>
+        	
+        	<structure:Concept agencyID="ESTAT" id="OBS_VAT" version="1.0">
+        		<structure:Name xml:lang="en">VAT at observation level</structure:Name>
+        		<structure:Description xml:lang="en">VAT at observation level</structure:Description>
+        		<structure:TextFormat textType="Decimal"/>
+        	</structure:Concept>
+        	
+        	<structure:Concept id="AVG_PRICES" version="1.0" agencyID="ESTAT">
+                <structure:Name xml:lang="en">Average prices reported</structure:Name>
+                <structure:Description xml:lang="en">Indicates whether average prices are reported or not</structure:Description>
+                <structure:TextFormat textType="Boolean"/>
+            </structure:Concept>   
+        </structure:ConceptScheme>  
+    </Concepts>
+    
+    <KeyFamilies>
+        <structure:KeyFamily agencyID="ESTAT" id="PPP_CGS_COUNTRY" version="2.10">
+            <structure:Name xml:lang="en">Purchasing Power Parities - Consumer Goods - Country Data</structure:Name>
+            <structure:Components>
+                <structure:Dimension codelist="CL_PPP_CGS_SURVEY" conceptRef="PPP_SURVEY" conceptSchemeAgency="ESTAT" conceptSchemeVersion="7.3" codelistAgency="ESTAT" codelistVersion="2.0"
+                    conceptSchemeRef="PPP_CONCEPTS" crossSectionalAttachDataSet="false"
+                    crossSectionalAttachGroup="true" crossSectionalAttachObservation="false"
+                    crossSectionalAttachSection="false" isFrequencyDimension="false"
+                    isMeasureDimension="false"/>
+                <structure:Dimension codelist="CL_PPP_COUNTRY" conceptRef="REPORTING_COUNTRY" conceptSchemeAgency="ESTAT" conceptSchemeVersion="7.3" codelistAgency="ESTAT" codelistVersion="2.1"
+                    conceptSchemeRef="PPP_CONCEPTS" crossSectionalAttachDataSet="false"
+                    crossSectionalAttachGroup="true" crossSectionalAttachObservation="false"
+                    crossSectionalAttachSection="false" isFrequencyDimension="false"
+                    isMeasureDimension="false"/>
+                <structure:Dimension conceptRef="ECP_ITEM" conceptSchemeAgency="ESTAT" conceptSchemeVersion="7.3" conceptSchemeRef="PPP_CONCEPTS"
+                    crossSectionalAttachDataSet="false"
+                    crossSectionalAttachGroup="false" crossSectionalAttachObservation="false"
+                    crossSectionalAttachSection="true" isFrequencyDimension="false"
+                    isMeasureDimension="false"/>
+                <structure:Dimension conceptRef="OBSERVATION_NUMBER" conceptSchemeRef="PPP_CONCEPTS" conceptSchemeAgency="ESTAT" conceptSchemeVersion="7.3" 
+                    crossSectionalAttachDataSet="false" crossSectionalAttachGroup="false"
+                    crossSectionalAttachObservation="true" crossSectionalAttachSection="false"
+                    isCountDimension="true" isMeasureDimension="false"/>
+                <structure:Dimension codelist="CL_PPP_CGS_COU_MT" conceptRef="MEASURE_TYPE" conceptSchemeAgency="ESTAT" conceptSchemeVersion="7.3" codelistAgency="ESTAT" codelistVersion="1.0"
+                    conceptSchemeRef="PPP_CONCEPTS" crossSectionalAttachDataSet="false"
+                    crossSectionalAttachGroup="false" crossSectionalAttachObservation="false"
+                    crossSectionalAttachSection="false" isFrequencyDimension="false"
+                    isMeasureDimension="true"/>
+                <structure:TimeDimension conceptRef="REFERENCE_YEAR" conceptSchemeRef="PPP_CONCEPTS" conceptSchemeAgency="ESTAT" conceptSchemeVersion="7.3" 
+                    crossSectionalAttachGroup="true"/>
+                <structure:Group id="COUNTRYGROUP">
+                    <structure:DimensionRef>REPORTING_COUNTRY</structure:DimensionRef>
+                    <structure:DimensionRef>PPP_SURVEY</structure:DimensionRef>
+                </structure:Group>
+                <structure:PrimaryMeasure conceptRef="OBS_VALUE" conceptSchemeRef="PPP_CONCEPTS" conceptSchemeAgency="ESTAT" conceptSchemeVersion="7.3">
+                    <structure:TextFormat textType="Double"/>
+                </structure:PrimaryMeasure>
+                <structure:CrossSectionalMeasure code="P" conceptRef="OBSERVED_PRICE" conceptSchemeAgency="ESTAT" conceptSchemeVersion="7.3" 
+                    conceptSchemeRef="PPP_CONCEPTS" measureDimension="MEASURE_TYPE"/>
+                <structure:CrossSectionalMeasure code="Q" conceptRef="OBSERVED_QUANTITY" conceptSchemeAgency="ESTAT" conceptSchemeVersion="7.3"
+                    conceptSchemeRef="PPP_CONCEPTS" measureDimension="MEASURE_TYPE"/>
+                <structure:Attribute assignmentStatus="Conditional" attachmentLevel="Observation" conceptSchemeAgency="ESTAT" conceptSchemeVersion="7.3"
+                    conceptRef="OBS_TIME" conceptSchemeRef="PPP_CONCEPTS"
+                    crossSectionalAttachDataSet="false" crossSectionalAttachGroup="false"
+                    crossSectionalAttachObservation="true" crossSectionalAttachSection="false">
+                    <structure:AttachmentMeasure>OBSERVED_PRICE</structure:AttachmentMeasure>
+                </structure:Attribute>
+                <structure:Attribute assignmentStatus="Conditional" attachmentLevel="Observation" conceptSchemeAgency="ESTAT" conceptSchemeVersion="7.3" 
+                	codelistAgency="ESTAT" codelistVersion="1.0"
+                    codelist="CL_PPP_CURRENCY" conceptRef="CURRENCY" conceptSchemeRef="PPP_CONCEPTS"
+                    crossSectionalAttachDataSet="true" crossSectionalAttachGroup="true"
+                    crossSectionalAttachObservation="true" crossSectionalAttachSection="true"
+                    isTimeFormat="false">
+                    <structure:AttachmentGroup>COUNTRYGROUP</structure:AttachmentGroup>
+                    <structure:AttachmentMeasure>OBSERVED_PRICE</structure:AttachmentMeasure>
+                </structure:Attribute>
+
+                <structure:Attribute assignmentStatus="Conditional" attachmentLevel="Observation" conceptSchemeAgency="ESTAT" conceptSchemeVersion="7.3"
+                    conceptRef="BRAND" conceptSchemeRef="PPP_CONCEPTS"
+                    crossSectionalAttachDataSet="false" crossSectionalAttachGroup="false"
+                    crossSectionalAttachObservation="true" crossSectionalAttachSection="false">
+                    <structure:AttachmentMeasure>OBSERVED_PRICE</structure:AttachmentMeasure>
+                </structure:Attribute>
+                <structure:Attribute assignmentStatus="Conditional" attachmentLevel="Observation" conceptSchemeAgency="ESTAT" conceptSchemeVersion="7.3"
+                    conceptRef="MODEL" conceptSchemeRef="PPP_CONCEPTS"
+                    crossSectionalAttachDataSet="false" crossSectionalAttachGroup="false"
+                    crossSectionalAttachObservation="true" crossSectionalAttachSection="false">
+                    <structure:AttachmentMeasure>OBSERVED_PRICE</structure:AttachmentMeasure>
+                </structure:Attribute>
+                <structure:Attribute assignmentStatus="Mandatory" attachmentLevel="Observation" conceptSchemeAgency="ESTAT" conceptSchemeVersion="7.3" 
+                	codelistAgency="ESTAT" codelistVersion="2.0"
+                    codelist="CL_PPP_SHOP_TYPE" conceptRef="SHOP_TYPE"
+                    conceptSchemeRef="PPP_CONCEPTS" crossSectionalAttachDataSet="false"
+                    crossSectionalAttachGroup="false" crossSectionalAttachObservation="true"
+                    crossSectionalAttachSection="false">
+                    <structure:AttachmentMeasure>OBSERVED_PRICE</structure:AttachmentMeasure>
+                </structure:Attribute>
+                <structure:Attribute assignmentStatus="Conditional" attachmentLevel="Observation" conceptSchemeAgency="ESTAT" conceptSchemeVersion="7.3"
+                    conceptRef="SHOP_IDENTIFIER" conceptSchemeRef="PPP_CONCEPTS"
+                    crossSectionalAttachDataSet="false" crossSectionalAttachGroup="false"
+                    crossSectionalAttachObservation="true" crossSectionalAttachSection="false">
+                    <structure:AttachmentMeasure>OBSERVED_PRICE</structure:AttachmentMeasure>
+                </structure:Attribute>
+                <structure:Attribute assignmentStatus="Conditional" attachmentLevel="Observation" conceptSchemeAgency="ESTAT" conceptSchemeVersion="7.3"
+                    conceptRef="CHARACTERISTICS" conceptSchemeRef="PPP_CONCEPTS"
+                    crossSectionalAttachDataSet="false" crossSectionalAttachGroup="false"
+                    crossSectionalAttachObservation="true" crossSectionalAttachSection="false">
+                    <structure:AttachmentMeasure>OBSERVED_PRICE</structure:AttachmentMeasure>
+                </structure:Attribute>
+                <structure:Attribute assignmentStatus="Conditional" attachmentLevel="Observation" conceptSchemeAgency="ESTAT" conceptSchemeVersion="7.3"
+                    conceptRef="CHARS_SEPARATOR" conceptSchemeRef="PPP_CONCEPTS"
+                    crossSectionalAttachDataSet="false" crossSectionalAttachGroup="false"
+                    crossSectionalAttachObservation="true" crossSectionalAttachSection="false">
+                    <structure:AttachmentMeasure>OBSERVED_PRICE</structure:AttachmentMeasure>
+                </structure:Attribute>
+                <structure:Attribute assignmentStatus="Conditional" attachmentLevel="Observation" conceptSchemeAgency="ESTAT" conceptSchemeVersion="7.3"
+                    conceptRef="OBS_COMMENT" conceptSchemeRef="PPP_CONCEPTS"
+                    crossSectionalAttachDataSet="false" crossSectionalAttachGroup="false"
+                    crossSectionalAttachObservation="true" crossSectionalAttachSection="false">
+                    <structure:AttachmentMeasure>OBSERVED_PRICE</structure:AttachmentMeasure>
+                </structure:Attribute>
+                <structure:Attribute assignmentStatus="Conditional" attachmentLevel="Observation" conceptSchemeAgency="ESTAT" conceptSchemeVersion="7.3"
+                    conceptRef="LOCAL_USE" conceptSchemeRef="PPP_CONCEPTS"
+                    crossSectionalAttachDataSet="false" crossSectionalAttachGroup="false"
+                    crossSectionalAttachObservation="true" crossSectionalAttachSection="false">
+                    <structure:AttachmentMeasure>OBSERVED_PRICE</structure:AttachmentMeasure>
+                </structure:Attribute>
+                <structure:Attribute assignmentStatus="Conditional" attachmentLevel="Observation" conceptSchemeAgency="ESTAT" conceptSchemeVersion="7.3" 
+                	codelistAgency="ESTAT" codelistVersion="1.0"
+                    codelist="CL_PPP_DISCOUNT_FLAG" conceptRef="DISCOUNT" conceptSchemeRef="PPP_CONCEPTS"
+                    crossSectionalAttachDataSet="false" crossSectionalAttachGroup="false"
+                    crossSectionalAttachObservation="true" crossSectionalAttachSection="false">
+                    <structure:AttachmentMeasure>OBSERVED_PRICE</structure:AttachmentMeasure>
+                </structure:Attribute>
+                <structure:Attribute assignmentStatus="Mandatory" attachmentLevel="Observation" conceptSchemeAgency="ESTAT" conceptSchemeVersion="7.3"
+                    conceptRef="VAT" conceptSchemeRef="PPP_CONCEPTS"
+                    crossSectionalAttachDataSet="false" crossSectionalAttachGroup="false"
+                    crossSectionalAttachObservation="false" crossSectionalAttachSection="true"/>
+                <structure:Attribute assignmentStatus="Mandatory" attachmentLevel="Observation" conceptSchemeAgency="ESTAT" conceptSchemeVersion="7.3"
+                    conceptRef="REPRESENTATIVITY" conceptSchemeRef="PPP_CONCEPTS"
+                    crossSectionalAttachDataSet="false" crossSectionalAttachGroup="false"
+                    crossSectionalAttachObservation="false" crossSectionalAttachSection="true"/>
+                <structure:Attribute assignmentStatus="Conditional" attachmentLevel="Observation" conceptSchemeAgency="ESTAT" conceptSchemeVersion="7.3"
+                    conceptRef="SEASONALITY" conceptSchemeRef="PPP_CONCEPTS"
+                    crossSectionalAttachDataSet="false" crossSectionalAttachGroup="false"
+                    crossSectionalAttachObservation="false" crossSectionalAttachSection="true"/>
+                <structure:Attribute assignmentStatus="Conditional" attachmentLevel="Observation" conceptSchemeAgency="ESTAT" conceptSchemeVersion="7.3"
+                    conceptRef="AVG_PRICES" conceptSchemeRef="PPP_CONCEPTS"
+                    crossSectionalAttachDataSet="false" crossSectionalAttachGroup="false"
+                    crossSectionalAttachObservation="false" crossSectionalAttachSection="true"/>
+                <structure:Attribute assignmentStatus="Conditional" attachmentLevel="Observation" conceptSchemeAgency="ESTAT" conceptSchemeVersion="7.3" 
+                	codelistAgency="ESTAT" codelistVersion="1.1"
+                    codelist="CL_PPP_FLAG" conceptRef="FLAG" conceptSchemeRef="PPP_CONCEPTS"
+                    crossSectionalAttachDataSet="false" crossSectionalAttachGroup="false"
+                    crossSectionalAttachObservation="true" crossSectionalAttachSection="false">
+                    <structure:AttachmentMeasure>OBSERVED_PRICE</structure:AttachmentMeasure>
+                </structure:Attribute>
+                <structure:Attribute assignmentStatus="Conditional" attachmentLevel="Observation" conceptSchemeAgency="ESTAT" conceptSchemeVersion="7.3"
+                    conceptRef="ITEM_COMMENT" conceptSchemeRef="PPP_CONCEPTS"
+                    crossSectionalAttachDataSet="false" crossSectionalAttachGroup="false"
+                    crossSectionalAttachObservation="false" crossSectionalAttachSection="true"/>
+                <structure:Attribute assignmentStatus="Conditional" attachmentLevel="Observation" conceptSchemeAgency="ESTAT" conceptSchemeVersion="7.3"
+                    conceptRef="OTHER" conceptSchemeRef="PPP_CONCEPTS"
+                    crossSectionalAttachDataSet="false" crossSectionalAttachGroup="false"
+                    crossSectionalAttachObservation="false" crossSectionalAttachSection="true"/>
+                <structure:Attribute assignmentStatus="Conditional" attachmentLevel="Observation" conceptSchemeAgency="ESTAT" conceptSchemeVersion="7.3"
+                    conceptRef="FINALIZED" conceptSchemeRef="PPP_CONCEPTS"
+                    crossSectionalAttachDataSet="false" crossSectionalAttachGroup="false"
+                    crossSectionalAttachObservation="false" crossSectionalAttachSection="true"/> 
+                    
+                <structure:Attribute assignmentStatus="Conditional" attachmentLevel="Observation" conceptSchemeAgency="ESTAT" conceptSchemeVersion="7.3"
+                    conceptRef="VAR_COEFF" conceptSchemeRef="PPP_CONCEPTS"
+                    crossSectionalAttachDataSet="false" crossSectionalAttachGroup="false"
+                    crossSectionalAttachObservation="true" crossSectionalAttachSection="false">
+                    <structure:AttachmentMeasure>OBSERVED_PRICE</structure:AttachmentMeasure>
+                </structure:Attribute>
+                <structure:Attribute assignmentStatus="Conditional" attachmentLevel="Observation" conceptSchemeAgency="ESTAT" conceptSchemeVersion="7.3"
+                    conceptRef="NO_OF_OBS" conceptSchemeRef="PPP_CONCEPTS"
+                    crossSectionalAttachDataSet="false" crossSectionalAttachGroup="false"
+                    crossSectionalAttachObservation="true" crossSectionalAttachSection="false">
+                    <structure:AttachmentMeasure>OBSERVED_PRICE</structure:AttachmentMeasure>
+                </structure:Attribute>
+                <structure:Attribute assignmentStatus="Conditional" attachmentLevel="Observation" conceptSchemeAgency="ESTAT" conceptSchemeVersion="7.3"
+                    conceptRef="MIN_PRICE" conceptSchemeRef="PPP_CONCEPTS"
+                    crossSectionalAttachDataSet="false" crossSectionalAttachGroup="false"
+                    crossSectionalAttachObservation="true" crossSectionalAttachSection="false">
+                    <structure:AttachmentMeasure>OBSERVED_PRICE</structure:AttachmentMeasure>
+                </structure:Attribute>
+                <structure:Attribute assignmentStatus="Conditional" attachmentLevel="Observation" conceptSchemeAgency="ESTAT" conceptSchemeVersion="7.3"
+                    conceptRef="MAX_PRICE" conceptSchemeRef="PPP_CONCEPTS"
+                    crossSectionalAttachDataSet="false" crossSectionalAttachGroup="false"
+                    crossSectionalAttachObservation="true" crossSectionalAttachSection="false">
+                    <structure:AttachmentMeasure>OBSERVED_PRICE</structure:AttachmentMeasure>
+                </structure:Attribute>
+                <structure:Attribute assignmentStatus="Conditional" attachmentLevel="Observation" conceptSchemeAgency="ESTAT" conceptSchemeVersion="7.3"
+                    conceptRef="OBS_VAT" conceptSchemeRef="PPP_CONCEPTS"
+                    crossSectionalAttachDataSet="false" crossSectionalAttachGroup="false"
+                    crossSectionalAttachObservation="true" crossSectionalAttachSection="false">
+                    <structure:AttachmentMeasure>OBSERVED_PRICE</structure:AttachmentMeasure>
+                </structure:Attribute>
+            </structure:Components>
+
+        </structure:KeyFamily>
+    </KeyFamilies>
+</Structure>
