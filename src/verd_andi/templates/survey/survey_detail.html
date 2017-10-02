@@ -1,0 +1,26 @@
+<!-- survey_detail.html -->
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="text-center">
+{{ survey }}
+</div>
+</br>
+<div class="text-center">
+{{ survey.code }}
+</div>
+</br>
+<div class="text-center">
+{{ survey.year }}
+</div>
+</br>
+<div class="text-center">
+{{ survey.dataflowID }}
+</div>
+</br>
+<div class="text-center">
+<a href="./xml"> see xml for {{ survey.dataflowID }} </a>
+</div>
+
+{% endblock %}

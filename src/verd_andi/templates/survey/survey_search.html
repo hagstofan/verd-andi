@@ -1,0 +1,15 @@
+<!-- survey_search.html -->
+{% extends "base.html" %}
+
+{% block content %}
+{% if items %}
+	<h2>Items</h2>
+	{% for instance in items %}
+		<a href="{% url 'survey:item-observation' instance.code %}"> {{ instance.label }}</a>  {% if request.user.is_superuser %}  -   <a href="{% url 'survey:item-commentary-edit' instance.code %}"><i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+</a> {% endif %}
+		</br>
+
+	{% endfor %}
+{% endif %}
+
+{% endblock %}

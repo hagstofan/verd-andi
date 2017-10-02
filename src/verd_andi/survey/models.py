@@ -7,6 +7,8 @@ from django.contrib.auth.models import User
 import datetime
 from django.utils import timezone
 
+from django.db.models import Q
+from django import forms
 
 # Create your models here.
 import datetime
@@ -20,6 +22,7 @@ class Survey(models.Model):
 	code = models.CharField(max_length=100)
 	year = models.IntegerField(max_length=4, choices=YEAR_CHOICES, default=datetime.datetime.now().year)
 	dataflowID = models.CharField(max_length=100)
+	current = models.BooleanField()
 
 	class Meta:
 		unique_together = (("code", "year"),)
@@ -35,10 +38,25 @@ class Item(models.Model):
 	label = models.CharField(max_length=200)
 	unit = models.CharField(max_length=100)
 	survey = models.ForeignKey(Survey)
-	# characteristics = models.ManyToManyField(Characteristic, related_name="characteristics")
-
+	
 	def __str__(self):
 		return self.label + "-" + self.code
+
+@python_2_unicode_compatible
+class ItemCommentary(models.Model):
+	item =	models.OneToOneField(
+        Item,
+        on_delete=models.CASCADE,
+        primary_key=True,
+    )
+	seasonality = models.BooleanField(default=False)
+	representativity = models.BooleanField(default=True)
+	comment = models.CharField(max_length=300, blank=True, default="")
+	vat = models.DecimalField(decimal_places=4, max_digits=4, default=0.24)
+
+	def __str__(self):
+		return str(self.item.label)
+
 
 @python_2_unicode_compatible
 class Characteristic(models.Model):
@@ -52,19 +70,18 @@ class Characteristic(models.Model):
 	
 
 	def __str__(self):
-		return str(self.name)
+		return self.name
 
 
 @python_2_unicode_compatible
 class Observation(models.Model):
-	obeservation_number = models.IntegerField(blank=True)
+	obeservation_number = models.IntegerField(blank=True, null=True)
 	obs_time = models.DateField()
 	shop_type = models.IntegerField()
 	shop_identifier = models.CharField(max_length=200)
 	flag = models.CharField(max_length=4)
 	discount = models.CharField(max_length=4)
-	value = models.DecimalField(decimal_places=4, max_digits=25)
-	brand = models.CharField(max_length=200, blank=True)
+	observed_price = models.DecimalField(decimal_places=4, max_digits=25)
 	observed_quantity = models.DecimalField(decimal_places=4, max_digits=25)
 	item = models.ForeignKey(Item)
 	observer = models.ForeignKey(User, blank=True, related_name='survey_observer', null=True)
@@ -76,6 +93,21 @@ class Observation(models.Model):
 		return str(self.item) + " " + str(self.obs_time)
 
 @python_2_unicode_compatible
+class ObservedCharacteristic(models.Model):
+	observation = models.ForeignKey(Observation, on_delete = models.CASCADE)
+	characteristic = models.ForeignKey(
+		Characteristic,
+		on_delete = models.CASCADE,
+		#limit_choices_to = Characteristic.objects.filter(item = self.observation.item)
+		) # characteristic here intended to be limited to  the characteristiics of the item that the observation refers to
+	value = models.CharField(max_length=200, default="")
+
+
+	def __str__(self):
+		return str(self.characteristic)
+
+
+@python_2_unicode_compatible
 class UserObservation(models.Model):
 	observation = models.ForeignKey(Observation)
 	user = models.ForeignKey(User, related_name='survey_user')
@@ -84,4 +116,18 @@ class UserObservation(models.Model):
 		return str(self.user)
 
 
+@python_2_unicode_compatible
+class ItemObserver(models.Model):
+	user = models.ForeignKey(User, on_delete = models.CASCADE)
+	item = models.ForeignKey(Item, on_delete = models.CASCADE)
 
+	def __str__(self):
+		return str(self.item) + '--' + str(self.user)
+
+@python_2_unicode_compatible
+class Observer(User):
+	class Meta:
+		proxy = True
+
+	def __str__(self):
+		return self.username

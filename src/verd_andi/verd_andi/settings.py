@@ -50,8 +50,6 @@ INSTALLED_APPS = [
     'grappelli.dashboard',
     'grappelli',
     'django.contrib.staticfiles',
-    'perap',
-    'fbeto',
     'survey',
     'rest_framework',
     'nested_admin',
@@ -121,6 +119,7 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 
+ALLOWED_HOSTS = ['ppp-test.hagstofa.local:8080','ppp-test.hagstofa.local','localhost:8000','127.0.0.1:8000','127.0.0.1', 'localhost']
 # Internationalization
 # https://docs.djangoproject.com/en/1.10/topics/i18n/
 
@@ -152,3 +151,6 @@ STATICFILES_DIRS = (
 
 
 LOGIN_REDIRECT_URL = '/'
+
+REDIRECT_TO_LOGIN = '/accounts/login/'
+

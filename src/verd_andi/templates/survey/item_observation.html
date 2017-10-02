@@ -1,0 +1,77 @@
+<!-- item_observation. -->
+{% extends "base.html" %}
+
+{% block content %}
+
+
+
+
+{% if item %}
+	
+	{% for instance in item %}
+		<h2 class="text-center">{{ instance.label }}</h2>
+
+		</br>
+		<h4 class="text-center">{{ instance.code}}</h4>
+
+	{% endfor %}
+{% endif %}
+
+{% if characteristics %}
+
+
+<div class="container">
+	<div class="col-md-6">
+		<h2>Description:</h2>
+		 <table class="table table-hover table-responsive">
+		    <thead>
+		      <tr>
+		        <th>Name</th>
+
+		        <th>Value</th>
+		      </tr>
+		    </thead>
+			    <tbody>
+				
+				{% for char in characteristics %}
+					<tr>
+						<td>{{ char.name }} </td>
+						<td> {{ char.value }} </td>
+					</tr>
+				{% endfor %}
+				</tbody>
+		 </table>
+	</div>
+	<div class="col-md-6">
+		<h2>Observation:</h2>
+		{% include "survey/observation_form.html" %}
+	</div>
+ </div>
+{% endif %}
+
+
+
+
+
+
+{% if observations %}
+<hr>
+        <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#previous-observations-more">	<strong>
+                Previous Observations
+            </strong>
+        </button>
+          
+        <div id="previous-observations-more" class="collapse">
+            <!-- observations here -->
+		    {% for obs in observations %}
+				<a href="{% url 'survey:observation-update' obs.pk %}">   {{ obs.obs_time }} {{ obs.observer }} </a>  {% if request.user.is_superuser %}--- <a href="{% url 'survey:observation-delete' obs.pk %}"><i class="fa fa-trash" aria-hidden="true"></i>
+				</a> 
+				{% endif %}
+				</br>
+
+			{% endfor %}
+        </div>   
+{% endif %}
+
+
+{% endblock %}

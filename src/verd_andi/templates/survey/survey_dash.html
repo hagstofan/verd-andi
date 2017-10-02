@@ -1,0 +1,56 @@
+<!-- survey_dash.html -->
+{% extends "base.html" %}
+
+{% block content %}
+
+{% if request.user.is_superuser %}
+	<h3>Admin tools:</h3>
+	<a href="{% url 'survey:observers-management' %}">Manage ItemObservers</a>
+	</br>
+	<a href="{% url 'survey:survey-list' %}">surveys</a>
+	</br>
+	<a href="{% url 'admin:index' %}">django admin area</a>
+{% endif %}
+
+
+{% if items %}
+	<h3>Items:</h3>
+	{% for instance in items %}
+		<a href="{% url 'survey:item-observation' instance.code %}"> {{ instance.label }}</a> {% if request.user.is_superuser %}  -   <a href="{% url 'survey:item-commentary-edit' instance.code %}"><i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+</a> {% endif %}
+		</br>
+
+	{% endfor %}
+{% endif %}
+
+
+<hr>
+
+<h3>Item Search for survey:</h3>
+	{% if surveys %}
+		{% for surv in surveys %}
+	<a href="{% url 'survey:survey-search' surv.pk %}">{{ surv.code }}-{{ surv.year }}</a>
+	</br>
+		{% endfor %}
+	{% endif %}
+
+
+{% if observations %}
+<hr>
+        <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#previous-observations-more">	<strong>
+                Previous Observations
+            </strong>
+        </button>
+          
+        <div id="previous-observations-more" class="collapse">
+            <!-- observations here -->
+		    {% for obs in observations %}
+				<a href="{% url 'survey:observation-update' obs.pk %}">   {{ obs.obs_time }} {{ obs.item.label }} </a> --- <a href="{% url 'survey:observation-delete' obs.pk %}"><i class="fa fa-trash" aria-hidden="true"></i>
+				</a> 
+				</br>
+
+			{% endfor %}
+        </div>   
+{% endif %}
+
+{% endblock %}

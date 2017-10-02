@@ -15,14 +15,17 @@ Including another URLconf
 """
 from django.conf.urls import include, url
 from django.contrib import admin
-from perap.views import home
+
+
+from django.views.generic import RedirectView
 
 
 urlpatterns = [
-	url(r'^$', home, name='index'),
-    url(r'^perap/', include('perap.urls')),
+    url(r'^$', RedirectView.as_view(url='/survey/udash/'), name='index'),
+	#url(r'^$', home, name='index'),
     url(r'^admin/', admin.site.urls),
     url(r'^nested_admin/', include('nested_admin.urls')),
     url(r'^accounts/', include('registration.backends.default.urls')),
     url(r'^api/', include('api.urls')),
+    url(r'^survey/', include('survey.urls')),
 ]

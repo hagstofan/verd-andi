@@ -1,0 +1,18 @@
+<!-- observers_management.html -->
+{% extends "base.html" %}
+
+{% block content %}
+
+{% if observers %}
+
+	{% for observer in observers %}
+
+		<a href="{% url 'survey:observer-items' observer.pk %}">{{ observer.username }} -- {{ observer.pk }}</a>
+		</br>
+
+	{% endfor %}
+
+{% endif %}
+
+
+{% endblock %}

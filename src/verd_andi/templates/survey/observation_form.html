@@ -1,21 +1,11 @@
-{% extends "base.html" %}
+<!-- observation form -->
 {% load i18n %}
-{% load staticfiles %}
 
 {% block content %}
-<div class="content loginpage">
-        <h1></h1>
-        <h4></h4>
-         <h4 class="text-center" style="color:green;">V<i class="fa fa-eur" aria-hidden="true"></i>R₫-A₦Di</h4>
-
-
-          <img src="{% static 'img/walk-man-white.gif' %}"
-           alt="andinn í vélinni"
-           class="img-responsive">
-
+<div class="content">
     {% if form.errors %}
             <div class="alert alert-danger">
-                <p><strong>Oh snap!</strong> Please enter a correct username and password. Note that both fields are case-sensitive.</p>
+                <p><strong>Oh snap!</strong> somthin wrong dawg.</p>
             </div>
     {% endif %}
     <form method="post" action="." class="form-horizontal text-center" role="form">
@@ -23,7 +13,7 @@
       {% for field in form %}
                 <div class="form-group {% if field.errors %}has-error{% endif %}">
                 <div class="col-sm-12">
-                <label for="{{ field.id_for_label }}" class="control-label">{{ field.label }}</label>
+                <label for="{{ field.id_for_label }}" class="control-label">{{ field.label }}</label></br>
                 
                  <!--    <input autofocus="" id="{{ field.id_for_label }}" maxlength="254" name="username" value="{{ field.value }}" required="" type="{{ field.is_hidden }}" > -->
                     {{ field }}
@@ -35,14 +25,13 @@
                     {% endif %}
                 
                 </div>
+                </div>
         {% endfor %}
      
+        
+      <input type="submit">
 
-      <input type="submit" value="{% trans 'Log in' %}" />
-      <input type="hidden" name="next" value="{{ next }}" />
     </form>
 
-    <p class="text-center">{% trans "Forgot password" %}? <a href="{% url 'auth_password_reset' %}">{% trans "Reset it" %}</a>!</p>
-    <p>{% trans "Not member" %}? <a href="{% url 'registration_register' %}">{% trans "Register" %}</a>!</p>
 </div>
 {% endblock %}
