@@ -6,7 +6,7 @@ connection = sqlite3.connect("../db.sqlite3")
 cursor =connection.cursor()
 
 
-xmldoc = minidom.parse('../../test-data/E17-1_IS_Final_country_list.sua_FILES/itemList.xml')
+xmldoc = minidom.parse('../../../test-data/E17-1_IS_Final_country_list.sua_FILES/itemList.xml')
 itemlist = xmldoc.getElementsByTagName('item')
 
 for s in itemlist:
