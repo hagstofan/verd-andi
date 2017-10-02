@@ -6,13 +6,13 @@ connection = sqlite3.connect("./db.sqlite3")
 cursor =connection.cursor()
 
 
-xmldoc = minidom.parse('../../test-data/E17-1_IS_Final_country_list.sua_FILES/itemList.xml')
+xmldoc = minidom.parse('../../test-data/E17-2_Final_country_list/itemList.xml')
 itemlist = xmldoc.getElementsByTagName('item')
 
 for s in itemlist:
 	itemcols = [s.attributes['code'].value.encode('utf-8').decode('utf-8') , s.attributes['label'].value.encode('utf-8').decode('utf-8'), s.attributes['unit'].value.encode('utf-8').decode('utf-8')]
 	# input into db
-	itemcols.append(1)
+	itemcols.append(2)
 	cursor.execute("INSERT INTO survey_item (code, label, unit, survey_id) VALUES (?,?,?,?);", itemcols)
 
 	chars = s.getElementsByTagName('characteristic')
