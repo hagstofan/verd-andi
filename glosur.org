@@ -21,4 +21,18 @@ og svo ath m scriptu til ad importa items.
 
 *** DONE importa items
 
-*** TODO gera api
+*** DONE gera api
+
+*** TODO utfaera pic-upload
+
+pic-upload branch komid, naest er ad utfaera pi upload fyrir item
+og geta keyrt inn myndum og tengt vid tilheyrandi item
+
+
+pic og Description ----> verda i collapse -- accordion eda eithv slikt
+i observation edit forminnu ..
+
+
+*** TODO make db input scripts into cusom management commands
+
+*** TODO make tests

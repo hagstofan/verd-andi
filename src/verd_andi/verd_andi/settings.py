@@ -26,7 +26,6 @@ SECRET_KEY = 'a##fl6392w!(kyd8so&hj+1nce3zq1$0yvoq-=^#g9!k@o6vui'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
 
 EMAIL_HOST = localVars.email_host
 EMAIL_HOST_USER = localVars.email_user
@@ -119,7 +118,9 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 
-ALLOWED_HOSTS = ['ppp-test.hagstofa.local:8080','ppp-test.hagstofa.local','localhost:8000','127.0.0.1:8000','127.0.0.1', 'localhost']
+ALLOWED_HOSTS = ['ppp-test.hagstofa.local:8080','ppp-test.hagstofa.local','localhost:8000','127.0.0.1:8000','127.0.0.1', 'localhost', 'dev.hagstofa.local','dev.hagstofa.local:8080',"u'dev.hagstofa.local'",'localhost']
+
+
 # Internationalization
 # https://docs.djangoproject.com/en/1.10/topics/i18n/
 
