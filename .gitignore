@@ -11,4 +11,6 @@ __pycache__
 src/verd_andi/db.sqlite3
 src/verd_andi/verd_andi/localVars.py
 src/static_in_env/*
+src/media_cdn/*
 pip-selfcheck.json
+test-data/frhea-pics-2017/

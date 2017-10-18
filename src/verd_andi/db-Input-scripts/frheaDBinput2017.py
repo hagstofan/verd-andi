@@ -12,7 +12,8 @@ itemlist = xmldoc.getElementsByTagName('item')
 for s in itemlist:
 	itemcols = [s.attributes['code'].value.encode('utf-8').decode('utf-8') , s.attributes['label'].value.encode('utf-8').decode('utf-8'), s.attributes['unit'].value.encode('utf-8').decode('utf-8')]
 	# input into db
-	itemcols.append(2)
+	itemcols.append(3)
+	print(itemcols)
 	cursor.execute("INSERT INTO survey_item (code, label, unit, survey_id) VALUES (?,?,?,?);", itemcols)
 
 	chars = s.getElementsByTagName('characteristic')
