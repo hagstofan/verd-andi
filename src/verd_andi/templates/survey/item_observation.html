@@ -23,25 +23,47 @@
 
 <div class="container">
 	<div class="col-md-6">
-		<h2>Description:</h2>
-		 <table class="table table-hover table-responsive">
-		    <thead>
-		      <tr>
-		        <th>Name</th>
 
-		        <th>Value</th>
-		      </tr>
-		    </thead>
-			    <tbody>
+		 <div class="panel-group" id="accordion">
 				
-				{% for char in characteristics %}
-					<tr>
-						<td>{{ char.name }} </td>
-						<td> {{ char.value }} </td>
-					</tr>
-				{% endfor %}
-				</tbody>
-		 </table>
+				
+		        <div class="panel panel-default">
+		            <div class="panel-heading">
+		                <h4 class="panel-title">
+		                    <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">See Description</a>
+		                </h4>
+		            </div>
+		            <div id="collapseOne" class="panel-collapse collapse">
+		                <div class="panel-body">
+		                    	
+		                	<h3>Description:</h3>
+							 <table class="table table-hover table-responsive">
+							    <thead>
+							      <tr>
+							        <th>Name</th>
+
+							        <th>Value</th>
+							      </tr>
+							    </thead>
+								    <tbody>
+									
+									{% for char in characteristics %}
+										<tr>
+											<td>{{ char.name }} </td>
+											<td> {{ char.value }} </td>
+										</tr>
+									{% endfor %}
+									</tbody>
+							 </table>
+
+		                </div>
+		            </div>
+		        </div>
+		    	</div>
+
+
+
+		
 		 {% if item %}
 	
 			{% for instance in item %}
@@ -52,10 +74,10 @@
 		        <div class="panel panel-default">
 		            <div class="panel-heading">
 		                <h4 class="panel-title">
-		                    <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">See Picture</a>
+		                    <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">See Picture</a>
 		                </h4>
 		            </div>
-		            <div id="collapseOne" class="panel-collapse collapse">
+		            <div id="collapseTwo" class="panel-collapse collapse">
 		                <div class="panel-body">
 		                    	<img class="img-responsive" src="{{media_root}}{{instance.picture.url}}" alt="...">
 		                </div>
