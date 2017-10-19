@@ -16,6 +16,12 @@ YEAR_CHOICES = []
 for r in range(1980, (datetime.datetime.now().year+1)):
     YEAR_CHOICES.append((r,r))
 
+import uuid
+
+
+def create_uuid():
+	return uuid.uuid4()
+
 
 @python_2_unicode_compatible
 class Survey(models.Model):
@@ -38,6 +44,7 @@ class Item(models.Model):
 	label = models.CharField(max_length=200)
 	unit = models.CharField(max_length=100)
 	survey = models.ForeignKey(Survey)
+	picture = models.ImageField(upload_to="item_pic_uploads"+"/"+str(create_uuid()), blank=True, null=True)
 	
 	def __str__(self):
 		return self.label + "-" + self.code
