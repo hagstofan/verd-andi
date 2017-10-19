@@ -1,5 +1,6 @@
 <!-- item_observation. -->
 {% extends "base.html" %}
+{% load i18n %}
 
 {% block content %}
 
@@ -41,6 +42,29 @@
 				{% endfor %}
 				</tbody>
 		 </table>
+		 {% if item %}
+	
+			{% for instance in item %}
+				{% if instance.picture %}
+				    <div class="panel-group" id="accordion">
+				
+				
+		        <div class="panel panel-default">
+		            <div class="panel-heading">
+		                <h4 class="panel-title">
+		                    <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">See Picture</a>
+		                </h4>
+		            </div>
+		            <div id="collapseOne" class="panel-collapse collapse">
+		                <div class="panel-body">
+		                    	<img class="img-responsive" src="{{media_root}}{{instance.picture.url}}" alt="...">
+		                </div>
+		            </div>
+		        </div>
+		    	</div>
+		    	{% endif %}
+		    {% endfor %}
+		  {% endif %}
 	</div>
 	<div class="col-md-6">
 		<h2>Observation:</h2>
