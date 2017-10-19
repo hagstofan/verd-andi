@@ -23,8 +23,13 @@
 
 <div class="container">
 	<div class="col-md-6">
+		<h2>Observation:</h2>
+		{% include "survey/observation_form.html" %}
+	</div>
+</br>
+	<div class="col-md-6">
 
-		 <div class="panel-group" id="accordion">
+		 <div class="panel-group verdandi-obs-panel" id="accordion">
 				
 				
 		        <div class="panel panel-default">
@@ -88,10 +93,7 @@
 		    {% endfor %}
 		  {% endif %}
 	</div>
-	<div class="col-md-6">
-		<h2>Observation:</h2>
-		{% include "survey/observation_form.html" %}
-	</div>
+	
  </div>
 {% endif %}
 
