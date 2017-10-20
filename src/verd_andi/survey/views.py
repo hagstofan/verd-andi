@@ -83,12 +83,13 @@ def user_dash(request):
 
 		observed_items = Observation.objects.filter(observer=request.user.id).order_by('item').values('item').distinct()
 
-		print(str(observed_items))
 
+		item_grouped_observations = []
 		for item in observed_items:
 			obs_group = Observation.objects.filter(observer=request.user.id, item=item['item'])
-			print(str(obs_group))
-			print(obs_group.count())
+			sub_dict = {"item":item['item'], "count":obs_group.count(), "observations":obs_group}
+			item_grouped_observations.append(sub_dict)
+
 
 		context = {
 			"user_name" : str(request.user),
@@ -96,6 +97,7 @@ def user_dash(request):
 			"items" : items,
 			"surveys" : surveys,
 			"observations": user_observations,
+			"obs_item_list": item_grouped_observations,
 		}
 
 		return render(request, "survey/survey_dash.html", context)
