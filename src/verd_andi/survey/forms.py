@@ -7,6 +7,8 @@ from django.contrib.auth.models import User
 
 from django.core.exceptions import ValidationError
 from decimal import Decimal
+#from django.forms.widgets import *
+
 
 # some validators.
 def validate_observed_quantity(value):
@@ -42,13 +44,18 @@ class ObservationForm(forms.Form):
 	shop_identifier = forms.CharField()
 	#flag = forms.CharField(max_length=4)
 	
-	observed_price = forms.DecimalField(decimal_places=4, max_digits=25) # later should validate within min max
-	observed_quantity = forms.DecimalField(decimal_places=4, max_digits=25)
+	observed_price = forms.DecimalField(decimal_places=1, max_digits=25) # later should validate within min max
+	observed_quantity = forms.DecimalField(decimal_places=1, max_digits=25)
 	#item = forms.ForeignKey(Item)
 	#observer = forms.ForeignKey(User, blank=True, related_name='survey_observer', null=True)
 	obs_comment = forms.CharField(max_length=300, required=False)
 	#specified_characteristics = forms.CharField(max_length=400, blank=True)
 	#survey = forms.ForeignKey(Survey)
+
+	# widgets = {
+	# 	"observed_price": widgets.NumberInput(attrs={'step':'0.5'}),
+	# 	"observed_quantity": widgets.NumberInput(attrs={'step':'0.01'})
+	# }
 
 	def __init__(self, *args, **kwargs):
 		#self.extra = extra = kwargs.pop('extra') # for validation of extra

@@ -79,6 +79,17 @@ def user_dash(request):
 
 		user_observations = Observation.objects.filter(observer=request.user.id)
 
+		#item_aggregated_observations = Observation.objects.filter(observer=request.user.id).order_by('item')
+
+		observed_items = Observation.objects.filter(observer=request.user.id).order_by('item').values('item').distinct()
+
+		print(str(observed_items))
+
+		for item in observed_items:
+			obs_group = Observation.objects.filter(observer=request.user.id, item=item['item'])
+			print(str(obs_group))
+			print(obs_group.count())
+
 		context = {
 			"user_name" : str(request.user),
 			"user_id" : str(request.user.id),
