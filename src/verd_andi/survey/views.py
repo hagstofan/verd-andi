@@ -123,6 +123,8 @@ def item_observation(request, idx):
 		min_quantity_char = chars.filter(name="Minimum quantity")
 
 
+
+
 		form = ObservationForm(request.POST or None, extra=specified_chars, max_quantity=max_quantity_char[0].value if max_quantity_char else [], min_quantity=min_quantity_char[0].value if min_quantity_char else [])
 		if form.is_valid():  #POST request
 			# create observation, insert user-observer, obs-time, item, survey?
@@ -163,10 +165,12 @@ def item_observation(request, idx):
 				observed_characteristic = ObservedCharacteristic.objects.create(observation=observation,characteristic=spec_chars[specified_chars.index(question)],value=answer) #
 				observed_characteristic.save()
 				
-			#return redirect(settings.LOGIN_REDIRECT_URL)
-			#return redirect("/survey/udash")
-			#return redirect("survey.views.survey-userdash")
-			return HttpResponseRedirect(reverse('survey:survey-userdash'))
+
+			if 'add_another' in request.POST:
+				print("adding another")
+				return HttpResponseRedirect(reverse('survey:item-observation', kwargs={'idx': item}))
+			else:
+				return HttpResponseRedirect(reverse('survey:survey-userdash'))
 			
 
 		context = {
@@ -332,6 +336,10 @@ def ObservationUpdate(request, idx):
 						if (sc.characteristic.name == question):
 							sc.value = answer
 							sc.save()
+
+				if 'add_another' in request.POST:
+					print("adding another")
+					return HttpResponseRedirect(reverse('survey:item-observation', kwargs={'idx': item_id}))
 
 
 			return render(request, "survey/item_observation.html", context)
