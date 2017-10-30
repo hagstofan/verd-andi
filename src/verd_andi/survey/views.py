@@ -27,6 +27,7 @@ from xml.dom import minidom
 from xml.etree.ElementTree import ElementTree
 from xml.etree.ElementTree import Element
 import xml.etree.ElementTree as etree
+import collections
 
 # Create your views here.
 def index(request):
@@ -70,10 +71,15 @@ def user_dash(request):
 	if request.user.is_authenticated():
 
 		focus_items = ItemObserver.objects.filter(user=request.user.id)
-		items = set()  # creating a queryset of items, that have been slected for the user to observe.
+		#items = set()  # creating a queryset of items, that have been slected for the user to observe.
+		#items = collections.OrderedDict()
+		items = []
 		for i in focus_items.select_related('item'):
-			items.add(i.item) 
+			items.append(i.item) 
 
+
+
+		list_of_items = sorted(items , key = lambda x: x.code)
 
 		surveys = Survey.objects.all() # could use filter in the future for current surveys.
 
@@ -94,7 +100,7 @@ def user_dash(request):
 		context = {
 			"user_name" : str(request.user),
 			"user_id" : str(request.user.id),
-			"items" : items,
+			"items" : list_of_items,
 			"surveys" : surveys,
 			"observations": user_observations,
 			"obs_item_list": item_grouped_observations,
@@ -192,12 +198,15 @@ def search(request, pk):
 
 		user = User.objects.filter(pk=request.user.id)
 		itemObs = ItemObserver.objects.filter(user=request.user.id)
-		chosen_items = set()
+		#chosen_items = set()
+		chosen_items = []
 		for i in itemObs.select_related('item'):
 			#print(i.item.survey.pk)
 			i.item.iobspk = i.pk
 			if(int(i.item.survey.pk) == int(pk)):
-				chosen_items.add(i.item)
+				chosen_items.append(i.item)
+
+		ordered_chosen_items = sorted(chosen_items , key = lambda x: x.code)
 
 		chosen_item_pks = itemObs.values('item')
 		ch_i_pk = []
@@ -213,7 +222,7 @@ def search(request, pk):
 			"items": items,
 			"itemObservers": itemObs,
 			"target_user_id": request.user.id,
-			"chosen_items": chosen_items,
+			"chosen_items": ordered_chosen_items,
 			"target_user": user[0],
 		}
 		
@@ -388,6 +397,9 @@ def ObserverItems(request, idx):
 			i.item.iobspk = i.pk
 			chosen_items.add(i.item)
 
+		ordered_chosen_items = sorted(chosen_items , key = lambda x: x.code)
+
+
 		chosen_item_pks = itemObs.values('item')
 		ch_i_pk = []
 		for i in chosen_item_pks:
@@ -404,7 +416,7 @@ def ObserverItems(request, idx):
 			"items": items,
 			"itemObservers": itemObs,
 			"target_user_id": idx,
-			"chosen_items": chosen_items,
+			"chosen_items": ordered_chosen_items,
 			"target_user": user[0],
 		}
 		
