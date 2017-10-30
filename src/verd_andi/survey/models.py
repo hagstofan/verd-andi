@@ -45,6 +45,10 @@ class Item(models.Model):
 	unit = models.CharField(max_length=100)
 	survey = models.ForeignKey(Survey)
 	picture = models.ImageField(upload_to="item_pic_uploads"+"/"+str(create_uuid()), blank=True, null=True)
+
+	class Meta:
+	    ordering = ['code']
+
 	
 	def __str__(self):
 		return self.label + "-" + self.code
@@ -73,7 +77,7 @@ class Characteristic(models.Model):
 	isProperty = models.BooleanField(default=False)
 	specify = models.BooleanField(default=False)
 	item = models.ForeignKey(Item)
-	value = models.CharField(max_length=200, blank=True)
+	value = models.CharField(max_length=500, blank=True)
 	
 
 	def __str__(self):

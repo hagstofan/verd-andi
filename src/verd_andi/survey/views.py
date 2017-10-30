@@ -589,10 +589,10 @@ def SurveyXML(request, pk):
 					cgs_observed_price.set('OBSERVATION_NUMBER',str(observation_number))
 					cgs_observed_price.set('OBS_TIME', str(obs_i[2].strftime('%Y-%-m')))
 					cgs_observed_price.set('SHOP_TYPE', str(obs_i[3]))
-					cgs_observed_price.set('SHOP_IDENTIFIER', unicode(obs_i[4]))
-					cgs_observed_price.set('OBS_COMMENT', unicode(obs_i[11]))
+					cgs_observed_price.set('SHOP_IDENTIFIER', str(obs_i[4]))
+					cgs_observed_price.set('OBS_COMMENT', str(obs_i[11]))
 					cgs_observed_price.set('FLAG', str(obs_i[5]))
-					cgs_observed_price.set('DISCOUNT', unicode(obs_i[6]))
+					cgs_observed_price.set('DISCOUNT', str(obs_i[6]))
 					cgs_observed_price.set('value', str(round(obs_i[7], 1)))
 
 					cgs_section.append(cgs_observed_price)
@@ -625,7 +625,7 @@ def SurveyXML(request, pk):
 						Travel costs=3500|Number of hours worked=2" CHARS_SEPARATOR="|" />
 						"""
 						# set observed price CHARACTERISTICS, CHARS_SEPARATOR='|'
-						char_arr.append(str(char_name)+"="+unicode(obs_char_value))
+						char_arr.append(str(char_name)+"="+str(obs_char_value))
 
 					if (len(char_arr) > 0):
 						char_string='|'.join(char_arr)
@@ -634,7 +634,7 @@ def SurveyXML(request, pk):
 						
 
 		#xml_string = etree.tostring(root)
-		xml_string = '<?xml version="1.0" encoding="UTF-8"?>\n' + etree.tostring(root)
+		xml_string = '<?xml version="1.0" encoding="UTF-8"?>\n' + etree.tostring(root).decode('utf-8')
 
 		return HttpResponse(xml_string, content_type="text/plain")
 	else:

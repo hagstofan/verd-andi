@@ -51,7 +51,7 @@ class Command(BaseCommand):
 				#print(directory + filename)
 				file = directory + "/" + filename
 				print(file)
-				item.picture.save(filename, File(open(file,'r')))
+				item.picture.save(filename, File(open(file,'rb')))
 
 
 
