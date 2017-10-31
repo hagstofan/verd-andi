@@ -115,6 +115,7 @@
 
 			var csrftoken = getCookie('csrftoken');
 			var datastring = '{' + '"user"' +':' + user_id + ',' + '"item"' +':'+ '"' +obs_item + '"' + '}' ;
+
 			$.ajax({
 		    url: url_string,
 		    method: 'POST',
@@ -127,6 +128,8 @@
 
 		    success: function(result) {
 		        console.log(result);
+		        thing.setAttribute("iobspk", result.id);
+
 		    }
 			});
 
