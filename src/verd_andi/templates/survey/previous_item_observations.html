@@ -1,0 +1,40 @@
+<!-- item_observation. -->
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block content %}
+
+{% if item %}
+	
+	{% for instance in item %}
+		<h2 class="text-center">{{ instance.label }}</h2>
+
+		</br>
+		<h4 class="text-center">{{ instance.code}}</h4>
+
+	{% endfor %}
+{% endif %}
+
+
+
+
+
+<span class="label label-primary">  Observations </span>
+
+	<ul id="myUL">
+	{% if observations %}
+		{% for obs in observations %}
+		<li>
+		<span>
+        <a href="{% url 'survey:observation-update' obs.id %}">{{ obs.obs_time }} - {{ obs.observer }}</a> 
+        </span>
+    </li>
+		{% endfor %}
+			</ul>
+	{% endif %}
+
+
+
+
+
+{% endblock %}

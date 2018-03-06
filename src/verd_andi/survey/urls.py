@@ -19,4 +19,5 @@ urlpatterns = [
     url(r'^itemcommentary/(?P<idx>[\w{}.-]{1,40})/$', views.ItemCommentaryView, name='item-commentary-edit'),
     url(r'^observers-management/', views.ObserversManagement, name='observers-management'),
     url(r'(?P<pk>[0-9]+)/xml/', views.SurveyXML, name='survey-xml'),
+    url(r'^item-observations/(?P<idx>[\w{}.-]{1,40})/$', views.prev_item_observations, name='item-observations'),
 ]
