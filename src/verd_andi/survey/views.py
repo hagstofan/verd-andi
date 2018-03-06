@@ -79,6 +79,16 @@ def user_dash(request):
 
 
 
+		# Check if focus item previously observerd
+		for i in items:
+			i_obs = Observation.objects.filter(item=i)
+			if(i_obs):
+				# Item in focus list has been observed
+				i.observed = True
+			else:
+				i.observed = False
+
+
 		list_of_items = sorted(items , key = lambda x: x.code)
 
 		surveys = Survey.objects.all() # could use filter in the future for current surveys.
@@ -326,9 +336,6 @@ def ObservationUpdate(request, idx):
 			}
 
 			if form.is_valid():  #POST request
-
-				# TODO If, delete thing 
-
 				shop_type = form.cleaned_data['shop_type']
 				shop_identifier = form.cleaned_data['shop_identifier']
 				#flag = form.cleaned_data['flag']
