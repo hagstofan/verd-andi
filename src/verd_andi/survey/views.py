@@ -79,8 +79,6 @@ def prev_item_observations(request, idx):
 		return redirect(settings.REDIRECT_TO_LOGIN)
 
 
-
-
 def user_dash(request):
 	if request.user.is_authenticated():
 
@@ -96,6 +94,7 @@ def user_dash(request):
 		# Check if focus item previously observerd
 		for i in items:
 			i_obs = Observation.objects.filter(item=i)
+			u_i_obs = i_obs.filter(observer=request.user.id)
 			if(i_obs):
 				# Item in focus list has been observed
 				i.obs_count = len(i_obs)
@@ -103,6 +102,11 @@ def user_dash(request):
 			else:
 				i.obs_count = 0
 				i.observed = False
+			if(u_i_obs):
+				# Current user has observed item in question
+				i.u_obs_count = len(u_i_obs)
+			else:
+				i.u_obs_count = 0
 
 
 		list_of_items = sorted(items , key = lambda x: x.code)

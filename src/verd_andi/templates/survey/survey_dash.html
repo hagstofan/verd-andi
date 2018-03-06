@@ -18,7 +18,7 @@
 	{% for instance in items %}
 		<div class="well">
 		{% if instance.observed %}
-		 <a href="{% url 'survey:item-observation' instance.code %}"> {{ instance.label }}</a> <a href="{% url 'survey:item-observations' instance.code %}">({{ instance.obs_count }})</a>
+		 <a href="{% url 'survey:item-observation' instance.code %}"> {{ instance.label }}</a> <a href="{% url 'survey:item-observations' instance.code %}">( {{instance.u_obs_count}} of {{ instance.obs_count }})</a>
 		 {% else %}
 		 <a href="{% url 'survey:item-observation' instance.code %}" style="font-weight: bold;"> {{ instance.label }}</a>
 		 {% endif %}
