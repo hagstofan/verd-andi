@@ -67,6 +67,7 @@ class ObservationForm(forms.Form):
 
 		if "initial" in kwargs:
 			initial = kwargs.pop('initial')
+			self.update = True
 		else:
 			initial = {}
 

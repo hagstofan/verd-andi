@@ -16,10 +16,19 @@
 {% if items %}
 	<h3>Items:</h3>
 	{% for instance in items %}
-		<a href="{% url 'survey:item-observation' instance.code %}"> {{ instance.label }}</a> {% if request.user.is_superuser %}  -   <a href="{% url 'survey:item-commentary-edit' instance.code %}"><i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+		<div class="well">
+		{% if instance.observed %}
+		 <a href="{% url 'survey:item-observation' instance.code %}"> {{ instance.label }}</a> <a href="{% url 'survey:item-observations' instance.code %}">( {{instance.u_obs_count}} of {{ instance.obs_count }})</a>
+		 {% else %}
+		 <a href="{% url 'survey:item-observation' instance.code %}" style="font-weight: bold;"> {{ instance.label }}</a>
+		 {% endif %}
+		 {% if request.user.is_superuser %}  -   <a href="{% url 'survey:item-commentary-edit' instance.code %}"><i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+		
 </a> {% endif %}
 		</br>
+		<p>{{ instance.code }}</p>
 
+		</div>
 	{% endfor %}
 {% endif %}
 
@@ -72,7 +81,7 @@
                 ({{obs_item.count}}) -- 
 
                 {% with obs_item.observations|first as obs_x %}
-  					{{ obs_x.item.label }}
+  					{{ obs_x.item.code }}
 				{% endwith %}
 
             	</strong>
@@ -83,7 +92,7 @@
         		<div id="previous-observations-more-aggregate-{{forloop.counter}}" class="collapse">
             <!-- observations here -->
 		    	{% for obs in obs_item.observations %}
-				<a href="{% url 'survey:observation-update' obs.pk %}">   {{ obs.obs_time }} {{ obs.item.label }} </a> --- <a href="{% url 'survey:observation-delete' obs.pk %}"><i class="fa fa-trash" aria-hidden="true"></i>
+				<a href="{% url 'survey:observation-update' obs.pk %}">   {{ obs.obs_time }} {{ obs.item.label }} </a> <!-- --- <a href="{% url 'survey:observation-delete' obs.pk %}"><i class="fa fa-trash" aria-hidden="true"></i> -->
 				</a> 
 				</br>
 

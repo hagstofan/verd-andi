@@ -28,9 +28,15 @@
                 </div>
         {% endfor %}
      
+
         
       <input type="submit" class="btn btn-success" value="Save">
       <input type="submit" class="btn btn-primary" name="add_another" value="Save and add another">
+       {% if is_update %}
+
+      <a href="{% url 'survey:observation-delete' current_obs %}"><button class="btn btn-danger" type="button">Delete  <i class="fa fa-trash white-trash" aria-hidden="true"></i> </button></a>
+
+     {% endif %}
 
     </form>
 

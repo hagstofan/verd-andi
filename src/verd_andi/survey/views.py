@@ -66,6 +66,18 @@ def survey_dash(request, id):
 	else:
 		return redirect(settings.LOGIN_REDIRECT_URL)
 
+def prev_item_observations(request, idx):
+	if request.user.is_authenticated():
+		item = Item.objects.filter(code=idx)
+		observations = Observation.objects.filter(item=idx)
+		context = {
+			"item": item,
+			"observations":observations,  
+		}
+		return render(request, "survey/previous_item_observations.html", context)
+	else:
+		return redirect(settings.REDIRECT_TO_LOGIN)
+
 
 def user_dash(request):
 	if request.user.is_authenticated():
@@ -77,6 +89,24 @@ def user_dash(request):
 		for i in focus_items.select_related('item'):
 			items.append(i.item) 
 
+
+
+		# Check if focus item previously observerd
+		for i in items:
+			i_obs = Observation.objects.filter(item=i)
+			u_i_obs = i_obs.filter(observer=request.user.id)
+			if(i_obs):
+				# Item in focus list has been observed
+				i.obs_count = len(i_obs)
+				i.observed = True
+			else:
+				i.obs_count = 0
+				i.observed = False
+			if(u_i_obs):
+				# Current user has observed item in question
+				i.u_obs_count = len(u_i_obs)
+			else:
+				i.u_obs_count = 0
 
 
 		list_of_items = sorted(items , key = lambda x: x.code)
@@ -321,6 +351,8 @@ def ObservationUpdate(request, idx):
 			"item" : item,
 			"characteristics" : chars,
 			"observations" : observations,
+			"is_update": True,
+			"current_obs": idx,
 			}
 
 			if form.is_valid():  #POST request
