@@ -15,6 +15,10 @@
     color: red;
 }
 
+.fa-trash.white-trash {
+    color: white;
+}
+
 .img-responsive {
     margin: 0 auto;
 }

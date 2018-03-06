@@ -321,9 +321,14 @@ def ObservationUpdate(request, idx):
 			"item" : item,
 			"characteristics" : chars,
 			"observations" : observations,
+			"is_update": True,
+			"current_obs": idx,
 			}
 
 			if form.is_valid():  #POST request
+
+				# TODO If, delete thing 
+
 				shop_type = form.cleaned_data['shop_type']
 				shop_identifier = form.cleaned_data['shop_identifier']
 				#flag = form.cleaned_data['flag']
