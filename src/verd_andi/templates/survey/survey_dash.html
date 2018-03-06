@@ -16,6 +16,7 @@
 {% if items %}
 	<h3>Items:</h3>
 	{% for instance in items %}
+		<div class="well">
 		{% if instance.observed %}
 		 <a href="{% url 'survey:item-observation' instance.code %}"> {{ instance.label }}</a>
 		 {% else %}
@@ -25,7 +26,9 @@
 		
 </a> {% endif %}
 		</br>
+		<p>{{ instance.code }}</p>
 
+		</div>
 	{% endfor %}
 {% endif %}
 
@@ -78,7 +81,7 @@
                 ({{obs_item.count}}) -- 
 
                 {% with obs_item.observations|first as obs_x %}
-  					{{ obs_x.item.label }}
+  					{{ obs_x.item.code }}
 				{% endwith %}
 
             	</strong>
