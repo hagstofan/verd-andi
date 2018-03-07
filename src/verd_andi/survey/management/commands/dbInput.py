@@ -50,9 +50,6 @@ class Command(BaseCommand):
         xmldoc = minidom.parse(file)
         itemlist = xmldoc.getElementsByTagName('item')
         for s in itemlist:
-            itemcols = [s.attributes['code'].value.encode('utf-8').decode('utf-8') , s.attributes['label'].value.encode('utf-8').decode('utf-8'), s.attributes['unit'].value.encode('utf-8').decode('utf-8')]
-            # input into db
-            itemcols.append(3)
             print("adding item - " + str(s.attributes['code'].value.encode('utf-8').decode('utf-8')))
             survey = Survey.objects.get(pk=survey_id)
             item = Item.objects.create(
@@ -104,7 +101,6 @@ class Command(BaseCommand):
                 lizt.append(value if value else False)  
 
                 # add the char.
-                # cursor.execute("INSERT INTO survey_characteristic (item_id, name, enName, char_type, isProperty, specify, value) VALUES (?,?,?,?,?,?,?);", lizt)
                 characteristic = Characteristic.objects.create(
                     item = item,
                     name = name,
@@ -116,11 +112,7 @@ class Command(BaseCommand):
                 )
                 characteristic.save()
 
-            # print(itemcols)
-                
 
-
-    # xmldoc = minidom.parse('../../test-data/E17-2_Final_country_list/itemList.xml')
 
 
 
