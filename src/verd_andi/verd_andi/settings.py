@@ -123,7 +123,7 @@ if (DB == 'ppp_db'):
         'PORT': '5432',
         }
     }
-elif (DB = 'db'):
+elif (DB == 'db'):
     DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
