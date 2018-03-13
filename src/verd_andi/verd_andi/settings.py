@@ -130,9 +130,9 @@ elif (DB == 'db'):
         'NAME': 'verdandi',
         'USER': 'verdandi',
         'PASSWORD': DB_PASSWORD,
-        'HOST': 'ppp_db',
-        'PORT': '5432',
-        }
+        'HOST': 'localhost',
+        'PORT': '',
+    }
     }
 else:
     # Database
