@@ -21,10 +21,12 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/1.10/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'a##fl6392w!(kyd8so&hj+1nce3zq1$0yvoq-=^#g9!k@o6vui'
+SECRET_KEY = localVars.django_secret_key
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+STR_DEBUG = os.environ.get('DEBUG', 'true').lower()
+DEBUG = (STR_DEBUG == 'true')
+DB = os.environ.get('DB')
 
 
 EMAIL_HOST = localVars.email_host
@@ -35,7 +37,7 @@ EMAIL_USE_TLS = True
 DEFAULT_FROM_EMAIL = 'bergur@bergur.biz'
 SERVER_EMAIL = 'bergur@bergur.biz'
 DB_PASSWORD = localVars.db_passwd
-
+DKR_DB_PASSWORD = localVars.dkr_db_passwd
 
 # Application definition
 
@@ -93,20 +95,55 @@ WSGI_APPLICATION = 'verd_andi.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/1.10/ref/settings/#databases
 
-DATABASES = {
-    # 'default': {
-    #     'ENGINE': 'django.db.backends.sqlite3',
-    #     'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    # }
+# DATABASES = {
+#     # 'default': {
+#     #     'ENGINE': 'django.db.backends.sqlite3',
+#     #     'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+#     # }
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#         'NAME': 'verdandi',
+#         'USER': 'verdandi',
+#         'PASSWORD': DB_PASSWORD,
+#         'HOST': 'localhost',
+#         'PORT': '',
+#     }
+# }
+
+
+# from njola
+if (DB == 'ppp_db'):
+    DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'verdandi',
+        'USER': 'verdandi',
+        'PASSWORD': DKR_DB_PASSWORD,
+        'HOST': 'ppp_db',
+        'PORT': '5432',
+        }
+    }
+elif (DB = 'db'):
+    DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'verdandi',
         'USER': 'verdandi',
         'PASSWORD': DB_PASSWORD,
-        'HOST': 'localhost',
-        'PORT': '',
+        'HOST': 'ppp_db',
+        'PORT': '5432',
+        }
     }
-}
+else:
+    # Database
+    # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        }
+    }   
+
 
 
 # Password validation
