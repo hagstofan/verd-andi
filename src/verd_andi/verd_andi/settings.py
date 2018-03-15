@@ -57,8 +57,8 @@ INSTALLED_APPS = [
     'nested_admin',
 ]
 
-ACCOUNT_ACTIVATION_DAYS = 7 # One-week activation window; you may, of course, use a different value.
-REGISTRATION_AUTO_LOGIN = True # Automatically log the user in.
+ACCOUNT_ACTIVATION_DAYS = 7
+REGISTRATION_AUTO_LOGIN = True  # Automatically log the user in.
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -90,8 +90,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'verd_andi.wsgi.application'
 
-
-
 # Database
 # https://docs.djangoproject.com/en/1.10/ref/settings/#databases
 
@@ -112,29 +110,29 @@ WSGI_APPLICATION = 'verd_andi.wsgi.application'
 
 
 # from njola
-if (DB == 'ppp_db'):
+if (DB == 'ppp_db'):  # the Docker database
     DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'verdandi',
-        'USER': 'verdandi',
-        'PASSWORD': DKR_DB_PASSWORD,
-        'HOST': 'ppp_db',
-        'PORT': '5432',
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql_psycopg2',
+            'NAME': 'verdandi',
+            'USER': 'verdandi',
+            'PASSWORD': DKR_DB_PASSWORD,
+            'HOST': 'ppp_db',
+            'PORT': '5432',
+            }
+    }
+elif (DB == 'db'):  # a local postgres db
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql_psycopg2',
+            'NAME': 'verdandi',
+            'USER': 'verdandi',
+            'PASSWORD': DB_PASSWORD,
+            'HOST': 'localhost',
+            'PORT': '',
         }
     }
-elif (DB == 'db'):
-    DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'verdandi',
-        'USER': 'verdandi',
-        'PASSWORD': DB_PASSWORD,
-        'HOST': 'localhost',
-        'PORT': '',
-    }
-    }
-else:
+else:   # using sqlite
     # Database
     # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
     DATABASES = {
@@ -142,30 +140,47 @@ else:
             'ENGINE': 'django.db.backends.sqlite3',
             'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
         }
-    }   
-
-
+    }
 
 # Password validation
 # https://docs.djangoproject.com/en/1.10/ref/settings/#auth-password-validators
 
 AUTH_PASSWORD_VALIDATORS = [
     {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
+        'NAME':
+        'django.contrib.auth.password_validation\
+        .UserAttributeSimilarityValidator',
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+        'NAME':
+        'django.contrib.auth.password_validation\
+        .MinimumLengthValidator',
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
+        'NAME':
+        'django.contrib.auth.password_validation\
+        .CommonPasswordValidator',
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
+        'NAME':
+        'django.contrib.auth.password_validation\
+        .NumericPasswordValidator',
     },
 ]
 
 
-ALLOWED_HOSTS = ['ppp-test.hagstofa.local:8080','ppp-test.hagstofa.local','localhost:8000','127.0.0.1:8000','127.0.0.1', 'localhost', 'dev.hagstofa.local','dev.hagstofa.local:8080',"u'dev.hagstofa.local'",'localhost']
+ALLOWED_HOSTS = [
+    'ppp-test.hagstofa.local:8080',
+    'ppp-test.hagstofa.local',
+    'localhost:8000',
+    '127.0.0.1:8000',
+    '127.0.0.1',
+    'localhost',
+    'dev.hagstofa.local',
+    'dev.hagstofa.local:8080',
+    "u'dev.hagstofa.local'",
+    'localhost'
+    ]
 
 
 # Internationalization
@@ -188,7 +203,11 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-STATIC_ROOT = os.path.join(os.path.dirname(BASE_DIR), "static_in_env", "static_root")
+STATIC_ROOT = os.path.join(
+    os.path.dirname(BASE_DIR),
+    "static_in_env",
+    "static_root"
+    )
 
 MEDIA_URL = "/media/"
 
@@ -197,13 +216,10 @@ MEDIA_ROOT = os.path.join(os.path.dirname(BASE_DIR), "media_cdn")
 
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, "static_in_pro", "our_static"),
-    #os.path.join(BASE_DIR, "static_in_env"),
-    #'/var/www/static/',
+    # os.path.join(BASE_DIR, "static_in_env"),
+    # '/var/www/static/',
 )
-
-
 
 LOGIN_REDIRECT_URL = '/'
 
 REDIRECT_TO_LOGIN = '/accounts/login/'
-
