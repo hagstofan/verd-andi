@@ -16,42 +16,42 @@ for filename in os.listdir("/"):
 
 
 class Command(BaseCommand):
-	help = "inputs picture to items having the same code as picture number"
+    help = "inputs picture to items having the same code as picture number"
 
-	def add_arguments(self, parser):
-		parser.add_argument('pic_directory', nargs='+', type=str)
+    def add_arguments(self, parser):
+        parser.add_argument('pic_directory', nargs='+', type=str)
 
-	def handle(self, *args, **options):
-		#self.stdout.write("hey dudes" + " " + str(options['pic_directory'][0]))
-		fpath = options['pic_directory'][0]
-		#self.stdout.write(os.path.isabs(fpath))
-		print(fpath)
-		print(os.path.isabs(fpath))
-		if(os.path.isabs(fpath)):
-			print(fpath)
-			self.list_dir(fpath)
-		else:
-			#directory = os.path.dirname(os.getcwd())
-			#directory = os.path.dirname(__file__)
-			directory = settings.BASE_DIR
-			filename = os.path.join(directory, fpath)
-			print(directory)
-			print(filename)
-			#print(settings.BASE_DIR)
-			if(os.path.isabs(filename)):
-				print(filename)
-				self.list_dir(filename)
+    def handle(self, *args, **options):
+        #self.stdout.write("hey dudes" + " " + str(options['pic_directory'][0]))
+        fpath = options['pic_directory'][0]
+        #self.stdout.write(os.path.isabs(fpath))
+        print(fpath)
+        print(os.path.isabs(fpath))
+        if(os.path.isabs(fpath)):
+            print(fpath)
+            self.list_dir(fpath)
+        else:
+            #directory = os.path.dirname(os.getcwd())
+            #directory = os.path.dirname(__file__)
+            directory = settings.BASE_DIR
+            filename = os.path.join(directory, fpath)
+            print(directory)
+            print(filename)
+            #print(settings.BASE_DIR)
+            if(os.path.isabs(filename)):
+                print(filename)
+                self.list_dir(filename)
 
-	def list_dir(self, directory):
-		for filename in os.listdir(directory):
-			#print(str(filename).split("_")[0])
-			item = Item.objects.get(code=str(filename).split("_")[0])
-			if(item):
-				#print(filename)
-				#print(directory + filename)
-				file = directory + "/" + filename
-				print(file)
-				item.picture.save(filename, File(open(file,'rb')))
+    def list_dir(self, directory):
+        for filename in os.listdir(directory):
+            #print(str(filename).split("_")[0])
+            item = Item.objects.get(code=str(filename).split("_")[0])
+            if(item):
+                #print(filename)
+                #print(directory + filename)
+                file = directory + "/" + filename
+                print(file)
+                item.picture.save(filename, File(open(file,'rb')))
 
 
 
