@@ -11,7 +11,7 @@ process, Verdandi can produce xml containing the survey description and collecte
 
 with Docker, first create a db container:
  
-  > sudo docker run -e POSTGRES_USER=verdandi -e POSTGRES_PASSwORD=<my_password> --network=ppp-network -v /home/postgres-volume:/var/lib/postgresql/data -d --name=ppp_db postgres
+ 	> sudo docker run -e POSTGRES_USER=verdandi -e POSTGRES_PASSwORD=<my_password> --network=ppp-network -v /home/postgres-volume:/var/lib/postgresql/data -d --name=ppp_db postgres
 
 this will persist the db data on host machine in /home/postgres-volume
 
@@ -27,7 +27,7 @@ dkr_db_passwd = "database_password_in_the_docker_container"
 
 next to build the verdandi image, in verdandi project root:
 
-  > sudo docker build -t verdandi .
+ 	> sudo docker build -t verdandi .
 
 next run a verdandi container, on the same network as ppp_db:
 
