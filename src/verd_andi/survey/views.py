@@ -25,10 +25,9 @@ from django.urls import reverse_lazy
 from django.core.exceptions import PermissionDenied
 
 # xml stuff
-from xml.etree.ElementTree import ElementTree
 from xml.etree.ElementTree import Element
 import xml.etree.ElementTree as etree
-import collections
+
 
 # Create your views here.
 def index(request):
@@ -42,6 +41,7 @@ class SurveyListView(ListView):
         context = super(SurveyListView, self).get_context_data(**kwargs)
         context['now'] = timezone.now()
         return context
+
 
 class SurveyDetailView(DetailView):
     model = Survey
@@ -57,13 +57,14 @@ def survey_dash(request, id):
     if request.user.is_authenticated():
 
         context = {
-            "user_name" : str(request.user),
-            "user_id" : str(request.user.id),
+            "user_name": str(request.user),
+            "user_id": str(request.user.id),
         }
 
         return render(request, "survey/survey_dash.html", context)
     else:
         return redirect(settings.LOGIN_REDIRECT_URL)
+
 
 def prev_item_observations(request, idx):
     if request.user.is_authenticated():
@@ -71,9 +72,11 @@ def prev_item_observations(request, idx):
         observations = Observation.objects.filter(item=idx)
         context = {
             "item": item,
-            "observations":observations,  
+            "observations": observations,
         }
-        return render(request, "survey/previous_item_observations.html", context)
+        return render(request,
+                      "survey/previous_item_observations.html",
+                      context)
     else:
         return redirect(settings.REDIRECT_TO_LOGIN)
 
@@ -82,13 +85,12 @@ def user_dash(request):
     if request.user.is_authenticated():
 
         focus_items = ItemObserver.objects.filter(user=request.user.id)
-        # items = set()  # creating a queryset of items, that have been slected for the user to observe.
+        # creating a queryset of items, that have been
+        # selected for the user to observe.
         # items = collections.OrderedDict()
         items = []
         for i in focus_items.select_related('item'):
-            items.append(i.item) 
-
-
+            items.append(i.item)
 
         # Check if focus item previously observerd
         for i in items:
@@ -107,30 +109,31 @@ def user_dash(request):
             else:
                 i.u_obs_count = 0
 
+        list_of_items = sorted(items, key=lambda x: x.code)
 
-        list_of_items = sorted(items , key = lambda x: x.code)
+        # could use filter in the future for current surveys.
+        surveys = Survey.objects.all()
+        user_observations = Observation\
+            .objects.filter(observer=request.user.id)
 
-        surveys = Survey.objects.all() # could use filter in the future for current surveys.
-
-        user_observations = Observation.objects.filter(observer=request.user.id)
-
-        # item_aggregated_observations = Observation.objects.filter(observer=request.user.id).order_by('item')
-
-        observed_items = Observation.objects.filter(observer=request.user.id).order_by('item').values('item').distinct()
-
+        observed_items = Observation.objects.filter(observer=request.user.id)\
+            .order_by('item').values('item').distinct()
 
         item_grouped_observations = []
         for item in observed_items:
-            obs_group = Observation.objects.filter(observer=request.user.id, item=item['item'])
-            sub_dict = {"item":item['item'], "count":obs_group.count(), "observations":obs_group}
+            obs_group = Observation.objects.filter(
+                        observer=request.user.id,
+                        item=item['item'])
+            sub_dict = {"item": item['item'],
+                        "count": obs_group.count(),
+                        "observations": obs_group}
             item_grouped_observations.append(sub_dict)
 
-
         context = {
-            "user_name" : str(request.user),
-            "user_id" : str(request.user.id),
-            "items" : list_of_items,
-            "surveys" : surveys,
+            "user_name": str(request.user),
+            "user_id": str(request.user.id),
+            "items": list_of_items,
+            "surveys": surveys,
             "observations": user_observations,
             "obs_item_list": item_grouped_observations,
         }
@@ -150,18 +153,20 @@ def item_observation(request, idx):
         # form = ObservationForm(request.POST or None)
         # if request.method == 'POST':
         spec_chars = chars.filter(specify=True)
-        specified_chars = list( sc.name for sc in spec_chars)
-        specified_chars_pk = list( sc.pk for sc in spec_chars)
+        specified_chars = list(sc.name for sc in spec_chars)
+        # specified_chars_pk = list(sc.pk for sc in spec_chars)
 
         # min max stuff.
         max_quantity_char = chars.filter(name="Maximum quantity")
         min_quantity_char = chars.filter(name="Minimum quantity")
 
-
-
-
-        form = ObservationForm(request.POST or None, extra=specified_chars, max_quantity=max_quantity_char[0].value if max_quantity_char else [], min_quantity=min_quantity_char[0].value if min_quantity_char else [])
-        if form.is_valid():  #POST request
+        form = ObservationForm(request.POST or None,
+                               extra=specified_chars,
+                               max_quantity=max_quantity_char[0]
+                               .value if max_quantity_char else [],
+                               min_quantity=min_quantity_char[0]
+                               .value if min_quantity_char else [])
+        if form.is_valid():  # POST request
             # create observation, insert user-observer, obs-time, item, survey?
             obs_time = datetime.datetime.now()
             observer = request.user.pk
@@ -179,9 +184,9 @@ def item_observation(request, idx):
             surv = getattr(theitem, 'survey')
             # survey = Survey.objects.filter(pk=surv.pk)
             observation = Observation.objects.create(
-                observer=theuser, 
-                obs_time=obs_time, 
-                item=theitem, 
+                observer=theuser,
+                obs_time=obs_time,
+                item=theitem,
                 shop_type=shop_type,
                 shop_identifier=shop_identifier,
                 flag="O",
@@ -189,32 +194,38 @@ def item_observation(request, idx):
                 observed_price=observed_price,
                 observed_quantity=observed_quantity,
                 obs_comment=obs_comment,
-                survey = surv
+                survey=surv
                 )
             observation.save()
 
             for (question, answer) in form.extra_answers():
                 # create observerd characteristic
-                char_pk = specified_chars_pk[specified_chars.index(question)]
-                # adding observed_characteristic, currently relies on order in QueryObject spec_chars bieng same as order inlists derived from it, which I think holds.
-                observed_characteristic = ObservedCharacteristic.objects.create(observation=observation,characteristic=spec_chars[specified_chars.index(question)],value=answer) #
+                # char_pk = specified_chars_pk[specified_chars.index(question)]
+                # adding observed_characteristic,
+                # currently relies on order in QueryObject spec_chars
+                # bieng same as order inlists derived from it,
+                # which I think holds.
+                observed_characteristic = ObservedCharacteristic\
+                    .objects.create(observation=observation,
+                                    characteristic=spec_chars[
+                                     specified_chars.index(question)],
+                                    value=answer)
                 observed_characteristic.save()
-                
 
             if 'add_another' in request.POST:
                 print("adding another")
-                return HttpResponseRedirect(reverse('survey:item-observation', kwargs={'idx': item}))
+                return HttpResponseRedirect(
+                    reverse('survey:item-observation', kwargs={'idx': item}))
             else:
                 return HttpResponseRedirect(reverse('survey:survey-userdash'))
-            
 
         context = {
-            "form" : form,
-            "user_name" : str(request.user),
-            "user_id" : str(request.user.id),
-            "item" : item,
-            "characteristics" : chars,
-            "observations" : observations,
+            "form": form,
+            "user_name": str(request.user),
+            "user_id": str(request.user.id),
+            "item": item,
+            "characteristics": chars,
+            "observations": observations,
         }
 
         return render(request, "survey/item_observation.html", context)
@@ -230,23 +241,22 @@ def search(request, pk):
         # chosen_items = set()
         chosen_items = []
         for i in itemObs.select_related('item'):
-            #print(i.item.survey.pk)
             i.item.iobspk = i.pk
             if(int(i.item.survey.pk) == int(pk)):
                 chosen_items.append(i.item)
 
-        ordered_chosen_items = sorted(chosen_items , key = lambda x: x.code)
+        ordered_chosen_items = sorted(chosen_items, key=lambda x: x.code)
 
         chosen_item_pks = itemObs.values('item')
         ch_i_pk = []
         for i in chosen_item_pks:
             ch_i_pk.append(i["item"])
-        
-        items = Item.objects.exclude(code__in=ch_i_pk) # taking away already chosen items.
-        # items = Item.objects.all()
+
+        # taking away already chosen items.
+        items = Item.objects.exclude(code__in=ch_i_pk)
         items = items.filter(survey=pk)
         context = {
-            "user_name" : str(request.user),
+            "user_name": str(request.user),
             "user_id": str(request.user.id),
             "items": items,
             "itemObservers": itemObs,
@@ -254,13 +264,11 @@ def search(request, pk):
             "chosen_items": ordered_chosen_items,
             "target_user": user[0],
         }
-        
+
         return render(request, "survey/observer_items.html", context)
 
     else:
         return redirect(settings.LOGIN_REDIRECT_URL)
-
-
 
 
 def ItemCommentaryView(request, idx):
@@ -270,14 +278,14 @@ def ItemCommentaryView(request, idx):
         item = Item.objects.get(code=idx)
 
         data = {
-            'seasonality': commentary.seasonality, 
-            'representativity':commentary.representativity,
-            'comment':commentary.comment,
-            'vat':commentary.vat
+            'seasonality': commentary.seasonality,
+            'representativity': commentary.representativity,
+            'comment': commentary.comment,
+            'vat': commentary.vat
             }
 
         form = ItemCommentaryForm(request.POST or None, initial=data)
-        if form.is_valid():  #POST request
+        if form.is_valid():  # POST request
             # shop_type = form.cleaned_data['shop_type']
             seasonality = form.cleaned_data['seasonality']
             representativity = form.cleaned_data['representativity']
@@ -294,11 +302,12 @@ def ItemCommentaryView(request, idx):
             return HttpResponseRedirect(reverse('survey:survey-userdash'))
 
         context = {
-            "form" : form,
-            "item" : item,
+            "form": form,
+            "item": item,
         }
 
-        return render(request, "survey/itemcommentary_update_form.html", context)
+        return render(request,
+                      "survey/itemcommentary_update_form.html", context)
 
         # return HttpResponse("Hey, you superuser you")
     else:  # not superuser
@@ -308,53 +317,61 @@ def ItemCommentaryView(request, idx):
 def ObservationUpdate(request, idx):
     if request.user.is_authenticated():
         observation = Observation.objects.get(pk=idx)
-        if (request.user.id == observation.observer.id or request.user.is_superuser):
+        if (request.user.id == observation.observer.id or
+                request.user.is_superuser):
             # user is qualified to update observation
             item_id = observation.item.code
             item = Item.objects.filter(pk=item_id)
             # get item, get characteristics of item ..
             chars = Characteristic.objects.filter(item=item_id)
             observations = Observation.objects.filter(item=item_id)
-            
+
             spec_chars = chars.filter(specify=True)
-            specified_chars = list( sc.name for sc in spec_chars)
-            specified_chars_pk = list( sc.pk for sc in spec_chars)
+            specified_chars = list(sc.name for sc in spec_chars)
+            specified_chars_pk = list(sc.pk for sc in spec_chars)
 
             data = {
-            'obs_time': observation.obs_time, 
-            'shop_type':observation.shop_type,
-            'shop_identifier':observation.shop_identifier,
-            'flag':observation.flag,
-            'discount':observation.discount,
-            'observed_price':observation.observed_price,
-            'observed_quantity':observation.observed_quantity,
-            'obs_comment':observation.obs_comment
+                'obs_time': observation.obs_time,
+                'shop_type': observation.shop_type,
+                'shop_identifier': observation.shop_identifier,
+                'flag': observation.flag,
+                'discount': observation.discount,
+                'observed_price': observation.observed_price,
+                'observed_quantity': observation.observed_quantity,
+                'obs_comment': observation.obs_comment
             }
             # adding specified chars to form
             ochars = []
             for idp, schar_pk in enumerate(specified_chars_pk):
-                schar = ObservedCharacteristic.objects.get(characteristic=schar_pk, observation=observation.pk)
-                data[specified_chars[idp]]=schar.value
-                ochars.append(schar) # for use later in case of POST request.
+                schar = ObservedCharacteristic.objects.get(
+                             characteristic=schar_pk,
+                             observation=observation.pk)
+                data[specified_chars[idp]] = schar.value
+                ochars.append(schar)  # for use later in case of POST request.
 
             max_quantity_char = chars.filter(name="Maximum quantity")
             min_quantity_char = chars.filter(name="Minimum quantity")
 
-
-            form = ObservationForm(request.POST or None, extra=specified_chars, initial=data, max_quantity=max_quantity_char[0].value if max_quantity_char else [], min_quantity=min_quantity_char[0].value if min_quantity_char else [])
+            form = ObservationForm(request.POST or None,
+                                   extra=specified_chars,
+                                   initial=data,
+                                   max_quantity=max_quantity_char[0].value if
+                                   max_quantity_char else [],
+                                   min_quantity=min_quantity_char[0].value if
+                                   min_quantity_char else [])
 
             context = {
-            "form" : form,
-            "user_name" : str(request.user),
-            "user_id" : str(request.user.id),
-            "item" : item,
-            "characteristics" : chars,
-            "observations" : observations,
-            "is_update": True,
-            "current_obs": idx,
+                "form": form,
+                "user_name": str(request.user),
+                "user_id": str(request.user.id),
+                "item": item,
+                "characteristics": chars,
+                "observations": observations,
+                "is_update": True,
+                "current_obs": idx,
             }
 
-            if form.is_valid():  #POST request
+            if form.is_valid():  # POST request
                 shop_type = form.cleaned_data['shop_type']
                 shop_identifier = form.cleaned_data['shop_identifier']
                 # flag = form.cleaned_data['flag']
@@ -379,8 +396,8 @@ def ObservationUpdate(request, idx):
 
                 if 'add_another' in request.POST:
                     print("adding another")
-                    return HttpResponseRedirect(reverse('survey:item-observation', kwargs={'idx': item_id}))
-
+                    return HttpResponseRedirect(reverse(
+                        'survey:item-observation', kwargs={'idx': item_id}))
 
             return render(request, "survey/item_observation.html", context)
         else:
@@ -389,6 +406,7 @@ def ObservationUpdate(request, idx):
     else:
         return redirect(settings.LOGIN_REDIRECT_URL)
 
+
 class ObservationDelete(DeleteView):
     model = Observation
     success_url = reverse_lazy('survey:survey-userdash')
@@ -396,8 +414,9 @@ class ObservationDelete(DeleteView):
     def get_object(self, queryset=None):
         """ Hook to ensure object is owned by request.user. """
         obj = super(ObservationDelete, self).get_object()
-        if not ((obj.observer == self.request.user) or self.request.user.is_superuser):
-            #raise Http404
+        if (not ((obj.observer == self.request.user) or
+                 self.request.user.is_superuser)):
+            # raise Http404
             raise PermissionDenied
         return obj
 
@@ -409,9 +428,9 @@ def ObserversManagement(request):
         # itemObs = ItemObserver.objects.all()
 
         context = {
-            "user_name" : str(request.user),
-            "user_id" : str(request.user.id),
-            "observers" : observers,
+            "user_name": str(request.user),
+            "user_id": str(request.user.id),
+            "observers": observers,
         }
 
         return render(request, "survey/observers_management.html", context)
@@ -428,8 +447,7 @@ def ObserverItems(request, idx):
             i.item.iobspk = i.pk
             chosen_items.add(i.item)
 
-        ordered_chosen_items = sorted(chosen_items , key = lambda x: x.code)
-
+        ordered_chosen_items = sorted(chosen_items, key=lambda x: x.code)
 
         chosen_item_pks = itemObs.values('item')
         ch_i_pk = []
@@ -437,12 +455,13 @@ def ObserverItems(request, idx):
             ch_i_pk.append(i["item"])
 
         current_survey = Survey.objects.get(current=True)
-        
-        items = Item.objects.exclude(code__in=ch_i_pk)  # taking away already chosen items.
+
+        # taking away already chosen items.
+        items = Item.objects.exclude(code__in=ch_i_pk)
         # items = Item.objects.all()
         items = items.filter(survey=current_survey)
         context = {
-            "user_name" : str(request.user),
+            "user_name": str(request.user),
             "user_id": str(request.user.id),
             "items": items,
             "itemObservers": itemObs,
@@ -450,7 +469,7 @@ def ObserverItems(request, idx):
             "chosen_items": ordered_chosen_items,
             "target_user": user[0],
         }
-        
+
         return render(request, "survey/observer_items.html", context)
     else:
         raise PermissionDenied
