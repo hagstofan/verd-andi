@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from survey.models import Item, ItemObserver
 
+
 class ItemSerializer(serializers.ModelSerializer):
 
     class Meta:
@@ -13,5 +14,3 @@ class ItemObserverSerializer(serializers.ModelSerializer):
     class Meta:
         model = ItemObserver
         fields = '__all__'
-
-
