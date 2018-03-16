@@ -14,3 +14,4 @@ src/static_in_env/*
 src/media_cdn/*
 test-data/frhea-pics-2017/
 pip-selfcheck.json
+/man
