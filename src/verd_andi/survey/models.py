@@ -1,5 +1,5 @@
 from __future__ import unicode_literals
-
+import uuid
 from django.db import models
 from django.utils.encoding import python_2_unicode_compatible
 from django.contrib.auth.models import User
@@ -16,7 +16,7 @@ YEAR_CHOICES = []
 for r in range(1980, (datetime.datetime.now().year+1)):
     YEAR_CHOICES.append((r,r))
 
-import uuid
+
 
 
 def create_uuid():
