@@ -338,7 +338,8 @@ def ObservationUpdate(request, idx):
                 'discount': observation.discount,
                 'observed_price': observation.observed_price,
                 'observed_quantity': observation.observed_quantity,
-                'obs_comment': observation.obs_comment
+                'obs_comment': observation.obs_comment,
+                'shop_own_brand': observation.shop_own_brand
             }
             # adding specified chars to form
             ochars = []
@@ -379,6 +380,7 @@ def ObservationUpdate(request, idx):
                 observed_price = form.cleaned_data['observed_price']
                 observed_quantity = form.cleaned_data['observed_quantity']
                 obs_comment = form.cleaned_data['obs_comment']
+                shop_own_brand = form.cleaned_data['shop_own_brand']
                 # updating the observation
                 observation.shop_type = shop_type
                 observation.shop_identifier = shop_identifier
@@ -386,6 +388,7 @@ def ObservationUpdate(request, idx):
                 observation.observed_price = observed_price
                 observation.observed_quantity = observed_quantity
                 observation.obs_comment = obs_comment
+                observation.shop_own_brand = shop_own_brand
                 observation.save()
                 # updating observed characteristics
                 for (question, answer) in form.extra_answers():

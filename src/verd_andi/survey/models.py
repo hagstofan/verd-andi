@@ -102,6 +102,7 @@ class Observation(models.Model):
     obs_comment = models.CharField(max_length=300, blank=True)
     specified_characteristics = models.CharField(max_length=400, blank=True)
     survey = models.ForeignKey(Survey)
+    shop_own_brand = models.BooleanField(default=False)
 
     def __str__(self):
         return str(self.item) + " " + str(self.obs_time)

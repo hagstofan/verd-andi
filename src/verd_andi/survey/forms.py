@@ -44,6 +44,8 @@ class ObservationForm(forms.Form):
     # specified_characteristics = forms.CharField(max_length=400, blank=True)
     # survey = forms.ForeignKey(Survey)
 
+    shop_own_brand = forms.BooleanField(required=False)
+
     # widgets = {
     #     "observed_price": widgets.NumberInput(attrs={'step':'0.5'}),
     #     "observed_quantity": widgets.NumberInput(attrs={'step':'0.01'})
