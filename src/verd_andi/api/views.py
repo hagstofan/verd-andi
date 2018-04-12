@@ -9,11 +9,23 @@ from rest_framework.generics import (
 from rest_framework.permissions import IsAdminUser
 
 
-from survey.models import Item, ItemObserver
-from .serializers import ItemSerializer, ItemObserverSerializer
-
+from survey.models import Item, ItemObserver, Observation
+from .serializers import (
+    ItemSerializer,
+    ItemObserverSerializer,
+    ObservationSerializer
+    )
 # Create your views here.
 
+class ObservationList(APIView):
+
+    def get(self, request):
+        observations = Observation.objects.all()
+        serializer = ObservationSerializer(observations, many=True)
+        return Response(serializer.data)
+
+    def post(self):
+        pass
 
 class ItemList(APIView):
 

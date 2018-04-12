@@ -1,6 +1,12 @@
 from rest_framework import serializers
-from survey.models import Item, ItemObserver
+from survey.models import Item, ItemObserver, Observation
 
+
+class ObservationSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Observation
+        fields = '__all__'
 
 class ItemSerializer(serializers.ModelSerializer):
 

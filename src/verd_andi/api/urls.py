@@ -13,4 +13,6 @@ urlpatterns = [
         views.ItemObserverDestroyAPIView.as_view(), name='obs-item-destroy'),
     url(r'^observer-items/create/',
         views.ItemObserverCreateAPIView.as_view(), name='obs-item-create'),
+    url(r'^observations',
+        views.ObservationList.as_view(), name='api-observation-list'),
 ]
