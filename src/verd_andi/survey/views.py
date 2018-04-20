@@ -49,7 +49,7 @@ class SurveyDetailView(DetailView):
     def get_context_data(self, **kwargs):
         context = super(SurveyDetailView, self).get_context_data(**kwargs)
         context['now'] = timezone.now()
-        print(str(context))
+        # print(str(context))
         return context
 
 
@@ -213,7 +213,7 @@ def item_observation(request, idx):
                 observed_characteristic.save()
 
             if 'add_another' in request.POST:
-                print("adding another")
+                # print("adding another")
                 return HttpResponseRedirect(
                     reverse('survey:item-observation', kwargs={'idx': item}))
             else:
@@ -274,7 +274,7 @@ def search(request, pk):
 def ItemCommentaryView(request, idx):
     if request.user.is_superuser:
         commentary = ItemCommentary.objects.get_or_create(pk=idx)[0]
-        print(str(commentary))
+        # print(str(commentary))
         item = Item.objects.get(code=idx)
 
         data = {
@@ -298,7 +298,7 @@ def ItemCommentaryView(request, idx):
             commentary.vat = vat
 
             commentary.save()
-            print("form was good")
+            # print("form was good")
             return HttpResponseRedirect(reverse('survey:survey-userdash'))
 
         context = {
@@ -398,7 +398,7 @@ def ObservationUpdate(request, idx):
                             sc.save()
 
                 if 'add_another' in request.POST:
-                    print("adding another")
+                    # print("adding another")
                     return HttpResponseRedirect(reverse(
                         'survey:item-observation', kwargs={'idx': item_id}))
 
@@ -682,7 +682,6 @@ def SurveyXML(request, pk):
                     cgs_observed_price.set('DISCOUNT', str(obs_i[6]))
                     cgs_observed_price.set('value', str(round(obs_i[7], 1)))
                     # cgs_observed_price.set('SHOP_OWN_BRAND', "Y" if )
-                    print(obs_i)
                     cgs_observed_price.set('SHOP_OWN_BRAND', "Y" if (obs_i[14] == True) else "N")
                     # print(obs_i)
 
