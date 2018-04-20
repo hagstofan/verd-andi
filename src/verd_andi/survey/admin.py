@@ -44,10 +44,14 @@ class ItemAdmin(nested_admin.NestedModelAdmin):
 class ObservationAdmin(nested_admin.NestedModelAdmin):
     model = Observation
     inlines = [ObservedCharacteristicInline, ]
+    search_fields = ('item__code','item__label','obs_time')
     list_filter = (
         ('observer', admin.RelatedOnlyFieldListFilter),
         ('survey', admin.RelatedOnlyFieldListFilter),
+        ('shop_type'),
         )
+    list_display = ('item', 'obs_time', 'shop_type', 'shop_own_brand', 'observer')
+
 
 
 class SurveyAdmin(nested_admin.NestedModelAdmin):
