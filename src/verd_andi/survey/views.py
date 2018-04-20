@@ -679,7 +679,8 @@ def SurveyXML(request, pk):
                     cgs_observed_price.set('DISCOUNT', str(obs_i[6]))
                     cgs_observed_price.set('value', str(round(obs_i[7], 1)))
                     # cgs_observed_price.set('SHOP_OWN_BRAND', "Y" if )
-                    cgs_observed_price.set('SHOP_OWN_BRAND', "Y" if obs_i[9] else "N")
+                    print(obs_i)
+                    cgs_observed_price.set('SHOP_OWN_BRAND', "Y" if (obs_i[14] == True) else "N")
                     # print(obs_i)
 
                     cgs_section.append(cgs_observed_price)
