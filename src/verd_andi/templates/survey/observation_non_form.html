@@ -1,0 +1,34 @@
+<!-- observation form -->
+{% load i18n %}
+
+{% block content %}
+<div class="content">
+    {% if form.errors %}
+            <div class="alert alert-danger">
+                <p><strong>Oh snap!</strong> somthin wrong dawg.</p>
+            </div>
+    {% endif %}
+    <form method="post" action="." class="form-horizontal text-left" role="form">
+      {% csrf_token %} 
+      {% for field in form %}
+                <div class="form-group {% if field.errors %}has-error{% endif %}">
+                <div class="col-sm-12">
+                <label for="{{ field.id_for_label }}" class="control-label">{{ field.label }}</label></br>
+                
+                 <!--    <input autofocus="" id="{{ field.id_for_label }}" maxlength="254" name="username" value="{{ field.value }}" required="" type="{{ field.is_hidden }}" > -->
+                    {{ field }}
+                    {% if field.errors %}
+                        <span class='text-danger'>{{ field.errors|join:'<br />' }}</span>
+                    {% endif %}
+                    {% if field.help_text %}
+                        <span class="help-block ">{{ field.help_text }}</span>
+                    {% endif %}
+                
+                </div>
+                </div>
+        {% endfor %}
+
+    </form>
+
+</div>
+{% endblock %}

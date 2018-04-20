@@ -10,6 +10,8 @@ urlpatterns = [
         views.ObserverItems, name='observer-items'),
     url(r'^observation/(?P<idx>[0-9]+)/$',
         views.ObservationUpdate, name='observation-update'),
+    url(r'^observation-view/(?P<idx>[0-9]+)/$',
+        views.viewObservation, name='observation-view'),
     url(r'^observation/(?P<pk>[0-9]+)/delete/',
         views.ObservationDelete.as_view(), name='observation-delete'),
     url(r'^$', views.SurveyListView.as_view(), name='survey-list'),

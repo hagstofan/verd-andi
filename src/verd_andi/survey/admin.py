@@ -50,13 +50,18 @@ class ObservationAdmin(nested_admin.NestedModelAdmin):
         ('survey', admin.RelatedOnlyFieldListFilter),
         ('shop_type'),
         )
-    list_display = ('item', 'obs_time', 'shop_type', 'shop_own_brand', 'observer', 'show_link')
+    list_display = ('item', 'obs_time', 'shop_type', 'shop_own_brand', 'observer', 'show_link', 'edit_link')
 
 
     def show_link(self, obj):
-        return '<a href=/survey/observation/%s/>Click here</a>' % obj.id
+        # return '<a href=/survey/observation/%s/>Click here</a>' % obj.id
+        return '<a href=/survey/observation-view/%s/>view</a>' % obj.id
+
+    def edit_link(self, obj):
+        return '<a href=/survey/observation/%s/>edit</a>' % obj.id
 
     show_link.allow_tags = True
+    edit_link.allow_tags = True
 
 
 class SurveyAdmin(nested_admin.NestedModelAdmin):

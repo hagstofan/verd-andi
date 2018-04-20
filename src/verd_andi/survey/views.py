@@ -410,6 +410,79 @@ def ObservationUpdate(request, idx):
         return redirect(settings.LOGIN_REDIRECT_URL)
 
 
+# view observation
+def viewObservation(request, idx):
+    if request.user.is_authenticated():
+        observation = Observation.objects.get(pk=idx)
+        if (request.user.id == observation.observer.id or
+                request.user.is_superuser):
+            # user is qualified to update observation
+            item_id = observation.item.code
+            item = Item.objects.filter(pk=item_id)
+            # get item, get characteristics of item ..
+            chars = Characteristic.objects.filter(item=item_id)
+            observations = Observation.objects.filter(item=item_id)
+
+            spec_chars = chars.filter(specify=True)
+            specified_chars = list(sc.name for sc in spec_chars)
+            specified_chars_pk = list(sc.pk for sc in spec_chars)
+
+            data = {
+                'obs_time': observation.obs_time,
+                'shop_type': observation.shop_type,
+                'shop_identifier': observation.shop_identifier,
+                'flag': observation.flag,
+                'discount': observation.discount,
+                'observed_price': observation.observed_price,
+                'observed_quantity': observation.observed_quantity,
+                'obs_comment': observation.obs_comment,
+                'shop_own_brand': observation.shop_own_brand
+            }
+            # adding specified chars to form
+            ochars = []
+            for idp, schar_pk in enumerate(specified_chars_pk):
+                schar = ObservedCharacteristic.objects.get(
+                             characteristic=schar_pk,
+                             observation=observation.pk)
+                data[specified_chars[idp]] = schar.value
+                ochars.append(schar)  # for use later in case of POST request.
+
+            max_quantity_char = chars.filter(name="Maximum quantity")
+            min_quantity_char = chars.filter(name="Minimum quantity")
+
+            form = ObservationForm(request.POST or None,
+                                   extra=specified_chars,
+                                   initial=data,
+                                   max_quantity=max_quantity_char[0].value if
+                                   max_quantity_char else [],
+                                   min_quantity=min_quantity_char[0].value if
+                                   min_quantity_char else [])
+
+            context = {
+                "form": form,
+                "user_name": str(request.user),
+                "user_id": str(request.user.id),
+                "item": item,
+                "characteristics": chars,
+                "observations": observations,
+                "is_update": True,
+                "current_obs": idx,
+            }
+
+            if form.is_valid():  # POST request
+                # No posting this is read-only
+                raise PermissionDenied
+
+
+            return render(request, "survey/view_observation.html", context)
+        else:
+            raise PermissionDenied
+
+    else:
+        return redirect(settings.LOGIN_REDIRECT_URL)
+
+
+
 class ObservationDelete(DeleteView):
     model = Observation
     success_url = reverse_lazy('survey:survey-userdash')
