@@ -63,6 +63,34 @@ class ObservationAdmin(nested_admin.NestedModelAdmin):
     show_link.allow_tags = True
     edit_link.allow_tags = True
 
+class Observation4PriceComp(Observation):
+    class Meta:
+        proxy = True
+
+class PriceComparisonAdmin(ObservationAdmin):
+    def get_queryset(self, request):
+        return self.model.objects.all()
+
+    inlines = [ObservedCharacteristicInline, ]
+    search_fields = ('item__code','item__label','obs_time')
+    # list_filter = (
+    #     ('observer', admin.RelatedOnlyFieldListFilter),
+    #     ('survey', admin.RelatedOnlyFieldListFilter),
+    #     ('shop_type'),
+    #     )
+    list_display = ('item', 'shop_identifier', 'observed_price', 'observed_quantity', 'obs_time', 'shop_own_brand', 'show_link', 'edit_link')
+
+
+    def show_link(self, obj):
+        # return '<a href=/survey/observation/%s/>Click here</a>' % obj.id
+        return '<a href=/survey/observation-view/%s/>view</a>' % obj.id
+
+    def edit_link(self, obj):
+        return '<a href=/survey/observation/%s/>edit</a>' % obj.id
+
+    show_link.allow_tags = True
+    edit_link.allow_tags = True
+
 
 class SurveyAdmin(nested_admin.NestedModelAdmin):
     model = Survey
@@ -119,3 +147,4 @@ admin.site.register(Observer, UserObserverAdmin)
 admin.site.register(Characteristic, CharacteristicAdmin)
 admin.site.register(ObservedCharacteristic, ObservedCharacteristicAdmin)
 admin.site.register(ItemCommentary, ItemCommentaryAdmin)
+admin.site.register(Observation4PriceComp, PriceComparisonAdmin)
