@@ -629,10 +629,13 @@ def SurveyXML(request, pk):
                 commentary_comment = commentary[3]
                 commentary_vat = commentary[4]
             else:
-                commentary_vat =\
-                    commentary_comment =\
+                commentary_comment =\
                     commentary_representativity =\
                     commentary_seasonality = False
+                # taking default vat of survey
+                if(survey.default_vat):
+                    commentary_vat = survey.default_vat
+
 
             # cgs_section stuff
             cgs_section = Element('cgs:Section')

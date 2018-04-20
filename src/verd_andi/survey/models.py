@@ -24,6 +24,7 @@ class Survey(models.Model):
                                default=datetime.datetime.now().year)
     dataflowID = models.CharField(max_length=100)
     current = models.BooleanField()
+    default_vat = models.DecimalField(decimal_places=4, max_digits=4, default=0.24)
 
     class Meta:
         unique_together = (("code", "year"),)
