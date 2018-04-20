@@ -93,6 +93,13 @@ class ObservedCharacteristicAdmin(nested_admin.NestedModelAdmin):
 class ItemCommentaryAdmin(nested_admin.NestedModelAdmin):
     model = ItemCommentary
 
+    list_filter = (
+        ('vat'),
+        ('seasonality'),
+        ('representativity'),
+        )
+    list_display = ('item', 'vat','seasonality','representativity')
+
 
 admin.site.register(Survey, SurveyAdmin)
 admin.site.register(Item, ItemAdmin)
