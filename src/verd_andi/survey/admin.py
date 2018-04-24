@@ -112,7 +112,7 @@ class ObservationBetaAdmin(ObservationAdmin):
     #     ('survey', admin.RelatedOnlyFieldListFilter),
     #     ('shop_type'),
     #     )
-    list_display = ('item_code', 'shop_type', 'shop_identifier', 'discount', 'observed_price', 'observed_quantity', 'obs_time', 'show_link', 'edit_link')
+    list_display = ('item_code', 'shop_type', 'shop_identifier', 'discount', 'observed_price', 'observed_quantity', 'obs_time', 'flag', 'show_link', 'edit_link')
 
 
     def show_link(self, obj):

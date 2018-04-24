@@ -55,6 +55,7 @@ INSTALLED_APPS = [
     'survey',
     'rest_framework',
     'nested_admin',
+    'export_action',
 ]
 
 ACCOUNT_ACTIVATION_DAYS = 7
