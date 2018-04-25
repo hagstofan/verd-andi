@@ -93,8 +93,8 @@ class Observation(models.Model):
                                          ('R', 'R'),
                                          ('Q', 'Q'),
                                          ('T', 'T')])
-    observed_price = models.DecimalField(decimal_places=1, max_digits=25)
-    observed_quantity = models.DecimalField(decimal_places=1, max_digits=25)
+    observed_price = models.DecimalField(decimal_places=2, max_digits=25)
+    observed_quantity = models.DecimalField(decimal_places=2, max_digits=25)
     item = models.ForeignKey(Item)
     observer = models.ForeignKey(User,
                                  blank=True,

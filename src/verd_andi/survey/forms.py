@@ -37,8 +37,8 @@ class ObservationForm(forms.Form):
     shop_identifier = forms.CharField()
     # flag = forms.CharField(max_length=4)
 
-    observed_price = forms.DecimalField(decimal_places=1, max_digits=25)
-    observed_quantity = forms.DecimalField(decimal_places=1, max_digits=25)
+    observed_price = forms.DecimalField(decimal_places=2, max_digits=25)
+    observed_quantity = forms.DecimalField(decimal_places=2, max_digits=25)
     # item = forms.ForeignKey(Item)
     obs_comment = forms.CharField(max_length=300, required=False)
     # specified_characteristics = forms.CharField(max_length=400, blank=True)
