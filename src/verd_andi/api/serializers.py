@@ -67,7 +67,7 @@ class AdaptiveObservationSerializer(serializers.ModelSerializer):
         try:
             rep = obj.item.itemcommentary.representativity
         except ItemCommentary.DoesNotExist:
-            rep = False
+            rep = True
         
         return rep  
 
