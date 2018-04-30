@@ -13,7 +13,8 @@ from survey.models import Item, ItemObserver, Observation
 from .serializers import (
     ItemSerializer,
     ItemObserverSerializer,
-    ObservationSerializer
+    ObservationSerializer,
+    AdaptiveObservationSerializer
     )
 # Create your views here.
 
@@ -21,7 +22,7 @@ class ObservationList(APIView):
 
     def get(self, request):
         observations = Observation.objects.all()
-        serializer = ObservationSerializer(observations, many=True)
+        serializer = AdaptiveObservationSerializer(observations, many=True)
         return Response(serializer.data)
 
     def post(self):
