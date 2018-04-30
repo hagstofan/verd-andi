@@ -51,7 +51,8 @@ class AdaptiveObservationSerializer(serializers.ModelSerializer):
     # month
     month = serializers.SerializerMethodField()
     # month = serializers.DateField(source="obs_time")
-    representative = serializers.PrimaryKeyRelatedField(source="item.itemcommentary.representativity", read_only=True)
+    # representative = serializers.PrimaryKeyRelatedField(source="item.itemcommentary.representativity", read_only=True)
+    representative = serializers.SerializerMethodField()
     # obs_comments = serializers.PrimaryKeyRelatedField(source="item.itemcommentary.comment", read_only=True)  # eda obs_comment ?
     obs_comments = serializers.CharField(source="obs_comment")
 
@@ -60,6 +61,15 @@ class AdaptiveObservationSerializer(serializers.ModelSerializer):
 
     def get_month(self, obj):
         return '{}'.format(str(obj.obs_time).split('-')[1])
+
+    def get_representative(self, obj):
+
+        try:
+            rep = obj.item.itemcommentary.representativity
+        except ItemCommentary.DoesNotExist:
+            rep = False
+        
+        return rep  
 
     class Meta:
         model = Observation
