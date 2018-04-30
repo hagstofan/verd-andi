@@ -52,7 +52,8 @@ class AdaptiveObservationSerializer(serializers.ModelSerializer):
     month = serializers.SerializerMethodField()
     # month = serializers.DateField(source="obs_time")
     representative = serializers.PrimaryKeyRelatedField(source="item.itemcommentary.representativity", read_only=True)
-    obs_comments = serializers.PrimaryKeyRelatedField(source="item.itemcommentary.comment", read_only=True)  # eda obs_comment ?
+    # obs_comments = serializers.PrimaryKeyRelatedField(source="item.itemcommentary.comment", read_only=True)  # eda obs_comment ?
+    obs_comments = serializers.CharField(source="obs_comment")
 
     def get_nr_konnunar(self, obj):
         return '{}{}'.format(obj.survey.code, obj.survey.year)
