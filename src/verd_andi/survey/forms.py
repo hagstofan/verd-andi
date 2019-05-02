@@ -84,20 +84,13 @@ class ObservationForm(forms.Form):
             self.field_order.append('custom_%s' % i)
 
         self.field_order.append('obs_comment')
-        # self.field_order.append('shop_own_brand')
+        self.field_order.append('shop_own_brand')
 
         fields = OrderedDict()
         for key in self.field_order:
             fields[key] = self.fields.pop(key)
 
         self.fields = fields
-
-        self.fields['shop_own_brand'] = forms.BooleanField(label="Shop own brand")
-        self.field_order.append('shop_own_brand')
-
-        # Debug.
-        print(self.field_order)
-
 
     def extra_answers(self):
         for name, value in self.cleaned_data.items():

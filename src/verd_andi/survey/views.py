@@ -181,6 +181,7 @@ def item_observation(request, idx):
             obs_comment = form.cleaned_data['obs_comment']
             theitem = Item.objects.filter(pk=item)[0]
             theuser = User.objects.filter(pk=observer)[0]
+            shop_own_brand = form.cleaned_data['shop_own_brand']
             surv = getattr(theitem, 'survey')
             # survey = Survey.objects.filter(pk=surv.pk)
             observation = Observation.objects.create(
@@ -194,6 +195,7 @@ def item_observation(request, idx):
                 observed_price=observed_price,
                 observed_quantity=observed_quantity,
                 obs_comment=obs_comment,
+                shop_own_brand=shop_own_brand,
                 survey=surv
                 )
             observation.save()
