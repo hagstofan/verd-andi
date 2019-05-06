@@ -39,6 +39,9 @@ SERVER_EMAIL = 'bergur@bergur.biz'
 DB_PASSWORD = localVars.db_passwd
 DKR_DB_PASSWORD = localVars.dkr_db_passwd
 
+# usefull in debugging on docker to use other db sometimes
+DB_NAME = os.environ.get('DB_NAME', 'db')
+
 # Application definition
 
 INSTALLED_APPS = [
@@ -118,7 +121,7 @@ if (DB == 'ppp_db'):  # the Docker database
             'NAME': 'verdandi',
             'USER': 'verdandi',
             'PASSWORD': DKR_DB_PASSWORD,
-            'HOST': 'ppp_db',
+            'HOST': DB_NAME,
             'PORT': '5432',
             }
     }
