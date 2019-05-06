@@ -16,3 +16,4 @@ test-data/frhea-pics-2017/
 pip-selfcheck.json
 /man
 docker-compose.yml
+*.ini

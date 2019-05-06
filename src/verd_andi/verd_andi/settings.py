@@ -21,7 +21,8 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/1.10/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = localVars.django_secret_key
+# SECRET_KEY = localVars.django_secret_key
+SECRET_KEY = os.environ.get('SECRET_KEY', '')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 STR_DEBUG = os.environ.get('DEBUG', 'true').lower()
@@ -29,15 +30,10 @@ DEBUG = (STR_DEBUG == 'true')
 DB = os.environ.get('DB')
 
 
-EMAIL_HOST = localVars.email_host
-EMAIL_HOST_USER = localVars.email_user
-EMAIL_HOST_PASSWORD = localVars.email_password
-EMAIL_PORT = 587
-EMAIL_USE_TLS = True
-DEFAULT_FROM_EMAIL = 'bergur@bergur.biz'
-SERVER_EMAIL = 'bergur@bergur.biz'
-DB_PASSWORD = localVars.db_passwd
-DKR_DB_PASSWORD = localVars.dkr_db_passwd
+# DB_PASSWORD = localVars.db_passwd
+DB_PASSWORD = os.environ.get('DB_PASSWORD', '')
+#DKR_DB_PASSWORD = localVars.dkr_db_passwd
+DKR_DB_PASSWORD = os.environ.get('DKR_DB_PASSWORD', '')
 
 # usefull in debugging on docker to use other db sometimes
 DB_NAME = os.environ.get('DB_NAME', 'db')
