@@ -475,14 +475,12 @@ def viewObservation(request, idx):
                 # No posting this is read-only
                 raise PermissionDenied
 
-
             return render(request, "survey/view_observation.html", context)
         else:
             raise PermissionDenied
 
     else:
         return redirect(settings.LOGIN_REDIRECT_URL)
-
 
 
 class ObservationDelete(DeleteView):
@@ -711,7 +709,6 @@ def SurveyXML(request, pk):
                 if(survey.default_vat):
                     commentary_vat = survey.default_vat
 
-
             # cgs_section stuff
             cgs_section = Element('cgs:Section')
             cgs_section.set("ECP_ITEM", i_row[0])
@@ -757,7 +754,8 @@ def SurveyXML(request, pk):
                     cgs_observed_price.set('DISCOUNT', str(obs_i[6]))
                     cgs_observed_price.set('value', str(round(obs_i[7], 1)))
                     # cgs_observed_price.set('SHOP_OWN_BRAND', "Y" if )
-                    cgs_observed_price.set('SHOP_OWN_BRAND', "Y" if (obs_i[14] == True) else "N")
+                    cgs_observed_price.set('SHOP_OWN_BRAND',
+                                           "Y" if obs_i[14] else "N")
                     # print(obs_i)
 
                     cgs_section.append(cgs_observed_price)

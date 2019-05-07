@@ -69,7 +69,7 @@ class ObservationForm(forms.Form):
         self.field_order = [
             'discount',
             'shop_type',
-            'shop_identifier', 
+            'shop_identifier',
             'observed_price',
             'observed_quantity',
             ]

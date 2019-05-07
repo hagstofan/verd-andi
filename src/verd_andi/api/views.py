@@ -16,7 +16,7 @@ from .serializers import (
     ObservationSerializer,
     AdaptiveObservationSerializer
     )
-# Create your views here.
+
 
 class ObservationList(APIView):
 
@@ -27,6 +27,7 @@ class ObservationList(APIView):
 
     def post(self):
         pass
+
 
 class ItemList(APIView):
 

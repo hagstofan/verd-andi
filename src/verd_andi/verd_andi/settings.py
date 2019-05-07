@@ -32,7 +32,7 @@ DB = os.environ.get('DB')
 
 # DB_PASSWORD = localVars.db_passwd
 DB_PASSWORD = os.environ.get('DB_PASSWORD', '')
-#DKR_DB_PASSWORD = localVars.dkr_db_passwd
+# DKR_DB_PASSWORD = localVars.dkr_db_passwd
 DKR_DB_PASSWORD = os.environ.get('DKR_DB_PASSWORD', '')
 
 # usefull in debugging on docker to use other db sometimes
@@ -148,7 +148,8 @@ else:   # using sqlite
 AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME':
-        'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
+        'django.contrib.auth.password_validation.UserAttributeSimilari'
+        'tyValidator',
     },
     {
         'NAME':
