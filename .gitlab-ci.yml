@@ -1,0 +1,28 @@
+stages:
+  - build
+  - release
+
+variables:
+  CONTAINER_TEST_IMAGE: docker.hagstofa.local/vefskil/verdandi:$CI_COMMIT_REF_SLUG
+  CONTAINER_RELEASE_IMAGE: docker.hagstofa.local/vefskil/verdandi:latest
+
+dockerize: 
+  stage: build 
+  script:
+    - docker build -t $CONTAINER_TEST_IMAGE .
+    - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN docker.hagstofa.local
+    - docker push $CONTAINER_TEST_IMAGE
+  tags:
+    - linux
+
+release-image:
+  stage: release
+  script:
+    - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN docker.hagstofa.local
+    - docker pull $CONTAINER_TEST_IMAGE
+    - docker tag $CONTAINER_TEST_IMAGE $CONTAINER_RELEASE_IMAGE
+    - docker push $CONTAINER_RELEASE_IMAGE
+  tags:
+    - linux
+  only:
+    - master
