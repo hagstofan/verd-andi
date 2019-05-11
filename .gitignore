@@ -15,3 +15,5 @@ src/media_cdn/*
 test-data/frhea-pics-2017/
 pip-selfcheck.json
 /man
+dev-config.ini
+docker-compose.yml
