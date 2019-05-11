@@ -44,14 +44,19 @@ class ItemAdmin(nested_admin.NestedModelAdmin):
 class ObservationAdmin(nested_admin.NestedModelAdmin):
     model = Observation
     inlines = [ObservedCharacteristicInline, ]
-    search_fields = ('item__code','item__label','obs_time')
+    search_fields = ('item__code', 'item__label', 'obs_time')
     list_filter = (
         ('observer', admin.RelatedOnlyFieldListFilter),
         ('survey', admin.RelatedOnlyFieldListFilter),
         ('shop_type'),
         )
-    list_display = ('item', 'obs_time', 'shop_type', 'shop_own_brand', 'observer', 'show_link', 'edit_link')
-
+    list_display = ('item',
+                    'obs_time',
+                    'shop_type',
+                    'shop_own_brand',
+                    'observer',
+                    'show_link',
+                    'edit_link')
 
     def show_link(self, obj):
         # return '<a href=/survey/observation/%s/>Click here</a>' % obj.id
@@ -62,6 +67,7 @@ class ObservationAdmin(nested_admin.NestedModelAdmin):
 
     show_link.allow_tags = True
     edit_link.allow_tags = True
+
 
 class Observation4PriceComp(Observation):
 
@@ -80,14 +86,20 @@ class PriceComparisonAdmin(ObservationAdmin):
         return self.model.objects.all()
 
     inlines = [ObservedCharacteristicInline, ]
-    search_fields = ('item__code','item__label','obs_time')
+    search_fields = ('item__code', 'item__label', 'obs_time')
     # list_filter = (
     #     ('observer', admin.RelatedOnlyFieldListFilter),
     #     ('survey', admin.RelatedOnlyFieldListFilter),
     #     ('shop_type'),
     #     )
-    list_display = ('item', 'shop_identifier', 'observed_price', 'observed_quantity', 'obs_time', 'shop_own_brand', 'show_link', 'edit_link')
-
+    list_display = ('item',
+                    'shop_identifier',
+                    'observed_price',
+                    'observed_quantity',
+                    'obs_time',
+                    'shop_own_brand',
+                    'show_link',
+                    'edit_link')
 
     def show_link(self, obj):
         # return '<a href=/survey/observation/%s/>Click here</a>' % obj.id
@@ -106,14 +118,22 @@ class ObservationBetaAdmin(ObservationAdmin):
         return self.model.objects.all()
 
     inlines = [ObservedCharacteristicInline, ]
-    search_fields = ('item__code','item__label','obs_time')
+    search_fields = ('item__code', 'item__label', 'obs_time')
     # list_filter = (
     #     ('observer', admin.RelatedOnlyFieldListFilter),
     #     ('survey', admin.RelatedOnlyFieldListFilter),
     #     ('shop_type'),
     #     )
-    list_display = ('item_code', 'shop_type', 'shop_identifier', 'discount', 'observed_price', 'observed_quantity', 'obs_time', 'flag', 'show_link', 'edit_link')
-
+    list_display = ('item_code',
+                    'shop_type',
+                    'shop_identifier',
+                    'discount',
+                    'observed_price',
+                    'observed_quantity',
+                    'obs_time',
+                    'flag',
+                    'show_link',
+                    'edit_link')
 
     def show_link(self, obj):
         # return '<a href=/survey/observation/%s/>Click here</a>' % obj.id
@@ -173,7 +193,7 @@ class ItemCommentaryAdmin(nested_admin.NestedModelAdmin):
         ('seasonality'),
         ('representativity'),
         )
-    list_display = ('item', 'vat','seasonality','representativity')
+    list_display = ('item', 'vat', 'seasonality', 'representativity')
 
 
 admin.site.register(Survey, SurveyAdmin)

@@ -24,6 +24,7 @@ from survey.views import (
     SurveyDetailView,
     )
 
+
 class SurveyDetailViewTests(TestCase):
 
     def setUp(self):
@@ -37,23 +38,24 @@ class SurveyDetailViewTests(TestCase):
             dataflowID='pppMishmash'
             )
         Survey.objects.create(id=int(1),
-            code='abcd',
-            year=int(1997),
-            current=True,
-            dataflowID='pppMishmash')
+                              code='abcd',
+                              year=int(1997),
+                              current=True,
+                              dataflowID='pppMishmash')
 
     def _call_survey_detail_view(self, user):
         user = User.objects.filter(is_superuser=True).first()
         kwargs = {'pk': self.survey.id}
-        request = self.factory.get(reverse('survey:survey-detail'), kwargs=kwargs)
+        request = self.factory.get(reverse('survey:survey-detail'),
+                                   kwargs=kwargs)
         request.user = user
         return SurveyDetailView.as_view()(request)
 
-
     def test_survey_detail_response(self):
         print(self.survey.id)
-        self.assertEqual('fart','fart')
-        user = User.objects.filter(is_superuser=True).first()
-        request = self.factory.get(reverse('survey:survey-detail', kwargs={'pk':self.survey.id}))
+        self.assertEqual('fart', 'fart')
+        # user = User.objects.filter(is_superuser=True).first()
+        request = self.factory.get(reverse('survey:survey-detail',
+                                           kwargs={'pk': self.survey.id}))
         response = SurveyDetailView.as_view()(request, pk=self.survey.id)
         self.assertEqual(response.status_code, 200)

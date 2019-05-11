@@ -1,6 +1,7 @@
 # forms.py for survey app
 from django import forms
 from decimal import Decimal
+from collections import OrderedDict
 
 
 # some validators.
@@ -65,12 +66,31 @@ class ObservationForm(forms.Form):
         else:
             initial = {}
 
+        self.field_order = [
+            'discount',
+            'shop_type',
+            'shop_identifier',
+            'observed_price',
+            'observed_quantity',
+            ]
+
         for i, question in enumerate(extra):
             if question in initial:
                 self.fields['custom_%s' % i] = forms\
                     .CharField(label=question, initial=initial[question])
             else:
                 self.fields['custom_%s' % i] = forms.CharField(label=question)
+
+            self.field_order.append('custom_%s' % i)
+
+        self.field_order.append('obs_comment')
+        self.field_order.append('shop_own_brand')
+
+        fields = OrderedDict()
+        for key in self.field_order:
+            fields[key] = self.fields.pop(key)
+
+        self.fields = fields
 
     def extra_answers(self):
         for name, value in self.cleaned_data.items():
