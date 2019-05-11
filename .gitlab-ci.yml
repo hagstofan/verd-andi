@@ -26,3 +26,15 @@ release-image:
     - linux
   only:
     - master
+
+publish-image:
+  stage: release
+  script:
+    - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN docker.hagstofa.local
+    - docker build -t $PUBLIC_RELEASE_IMAGE .
+    - docker login -u $REGISTRY_USER -p $REGISTRY_PASSWORD registry.hagstofa.is
+    - docker push $PUBLIC_RELEASE_IMAGE
+  tags:
+    - linux
+  only:
+    - master
