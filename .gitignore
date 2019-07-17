@@ -18,3 +18,5 @@ pip-selfcheck.json
 docker-compose.yml
 *.ini
 
+pg_data
+app_data

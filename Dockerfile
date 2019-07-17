@@ -9,6 +9,8 @@ ADD requirements.txt src/ /
 RUN pip install --no-cache-dir -r requirements.txt && \
     rm -rf /var/lib/apt/lists/*
 
+COPY entrypoint.sh .
+RUN ["chmod", "+x", "entrypoint.sh"]
 
 EXPOSE 8000
 
