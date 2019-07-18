@@ -2,7 +2,7 @@ FROM python:3
 
 WORKDIR verd_andi
 
-ENV DEBUG=False DB=ppp_db
+ENV DEBUG=True DB=ppp_db
 
 ADD requirements.txt src/ /
 
@@ -14,4 +14,4 @@ RUN ["chmod", "+x", "entrypoint.sh"]
 
 EXPOSE 8000
 
-CMD ["python", "manage.py", "runserver"]
+CMD ["gunicorn", "--bind","0.0.0.0","verd_andi.wsgi"]
