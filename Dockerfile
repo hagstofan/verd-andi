@@ -1,13 +1,15 @@
 FROM python:3
 
-WORKDIR verd_andi
+WORKDIR /app/verd_andi
 
 ENV DEBUG=False DB=ppp_db
 
-ADD requirements.txt src/ /
+ADD requirements.txt /app/
 
-RUN pip install --no-cache-dir -r requirements.txt && \
+RUN pip install --no-cache-dir -r ../requirements.txt && \
     rm -rf /var/lib/apt/lists/*
+
+COPY src /app/src/
 
 EXPOSE 8000
 

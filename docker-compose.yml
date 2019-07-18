@@ -13,8 +13,8 @@ services:
   app:
     build:
       context: ./
-      dockerfile: Dockerfile-dev
-    entrypoint: ./entrypoint.sh
+      dockerfile: Dockerfile
+    command: bash entrypoint.sh
     environment:
       DB: "ppp_db"
       SECRET_KEY: "--secret-2--"
@@ -22,7 +22,9 @@ services:
       DKR_DB_PASSWORD: "--secret-1--"
       DEBUG: "true"
     volumes:
-      - ./app_data:/data
+      - ./src:/app
+      - ./entrypoint.sh:/app/verd_andi/entrypoint.sh
+      - ./app_data:/app/data
     networks:
       - internal
     ports:
