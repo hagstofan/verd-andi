@@ -23,7 +23,7 @@ services:
       DEBUG: "true"
     volumes:
       - ./src:/app
-      - ./entrypoint.sh:/app/verd_andi/entrypoint.sh
+      - ./dev-entrypoint.sh:/app/verd_andi/entrypoint.sh
       - ./app_data:/app/data
     networks:
       - internal
