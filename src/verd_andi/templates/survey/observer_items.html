@@ -8,7 +8,13 @@
 {% endif %}
 
 {% if items or chosen_items %}
-	<input type="text" id="myInput" onkeyup="myFunction()" placeholder="&#xf002;" autofocus>
+	<input 
+		type="text" 
+		id="myInput" 
+		onkeyup="myFunction()" 
+		placeholder="&#xf002;" 
+		autofocus
+	>
 	
 	{% if target_user %}
 		<span class="label label-primary">  Observer Items for user: {{target_user}} </span>
@@ -19,8 +25,23 @@
 		{% for citem in chosen_items %}
 		<li>
 			<span>
-		        <input type="checkbox" aria-label="..." onchange="onCheckboxChange(this)" data="{{ citem.code }}" checked="true" iobspk="{{ citem.iobspk }}">
-		        <a href="{% url 'survey:item-observation' citem.code %}">{{ citem.label }} - {{ citem.code }}</a> {% if request.user.is_superuser %}  -   <a href="{% url 'survey:item-commentary-edit' citem.code %}"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a> {% endif %}
+		        <input type="checkbox" 
+		        	aria-label="..." 
+		        	onchange="onCheckboxChange(this)" 
+		        	data="{{ citem.code }}" 
+		        	checked="true" 
+		        	iobspk="{{ citem.iobspk }}"
+		        >
+		        <a href="{% url 'survey:item-observation' citem.code %}">
+		        	{{ citem.label }} - {{ citem.code }}
+		        </a> 
+
+		        {% if request.user.is_superuser %} - 
+			        <a href="{% url 'survey:item-commentary-edit' citem.code %}">
+			        	<i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+			        </a> 
+		        {% endif %}
+
 	        </span>
 	    </li>
 		{% endfor %}
