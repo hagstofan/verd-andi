@@ -23,7 +23,7 @@
     <button 
       type="button" 
       class="btn btn-primary"
-      onclick="addAllVisibleItems()"
+      onclick="checkAllVisibleItems(true)"
     >
       Select all
     </button>
@@ -31,7 +31,7 @@
     <button 
       type="button" 
       class="btn btn-warning"
-      onclick="removeAllVisibleItems()"
+      onclick="checkAllVisibleItems(false)"
     >
       Unselect all
     </button>
@@ -110,31 +110,18 @@
         }
       }
 
-      // checks all visible checkboxes & sends data to database
-      function addAllVisibleItems() {
+      // if boolChecked is true: adds all visible items in database 
+      //                         & checks all visible checkboxes
+      // if false, unchecks & removes all visible items in database
+      function checkAllVisibleItems (boolChecked) {
         var ul = document.getElementById("myUL");
         var li = ul.getElementsByTagName('li');
 
         for (i = 0; i < li.length; i++) { // loop through all
           if(li[i].style.display === "") { // if visible
             var checkbox = li[i].querySelector('input[type="checkbox"]');
-            if(checkbox.checked === false) {
-              checkbox.checked = true; // only changes in the html, doesn't fire onchange event
-              checkbox.onchange(); // firing onchange event to send data to database
-            }
-          }
-        }
-      }
-
-      function removeAllVisibleItems() {
-        var ul = document.getElementById("myUL");
-        var li = ul.getElementsByTagName('li');
-
-        for (i = 0; i < li.length; i++) { // loop through all
-          if(li[i].style.display === "") { // if visible
-            var checkbox = li[i].querySelector('input[type="checkbox"]');
-            if(checkbox.checked === true) {
-              checkbox.checked = false; // only changes in the html, doesn't fire onchange event
+            if(checkbox.checked !== boolChecked) {
+              checkbox.checked = boolChecked; // only changes in the html, doesn't fire onchange event
               checkbox.onchange(); // firing onchange event to send data to database
             }
           }
