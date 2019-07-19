@@ -7,6 +7,10 @@
 		<p hidden id="user_id">{{ target_user_id }}</p>
 	{% endif %}
 
+  {% if target_user %}
+    <span class="label label-primary">  Observer Items for user: {{target_user}} </span>
+  {% endif %}
+
 	{% if items or chosen_items %}
 		<input 
 			type="text" 
@@ -23,10 +27,6 @@
     >
       Select all
     </button>
-
-		{% if target_user %}
-			<span class="label label-primary">  Observer Items for user: {{target_user}} </span>
-		{% endif %}
 
 		<ul id="myUL">
 		{% if chosen_items %}
