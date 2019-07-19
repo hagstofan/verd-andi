@@ -7,6 +7,17 @@ Verdandi can take in a schema description of a survey from the item list xml of 
 items in the survey.  Once price collection is finished or at any stage of the collection
 process, Verdandi can produce xml containing the survey description and collected data.
 
+## Development
+
+Use Docker for development by running the following command
+
+    > sudo docker-compose -f dev-docker-compose.yml up --build
+
+This creates and migrates the database, creates a superuser called *admin* with
+password *admin* and runs the Django development server.
+
+Glory!
+
 ## Installation
 
 with Docker, first create a db container:

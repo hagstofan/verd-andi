@@ -1,0 +1,37 @@
+version: '3'
+services:
+  db:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_USER: verdandi
+      POSTGRES_PASSWORD: "--secret-1--"
+    volumes:
+      - ./pg_data:/var/lib/postgresql/data
+    networks:
+      - internal
+  app:
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    command: bash entrypoint.sh
+    environment:
+      DB: "ppp_db"
+      SECRET_KEY: "--secret-2--"
+      DB_PASSWORD: "--secret-3--"
+      DKR_DB_PASSWORD: "--secret-1--"
+      DEBUG: "true"
+    volumes:
+      - ./src:/app
+      - ./dev-entrypoint.sh:/app/verd_andi/entrypoint.sh
+      - ./app_data:/app/data
+    networks:
+      - internal
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+
+networks:
+  internal:
+    driver: bridge
