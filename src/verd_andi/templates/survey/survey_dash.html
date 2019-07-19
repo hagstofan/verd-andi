@@ -101,48 +101,43 @@ window.addEventListener("load", function(){
   </br>
           
   <div id="previous-observations-more2" class="collapse">
-  <!-- observations here -->
-  {% for obs_item in obs_item_list %}
-    <button type="button"
-      class="btn btn-success"
-      data-toggle="collapse"
-      data-target="#previous-observations-more-aggregate-{{ forloop.counter }}">
-      <strong>
-        ({{obs_item.count}}) -- 
-        {% with obs_item.observations|first as obs_x %}
-          {{ obs_x.item.code }} -- {{ obs_x.item.label |truncatechars:9}}
-        {% endwith %}
-      </strong>
-    </button>
-        
-    <div id="previous-observations-more-aggregate-{{forloop.counter}}" class="collapse">
-      <!-- observations here -->
+    <!-- observations here -->
+    {% for obs_item in obs_item_list %}
+      <button type="button"
+        class="btn btn-success"
+        data-toggle="collapse"
+        data-target="#previous-observations-more-aggregate-{{ forloop.counter }}">
+        <strong>
+          ({{obs_item.count}}) -- 
+          {% with obs_item.observations|first as obs_x %}
+            {{ obs_x.item.code }} -- {{ obs_x.item.label |truncatechars:9}}
+          {% endwith %}
+        </strong>
+      </button>
+          
+      <div id="previous-observations-more-aggregate-{{forloop.counter}}" class="collapse">
+        <!-- observations here -->
         <table class="table">
-       <tr>
-        <th>date</th>
-        <th>shop</th>
-        <th>label</th>
-        <th>price</th>
-        <th>quantity</th>
-       </tr>
-      {% for obs in obs_item.observations %}
           <tr>
-        <td><a href="{% url 'survey:observation-update' obs.pk %}">{{ obs.obs_time }} </a></td>
-        <td>{{obs.shop_identifier}} </td>
-        <td>{{ obs.item.label }} </td>
-        <td>{{obs.observed_price}} </td>
-        <td>{{obs.observed_quantity}} </td>
-        </tr>
-
-
-
-  
-      {% endfor %}
-      </table>
-    </div>  
-    </br>     
-    
-  {% endfor %}
+            <th>date</th>
+            <th>shop</th>
+            <th>label</th>
+            <th>price</th>
+            <th>quantity</th>
+          </tr>
+          {% for obs in obs_item.observations %}
+            <tr>
+              <td><a href="{% url 'survey:observation-update' obs.pk %}">{{ obs.obs_time }}</a></td>
+              <td>{{obs.shop_identifier}}</td>
+              <td>{{ obs.item.label }}</td>
+              <td>{{obs.observed_price}}</td>
+              <td>{{obs.observed_quantity}}</td>
+            </tr>
+          {% endfor %}
+        </table>
+      </div>  
+      </br>     
+    {% endfor %}
   </div>   
 {% endif %}
 
