@@ -23,9 +23,17 @@
     <button 
       type="button" 
       class="btn btn-primary"
-      onclick="checkAllVisibleCheckboxes()"
+      onclick="addAllVisibleItems()"
     >
       Select all
+    </button>
+
+    <button 
+      type="button" 
+      class="btn btn-warning"
+      onclick="removeAllVisibleItems()"
+    >
+      Unselect all
     </button>
 
     <ul id="myUL">
@@ -102,15 +110,33 @@
         }
       }
 
-      function checkAllVisibleCheckboxes() {
+      // checks all visible checkboxes & sends data to database
+      function addAllVisibleItems() {
         var ul = document.getElementById("myUL");
         var li = ul.getElementsByTagName('li');
 
         for (i = 0; i < li.length; i++) { // loop through all
           if(li[i].style.display === "") { // if visible
             var checkbox = li[i].querySelector('input[type="checkbox"]');
-            checkbox.checked = true;
-            checkbox.onchange();
+            if(checkbox.checked === false) {
+              checkbox.checked = true; // only changes in the html, doesn't fire onchange event
+              checkbox.onchange(); // firing onchange event to send data to database
+            }
+          }
+        }
+      }
+
+      function removeAllVisibleItems() {
+        var ul = document.getElementById("myUL");
+        var li = ul.getElementsByTagName('li');
+
+        for (i = 0; i < li.length; i++) { // loop through all
+          if(li[i].style.display === "") { // if visible
+            var checkbox = li[i].querySelector('input[type="checkbox"]');
+            if(checkbox.checked === true) {
+              checkbox.checked = false; // only changes in the html, doesn't fire onchange event
+              checkbox.onchange(); // firing onchange event to send data to database
+            }
           }
         }
       }
