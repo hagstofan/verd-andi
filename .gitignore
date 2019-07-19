@@ -19,3 +19,7 @@ pip-selfcheck.json
 
 pg_data
 app_data
+
+# These are build products from the docker-compose
+src/verd_andi/entrypoint.sh
+src/verd_andi/survey/migrations/0035_auto_20190718_1413.py
