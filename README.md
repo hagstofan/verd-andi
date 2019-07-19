@@ -11,7 +11,7 @@ process, Verdandi can produce xml containing the survey description and collecte
 
 Use Docker for development by running the following command
 
-    > sudo docker-compose up --build
+    > sudo docker-compose -f dev-docker-compose.yml up --build
 
 This creates and migrates the database, creates a superuser called *admin* with
 password *admin* and runs the Django development server.
