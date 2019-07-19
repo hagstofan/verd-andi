@@ -4,107 +4,128 @@
 {% block content %}
 
 {% if request.user.is_superuser %}
-	<h3>Admin tools:</h3>
-	<a href="{% url 'survey:observers-management' %}">Manage ItemObservers</a>
-	</br>
-	<a href="{% url 'survey:survey-list' %}">surveys</a>
-	</br>
-	<a href="{% url 'admin:index' %}">django admin area</a>
+  <h3>Admin tools:</h3>
+  <a href="{% url 'survey:observers-management' %}">Manage ItemObservers</a>
+  </br>
+  <a href="{% url 'survey:survey-list' %}">surveys</a>
+  </br>
+  <a href="{% url 'admin:index' %}">django admin area</a>
 {% endif %}
 
+<!-- Dashboard item search -->
+<script type="text/javascript">
+window.addEventListener("load", function(){
+  // Add event listener to input
+  var searchInput = document.getElementById("dashboard-search");
+  searchInput.addEventListener("input", listenOnInput);
+
+  // Event handler
+  function listenOnInput(e){
+    var searchTerm = e.srcElement.value;
+    var items = document.getElementById("dashboard-items").getElementsByClassName("well");
+    
+    for (var i = 0; i < items.length; i++) {
+      var item = items[i];
+      var label = getPropsFromItem(item);
+
+      if (label.toLowerCase().includes(searchTerm.toLowerCase()) || searchTerm == "") {
+        setItemVisibility(item, true);
+      } else {
+        setItemVisibility(item, false);
+      }
+    }
+  }
+
+  // Retrieve search properties from items
+  function getPropsFromItem(el){
+    return el.dataset.instance;
+  }
+
+  // Hide or show item
+  function setItemVisibility(el, visible){
+    if (visible) {
+      el.style.display = "block";
+    } else {
+      el.style.display = "none";
+    }
+  }
+})
+</script>
 
 {% if items %}
-	<h3>Items:</h3>
-	{% for instance in items %}
-		<div class="well">
-		{% if instance.observed %}
-		 <a href="{% url 'survey:item-observation' instance.code %}"> {{ instance.label }}</a> <a href="{% url 'survey:item-observations' instance.code %}">( {{instance.u_obs_count}} of {{ instance.obs_count }})</a>
-		 {% else %}
-		 <a href="{% url 'survey:item-observation' instance.code %}" style="font-weight: bold;"> {{ instance.label }}</a>
-		 {% endif %}
-		 {% if request.user.is_superuser %}  -   <a href="{% url 'survey:item-commentary-edit' instance.code %}"><i class="fa fa-pencil-square-o" aria-hidden="true"></i>
-		
-</a> {% endif %}
-		</br>
-		<p>{{ instance.code }}</p>
+  <h3>Dashboard</h3>
+  <hr>
+  <h4>
+    Search:
+    <input type="text"
+      id="dashboard-search"
+      name="search"
+      placeholder="Light bulb, low energy">
+  </h4>
+  <div id="dashboard-items">
+    {% for instance in items %}
+      <div class="well" data-instance="{{ instance.label }}">
+        {% if instance.observed %}
+          <a href="{% url 'survey:item-observation' instance.code %}" target="_blank"> {{ instance.label }}</a> <a href="{% url 'survey:item-observations' instance.code %}" target="_blank">( {{instance.u_obs_count}} of {{ instance.obs_count }})</a>
+        {% else %}
+          <a href="{% url 'survey:item-observation' instance.code %}" style="font-weight: bold;" target="_blank"> {{ instance.label }}</a>
+        {% endif %}
 
-		</div>
-	{% endfor %}
+        {% if request.user.is_superuser %}  -   <a href="{% url 'survey:item-commentary-edit' instance.code %}"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a> {% endif %}
+        </br>
+        <p>{{ instance.code }}</p>
+      </div>
+    {% endfor %}
+  </div>
 {% endif %}
-
 
 <hr>
 
 <h3>Item Search for survey:</h3>
-	{% if surveys %}
-		{% for surv in surveys %}
-	<a href="{% url 'survey:survey-search' surv.pk %}">{{ surv.code }}-{{ surv.year }}</a>
-	</br>
-		{% endfor %}
-	{% endif %}
-
-<!-- 
-{% if observations %}
-<hr>
-        <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#previous-observations-more">	<strong>
-                Previous Observations
-            </strong>
-        </button>
-          
-        <div id="previous-observations-more" class="collapse">
-            
-		    {% for obs in observations %}
-				<a href="{% url 'survey:observation-update' obs.pk %}">   {{ obs.obs_time }} {{ obs.item.label }} </a> --- <a href="{% url 'survey:observation-delete' obs.pk %}"><i class="fa fa-trash" aria-hidden="true"></i>
-				</a> 
-				</br>
-
-			{% endfor %}
-        </div>   
+{% if surveys %}
+  {% for surv in surveys %}
+    <a href="{% url 'survey:survey-search' surv.pk %}">{{ surv.code }}-{{ surv.year }}</a>
+    </br>
+  {% endfor %}
 {% endif %}
-</br> -->
-
 
 {% if obs_item_list %}
+  <hr>
+  <button type="button"
+    class="btn btn-info"
+    data-toggle="collapse"
+    data-target="#previous-observations-more2">
+    <strong>Previous Observations</strong>
+  </button>
 
-	<hr>
-        <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#previous-observations-more2">	<strong>
-                Previous Observations
-            </strong>
-        </button>
-
-    </br>
+  </br>
           
-        <div id="previous-observations-more2" class="collapse">
-            <!-- observations here -->
-		    {% for obs_item in obs_item_list %}
-		    	<button type="button" class="btn btn-success" data-toggle="collapse" data-target="#previous-observations-more-aggregate-{{ forloop.counter }}">	<strong>
-                ({{obs_item.count}}) -- 
-
-                {% with obs_item.observations|first as obs_x %}
-  					{{ obs_x.item.code }}
-				{% endwith %}
-
-            	</strong>
-        		</button>
-
-
-        		
-        		<div id="previous-observations-more-aggregate-{{forloop.counter}}" class="collapse">
-            <!-- observations here -->
-		    	{% for obs in obs_item.observations %}
-				<a href="{% url 'survey:observation-update' obs.pk %}">   {{ obs.obs_time }} {{ obs.item.label }} </a> <!-- --- <a href="{% url 'survey:observation-delete' obs.pk %}"><i class="fa fa-trash" aria-hidden="true"></i> -->
-				</a> 
-				</br>
-
-			{% endfor %}
-        </div> 
-		    	
-		    	</br>
-		    	
-
-			{% endfor %}
-        </div>   
-
+  <div id="previous-observations-more2" class="collapse">
+  <!-- observations here -->
+  {% for obs_item in obs_item_list %}
+    <button type="button"
+      class="btn btn-success"
+      data-toggle="collapse"
+      data-target="#previous-observations-more-aggregate-{{ forloop.counter }}">
+      <strong>
+        ({{obs_item.count}}) -- 
+        {% with obs_item.observations|first as obs_x %}
+          {{ obs_x.item.code }}
+        {% endwith %}
+      </strong>
+    </button>
+        
+    <div id="previous-observations-more-aggregate-{{forloop.counter}}" class="collapse">
+      <!-- observations here -->
+      {% for obs in obs_item.observations %}
+        <a href="{% url 'survey:observation-update' obs.pk %}">   {{ obs.obs_time }} {{ obs.item.label }} </a> <!-- --- <a href="{% url 'survey:observation-delete' obs.pk %}"><i class="fa fa-trash" aria-hidden="true"></i> -->
+          </a> 
+        </br>
+      {% endfor %}
+    </div>       
+    </br>
+  {% endfor %}
+  </div>   
 {% endif %}
 
 {% endblock %}
