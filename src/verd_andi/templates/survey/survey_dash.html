@@ -13,20 +13,70 @@
 {% endif %}
 
 {% if items %}
-  <h3>Items:</h3>
-  {% for instance in items %}
-    <div class="well">
-      {% if instance.observed %}
-        <a href="{% url 'survey:item-observation' instance.code %}"> {{ instance.label }}</a> <a href="{% url 'survey:item-observations' instance.code %}">( {{instance.u_obs_count}} of {{ instance.obs_count }})</a>
-      {% else %}
-        <a href="{% url 'survey:item-observation' instance.code %}" style="font-weight: bold;"> {{ instance.label }}</a>
-      {% endif %}
+  <!-- Dashboard item search -->
+  <script type="text/javascript">
+  window.addEventListener('load', function(){
+    // Add event listener to input
+    var searchInput = document.getElementById("dashboard-search");
+    searchInput.addEventListener('input', listenOnInput);
 
-      {% if request.user.is_superuser %}  -   <a href="{% url 'survey:item-commentary-edit' instance.code %}"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a> {% endif %}
-      </br>
-      <p>{{ instance.code }}</p>
-    </div>
-  {% endfor %}
+    // Event handler
+    function listenOnInput(e){
+      var searchTerm = e.srcElement.value;
+      var items = document.getElementById("dashboard-items").getElementsByClassName("well");
+      
+      for (var i = 0; i < items.length; i++) {
+        var item = items[i];
+        var label = getPropsFromItem(item);
+
+        if (label.toLowerCase().includes(searchTerm.toLowerCase()) || searchTerm == "") {
+          setItemVisibility(item, true);
+        } else {
+          setItemVisibility(item, false);
+        }
+      }
+    }
+
+    // Retrieve search properties from items
+    function getPropsFromItem(el){
+      return el.dataset.instance;
+    }
+
+    // Hide or show item
+    function setItemVisibility(el, visible){
+      if (visible) {
+        el.style.display = "block";
+      } else {
+        el.style.display = "none"
+      }
+    }
+  })
+  </script>
+
+  <h3>Dashboard</h3>
+  <hr>
+  <h4>
+    Search:
+    <input type="text"
+      id="dashboard-search"
+      name="search"
+      placeholder="Light bulb, low energy">
+  </h4>
+  <div id="dashboard-items">
+    {% for instance in items %}
+      <div class="well" data-instance="{{ instance.label }}">
+        {% if instance.observed %}
+          <a href="{% url 'survey:item-observation' instance.code %}"> {{ instance.label }}</a> <a href="{% url 'survey:item-observations' instance.code %}">( {{instance.u_obs_count}} of {{ instance.obs_count }})</a>
+        {% else %}
+          <a href="{% url 'survey:item-observation' instance.code %}" style="font-weight: bold;"> {{ instance.label }}</a>
+        {% endif %}
+
+        {% if request.user.is_superuser %}  -   <a href="{% url 'survey:item-commentary-edit' instance.code %}"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a> {% endif %}
+        </br>
+        <p>{{ instance.code }}</p>
+      </div>
+    {% endfor %}
+  </div>
 {% endif %}
 
 <hr>
