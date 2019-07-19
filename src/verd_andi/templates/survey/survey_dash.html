@@ -110,7 +110,7 @@ window.addEventListener("load", function(){
       <strong>
         ({{obs_item.count}}) -- 
         {% with obs_item.observations|first as obs_x %}
-          {{ obs_x.item.code }}
+          {{ obs_x.item.code }} -- {{ obs_x.item.label |truncatechars:9}}
         {% endwith %}
       </strong>
     </button>
