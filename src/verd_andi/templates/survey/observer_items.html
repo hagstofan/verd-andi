@@ -3,23 +3,23 @@
 
 {% block content %}
 
-	{% if target_user_id %}
-		<p hidden id="user_id">{{ target_user_id }}</p>
-	{% endif %}
+  {% if target_user_id %}
+    <p hidden id="user_id">{{ target_user_id }}</p>
+  {% endif %}
 
   {% if target_user %}
     <span class="label label-primary">  Observer Items for user: {{target_user}} </span>
   {% endif %}
 
-	{% if items or chosen_items %}
-		<input 
-			type="text" 
-			id="myInput" 
-			onkeyup="searchAndDisplayResults()" 
-			placeholder="&#xf002;" 
-			autofocus
-		>
-		
+  {% if items or chosen_items %}
+    <input 
+      type="text" 
+      id="myInput" 
+      onkeyup="searchAndDisplayResults()" 
+      placeholder="&#xf002;" 
+      autofocus
+    >
+    
     <button 
       type="button" 
       class="btn btn-primary"
@@ -28,145 +28,158 @@
       Select all
     </button>
 
-		<ul id="myUL">
-		{% if chosen_items %}
-			{% for citem in chosen_items %}
-			<li>
-				<span>
-			        <input type="checkbox" 
-			        	aria-label="..." 
-			        	onchange="onCheckboxChange(this)" 
-			        	data="{{ citem.code }}" 
-			        	checked="true" 
-			        	iobspk="{{ citem.iobspk }}"
-			        >
-			        <a href="{% url 'survey:item-observation' citem.code %}">
-			        	{{ citem.label }} - {{ citem.code }}
-			        </a> 
+    <ul id="myUL">
+      {% if chosen_items %}
+        {% for citem in chosen_items %}
+        <li>
+          <span>
+            <input type="checkbox" 
+              aria-label="..." 
+              onchange="onCheckboxChange(this)" 
+              data="{{ citem.code }}" 
+              checked="true" 
+              iobspk="{{ citem.iobspk }}"
+            >
+            <a href="{% url 'survey:item-observation' citem.code %}">
+              {{ citem.label }} - {{ citem.code }}
+            </a> 
 
-			        {% if request.user.is_superuser %}
-			        	 - 
-			        	<a href="{% url 'survey:item-commentary-edit' citem.code %}">
-				        	<i class="fa fa-pencil-square-o" aria-hidden="true"></i>
-				        </a> 
-			        {% endif %}
+            {% if request.user.is_superuser %}
+               - 
+              <a href="{% url 'survey:item-commentary-edit' citem.code %}">
+                <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+              </a> 
+            {% endif %}
 
-		        </span>
-		    </li>
-			{% endfor %}
-		{% endif %}
+          </span>
+        </li>
+        {% endfor %}
+      {% endif %}
 
-		{% if items %}
-			{% for item in items %}
-			<li>
-				<span>
-			        <input type="checkbox" aria-label="..." onchange="onCheckboxChange(this)" data="{{ item.code }}">
-			        <a href="{% url 'survey:item-observation' item.code %}">{{ item.label }} - {{ item.code }}</a>
-			        {% if request.user.is_superuser %}  -   <a href="{% url 'survey:item-commentary-edit' item.code %}"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a> {% endif %}
-		        </span>
-		    </li>
-			{% endfor %}
-		{% endif %}
-		</ul>
+      {% if items %}
+        {% for item in items %}
+        <li>
+          <span>
+            <input 
+              type="checkbox" 
+              aria-label="..." 
+              onchange="onCheckboxChange(this)" 
+              data="{{ item.code }}"
+            >
+            <a href="{% url 'survey:item-observation' item.code %}">
+              {{ item.label }} - {{ item.code }}
+            </a>
 
-		<script>
-			function searchAndDisplayResults () {
-			    // Declare variables
-			    var input, filter, ul, li, a, i;
-			    input = document.getElementById('myInput');
-			    filter = input.value.toUpperCase();
-			    ul = document.getElementById("myUL");
-			    li = ul.getElementsByTagName('li');
+            {% if request.user.is_superuser %} - 
+              <a href="{% url 'survey:item-commentary-edit' item.code %}">
+                <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+              </a> 
+            {% endif %}
 
-			    // Loop through all list items, and hide those who don't match the search query
-			    for (i = 0; i < li.length; i++) {
-			        a = li[i].getElementsByTagName("a")[0];
-			        if (a.innerHTML.toUpperCase().indexOf(filter) > -1) {
-			            li[i].style.display = "";
-			        } else {
-			            li[i].style.display = "none";
-			        }
-			    }
-			}
+          </span>
+        </li>
+        {% endfor %}
+      {% endif %}
+    </ul>
 
-      function checkAllVisibleCheckboxes() {
-          var ul = document.getElementById("myUL");
-          var li = ul.getElementsByTagName('li');
-          for (i = 0; i < li.length; i++) { // loop through all
-              if(li[i].style.display === "") { // if visible
-                var checkbox = li[i].querySelector('input[type="checkbox"]');
-                checkbox.checked = true;
-                checkbox.onchange();
-              }
+    <script>
+      function searchAndDisplayResults () {
+        // Declare variables
+        var input, filter, ul, li, a, i;
+        input = document.getElementById('myInput');
+        filter = input.value.toUpperCase();
+        ul = document.getElementById("myUL");
+        li = ul.getElementsByTagName('li');
+
+        // Loop through all list items, and hide those who don't match the search query
+        for (i = 0; i < li.length; i++) {
+          a = li[i].getElementsByTagName("a")[0];
+          if (a.innerHTML.toUpperCase().indexOf(filter) > -1) {
+            li[i].style.display = "";
+          } else {
+            li[i].style.display = "none";
           }
+        }
       }
 
-			function getCookie (name) {
-			    var cookieValue = null;
-			    if (document.cookie && document.cookie !== '') {
-			        var cookies = document.cookie.split(';');
-			        for (var i = 0; i < cookies.length; i++) {
-			            var cookie = jQuery.trim(cookies[i]);
-			            // Does this cookie string begin with the name we want?
-			            if (cookie.substring(0, name.length + 1) === (name + '=')) {
-			                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-			                break;
-			            }
-			        }
-			    }
-			    return cookieValue;
-			}
+      function checkAllVisibleCheckboxes() {
+        var ul = document.getElementById("myUL");
+        var li = ul.getElementsByTagName('li');
 
-			function onCheckboxChange (thing) {
-			    var checked = thing.checked;
-			    // if true do create, if false do destroy
-			    if (!checked) {
-			        var obs_item = thing.getAttribute("iobspk");
-			        var template_string = "{% url 'api:obs-item-destroy' 1 %}";
-			        var tarr = template_string.split("/");
+        for (i = 0; i < li.length; i++) { // loop through all
+          if(li[i].style.display === "") { // if visible
+            var checkbox = li[i].querySelector('input[type="checkbox"]');
+            checkbox.checked = true;
+            checkbox.onchange();
+          }
+        }
+      }
 
-			        tarr[3] = obs_item;
-			        var newstr = tarr.join("/");
-			        var csrftoken = getCookie('csrftoken');
+      function getCookie (name) {
+        var cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+          var cookies = document.cookie.split(';');
+          for (var i = 0; i < cookies.length; i++) {
+            var cookie = jQuery.trim(cookies[i]);
+            // Does this cookie string begin with the name we want?
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+              cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+              break;
+            }
+          }
+        }
+        return cookieValue;
+      }
 
-			        $.ajax({
-			            url: newstr,
-			            method: 'DELETE',
-			            headers: {
-			                "X-CSRFToken": csrftoken
-			            },
-			            dataType: "json",
-			            success: function (result) {
-			                console.log(result);
-			            }
-			        });
-			    } else {
-			        var obs_item = thing.getAttribute("data");
-			        var user_id = $("#user_id")[0].innerHTML;
-			        var url_string = "{% url 'api:obs-item-create' %}";
+      function onCheckboxChange (thing) {
+        var checked = thing.checked;
+        // if true do create, if false do destroy
+        if (!checked) {
+          var obs_item = thing.getAttribute("iobspk");
+          var template_string = "{% url 'api:obs-item-destroy' 1 %}";
+          var tarr = template_string.split("/");
 
-			        var csrftoken = getCookie('csrftoken');
-			        var datastring = '{' + '"user"' + ':' + user_id + ',' + '"item"' + ':' + '"' + obs_item + '"' + '}' ;
+          tarr[3] = obs_item;
+          var newstr = tarr.join("/");
+          var csrftoken = getCookie('csrftoken');
 
-			        $.ajax({
-			            url: url_string,
-			            method: 'POST',
-			            data: datastring,
-			            headers: {
-			                "X-CSRFToken": csrftoken,
-			                "Content-Type": "application/json"
-			            },
-			            dataType: "json",
+          $.ajax({
+            url: newstr,
+            method: 'DELETE',
+            headers: {
+              "X-CSRFToken": csrftoken
+            },
+            dataType: "json",
+            success: function (result) {
+              console.log(result);
+            }
+          });
+        } else {
+          var obs_item = thing.getAttribute("data");
+          var user_id = $("#user_id")[0].innerHTML;
+          var url_string = "{% url 'api:obs-item-create' %}";
 
-			            success: function (result) {
-			                console.log(result);
-			                thing.setAttribute("iobspk", result.id);
-			            }
-			        });
-			    }
-			}
-		</script>
+          var csrftoken = getCookie('csrftoken');
+          var datastring = '{' + '"user"' + ':' + user_id + ',' + '"item"' + ':' + '"' + obs_item + '"' + '}' ;
 
-	{% endif %}
+          $.ajax({
+            url: url_string,
+            method: 'POST',
+            data: datastring,
+            headers: {
+              "X-CSRFToken": csrftoken,
+              "Content-Type": "application/json"
+            },
+            dataType: "json",
+            success: function (result) {
+              console.log(result);
+              thing.setAttribute("iobspk", result.id);
+            }
+          });
+        }
+      }
+    </script>
+
+  {% endif %}
 
 {% endblock %}
