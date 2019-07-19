@@ -110,20 +110,38 @@ window.addEventListener("load", function(){
       <strong>
         ({{obs_item.count}}) -- 
         {% with obs_item.observations|first as obs_x %}
-          {{ obs_x.item.code }}
+          {{ obs_x.item.code }} -- {{ obs_x.item.label |truncatechars:9}}
         {% endwith %}
       </strong>
     </button>
         
     <div id="previous-observations-more-aggregate-{{forloop.counter}}" class="collapse">
       <!-- observations here -->
+        <table class="table">
+       <tr>
+        <th>date</th>
+        <th>shop</th>
+        <th>label</th>
+        <th>price</th>
+        <th>quantity</th>
+       </tr>
       {% for obs in obs_item.observations %}
-        <a href="{% url 'survey:observation-update' obs.pk %}">   {{ obs.obs_time }} {{ obs.item.label }} </a> <!-- --- <a href="{% url 'survey:observation-delete' obs.pk %}"><i class="fa fa-trash" aria-hidden="true"></i> -->
-          </a> 
-        </br>
+          <tr>
+        <td><a href="{% url 'survey:observation-update' obs.pk %}">{{ obs.obs_time }} </a></td>
+        <td>{{obs.shop_identifier}} </td>
+        <td>{{ obs.item.label }} </td>
+        <td>{{obs.observed_price}} </td>
+        <td>{{obs.observed_quantity}} </td>
+        </tr>
+
+
+
+  
       {% endfor %}
-    </div>       
-    </br>
+      </table>
+    </div>  
+    </br>     
+    
   {% endfor %}
   </div>   
 {% endif %}

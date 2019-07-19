@@ -111,13 +111,27 @@
           
         <div id="previous-observations-more" class="collapse">
             <!-- observations here -->
+            <table class="table">
+			 <tr>
+			  <th>date</th>
+			  <th>shop</th>
+			  <th>price</th>
+			  <th>quantity</th>
+			  <th>observer</th>
+			 </tr>
 		    {% for obs in observations %}
-				<a href="{% url 'survey:observation-update' obs.pk %}">   {{ obs.obs_time }} {{ obs.observer }} </a>  {% if request.user.is_superuser %}--- <a href="{% url 'survey:observation-delete' obs.pk %}"><i class="fa fa-trash" aria-hidden="true"></i>
+		    	<tr>
+				<td><a href="{% url 'survey:observation-update' obs.pk %}">{{ obs.obs_time }} </a></td>
+				<td>{{obs.shop_identifier}} </td>
+				<td>{{obs.observed_price}} </td>
+				<td>{{obs.observed_quantity}} </td>
+				<td>{{ obs.observer }}  {% if request.user.is_superuser %}--- <a href="{% url 'survey:observation-delete' obs.pk %}"><i class="fa fa-trash" aria-hidden="true"></i>
 				</a> 
-				{% endif %}
-				</br>
+				{% endif %} </td>
+				</tr>
 
 			{% endfor %}
+		   </table>
         </div>   
 {% endif %}
 

@@ -42,7 +42,7 @@ class Item(models.Model):
     unit = models.CharField(max_length=100)
     survey = models.ForeignKey(Survey)
     picture = models.ImageField(upload_to="item_pic_uploads" +
-                                "/"+str(create_uuid()),
+                                "/",
                                 blank=True,
                                 null=True)
 
