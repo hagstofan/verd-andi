@@ -94,7 +94,9 @@
           var li = ul.getElementsByTagName('li');
           for (i = 0; i < li.length; i++) { // loop through all
               if(li[i].style.display === "") { // if visible
-                li[i].querySelector('input[type="checkbox"]').checked = true;
+                var checkbox = li[i].querySelector('input[type="checkbox"]');
+                checkbox.checked = true;
+                checkbox.onchange();
               }
           }
       }
