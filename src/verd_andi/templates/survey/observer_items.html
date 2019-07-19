@@ -11,11 +11,19 @@
 		<input 
 			type="text" 
 			id="myInput" 
-			onkeyup="myFunction()" 
+			onkeyup="searchAndDisplayResults()" 
 			placeholder="&#xf002;" 
 			autofocus
 		>
 		
+    <button 
+      type="button" 
+      class="btn btn-primary"
+      onclick="checkAllVisibleCheckboxes()"
+    >
+      Select all
+    </button>
+
 		{% if target_user %}
 			<span class="label label-primary">  Observer Items for user: {{target_user}} </span>
 		{% endif %}
@@ -62,7 +70,7 @@
 		</ul>
 
 		<script>
-			function myFunction () {
+			function searchAndDisplayResults () {
 			    // Declare variables
 			    var input, filter, ul, li, a, i;
 			    input = document.getElementById('myInput');
@@ -80,6 +88,16 @@
 			        }
 			    }
 			}
+
+      function checkAllVisibleCheckboxes() {
+          var ul = document.getElementById("myUL");
+          var li = ul.getElementsByTagName('li');
+          for (i = 0; i < li.length; i++) { // loop through all
+              if(li[i].style.display === "") { // if visible
+                li[i].querySelector('input[type="checkbox"]').checked = true;
+              }
+          }
+      }
 
 			function getCookie (name) {
 			    var cookieValue = null;
