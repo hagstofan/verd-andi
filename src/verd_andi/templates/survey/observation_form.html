@@ -8,7 +8,7 @@
                 <p><strong>Oh snap!</strong> somthin wrong dawg.</p>
             </div>
     {% endif %}
-    <form method="post" action="." class="form-horizontal text-left" role="form">
+    <form method="post" action="." class="form-horizontal text-left" role="form" enctype="multipart/form-data">
       {% csrf_token %} 
       {% for field in form %}
                 <div class="form-group {% if field.errors %}has-error{% endif %}">

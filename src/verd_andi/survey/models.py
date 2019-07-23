@@ -106,6 +106,10 @@ class Observation(models.Model):
     specified_characteristics = models.CharField(max_length=400, blank=True)
     survey = models.ForeignKey(Survey)
     shop_own_brand = models.BooleanField(default=False)
+    picture = models.ImageField(upload_to="observation_pic_uploads" +
+                                "/",
+                                blank=True,
+                                null=True)
 
     def __str__(self):
         return str(self.item) + " " + str(self.obs_time)
