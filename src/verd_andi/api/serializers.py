@@ -66,6 +66,8 @@ class AdaptiveObservationSerializer(serializers.ModelSerializer):
     #  eda obs_comment ?
     obs_comments = serializers.CharField(source="obs_comment")
 
+    # picture = serializers.ImageField(source="picture")
+
     def get_nr_konnunar(self, obj):
         return '{}{}'.format(obj.survey.code, obj.survey.year)
 
@@ -94,5 +96,6 @@ class AdaptiveObservationSerializer(serializers.ModelSerializer):
             "discount_flag",
             "month",
             "representative",
-            "obs_comments"
+            "obs_comments",
+            "picture"
             )

@@ -161,6 +161,7 @@ def item_observation(request, idx):
         min_quantity_char = chars.filter(name="Minimum quantity")
 
         form = ObservationForm(request.POST or None,
+                               request.FILES or None,
                                extra=specified_chars,
                                max_quantity=max_quantity_char[0]
                                .value if max_quantity_char else [],
@@ -182,6 +183,7 @@ def item_observation(request, idx):
             theitem = Item.objects.filter(pk=item)[0]
             theuser = User.objects.filter(pk=observer)[0]
             shop_own_brand = form.cleaned_data['shop_own_brand']
+            picture = form.cleaned_data['picture']
             surv = getattr(theitem, 'survey')
             # survey = Survey.objects.filter(pk=surv.pk)
             observation = Observation.objects.create(
@@ -194,6 +196,7 @@ def item_observation(request, idx):
                 discount=discount,
                 observed_price=observed_price,
                 observed_quantity=observed_quantity,
+                picture=picture,
                 obs_comment=obs_comment,
                 shop_own_brand=shop_own_brand,
                 survey=surv
@@ -340,6 +343,7 @@ def ObservationUpdate(request, idx):
                 'discount': observation.discount,
                 'observed_price': observation.observed_price,
                 'observed_quantity': observation.observed_quantity,
+                'picture': observation.picture,
                 'obs_comment': observation.obs_comment,
                 'shop_own_brand': observation.shop_own_brand
             }
@@ -356,6 +360,7 @@ def ObservationUpdate(request, idx):
             min_quantity_char = chars.filter(name="Minimum quantity")
 
             form = ObservationForm(request.POST or None,
+                                   request.FILES or None,
                                    extra=specified_chars,
                                    initial=data,
                                    max_quantity=max_quantity_char[0].value if
@@ -383,6 +388,7 @@ def ObservationUpdate(request, idx):
                 observed_quantity = form.cleaned_data['observed_quantity']
                 obs_comment = form.cleaned_data['obs_comment']
                 shop_own_brand = form.cleaned_data['shop_own_brand']
+                picture = form.cleaned_data['picture']
                 # updating the observation
                 observation.shop_type = shop_type
                 observation.shop_identifier = shop_identifier
@@ -391,6 +397,8 @@ def ObservationUpdate(request, idx):
                 observation.observed_quantity = observed_quantity
                 observation.obs_comment = obs_comment
                 observation.shop_own_brand = shop_own_brand
+                observation.picture = picture
+
                 observation.save()
                 # updating observed characteristics
                 for (question, answer) in form.extra_answers():
@@ -437,6 +445,7 @@ def viewObservation(request, idx):
                 'discount': observation.discount,
                 'observed_price': observation.observed_price,
                 'observed_quantity': observation.observed_quantity,
+                'picture': observation.picture,
                 'obs_comment': observation.obs_comment,
                 'shop_own_brand': observation.shop_own_brand
             }

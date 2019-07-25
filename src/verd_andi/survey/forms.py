@@ -42,6 +42,7 @@ class ObservationForm(forms.Form):
     observed_quantity = forms.DecimalField(decimal_places=2, max_digits=25)
     # item = forms.ForeignKey(Item)
     obs_comment = forms.CharField(max_length=300, required=False)
+    picture = forms.ImageField(required=False)
     # specified_characteristics = forms.CharField(max_length=400, blank=True)
     # survey = forms.ForeignKey(Survey)
 
@@ -72,6 +73,7 @@ class ObservationForm(forms.Form):
             'shop_identifier',
             'observed_price',
             'observed_quantity',
+            'picture'
             ]
 
         for i, question in enumerate(extra):
