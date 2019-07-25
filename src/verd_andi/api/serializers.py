@@ -103,7 +103,6 @@ class AdaptiveObservationSerializer(serializers.ModelSerializer):
                     id=obs_char.characteristic.id)
                 if(char.name == "Brand"):
                     brand = obs_char.value
-                    print(brand)
                     return brand
 
             brand = None
