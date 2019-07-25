@@ -1,5 +1,12 @@
 from rest_framework import serializers
-from survey.models import Item, ItemObserver, Observation, ItemCommentary
+from survey.models import (
+                           Item,
+                           ItemObserver,
+                           Observation,
+                           ItemCommentary,
+                           Characteristic,
+                           ObservedCharacteristic
+                           )
 
 
 class ObservationSerializer(serializers.ModelSerializer):
@@ -67,6 +74,10 @@ class AdaptiveObservationSerializer(serializers.ModelSerializer):
     obs_comments = serializers.CharField(source="obs_comment")
 
     # picture = serializers.ImageField(source="picture")
+    brand = serializers.SerializerMethodField()
+
+    observer = serializers.PrimaryKeyRelatedField(source="observer.username",
+                                                  read_only=True)
 
     def get_nr_konnunar(self, obj):
         return '{}{}'.format(obj.survey.code, obj.survey.year)
@@ -83,6 +94,23 @@ class AdaptiveObservationSerializer(serializers.ModelSerializer):
 
         return rep
 
+    def get_brand(self, obj):
+
+        try:
+            obs_chars = ObservedCharacteristic.objects.filter(observation=obj)
+            for obs_char in obs_chars:
+                char = Characteristic.objects.get(
+                    id=obs_char.characteristic.id)
+                if(char.name == "Brand"):
+                    brand = obs_char.value
+                    return brand
+
+            brand = None
+        except ObservedCharacteristic.DoesNotExist:
+            brand = None
+
+        return brand
+
     class Meta:
         model = Observation
         fields = (
@@ -97,5 +125,7 @@ class AdaptiveObservationSerializer(serializers.ModelSerializer):
             "month",
             "representative",
             "obs_comments",
+            "brand",
+            "observer",
             "picture"
             )
