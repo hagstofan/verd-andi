@@ -110,6 +110,7 @@ class Observation(models.Model):
                                 "/",
                                 blank=True,
                                 null=True)
+    barcode = models.CharField(max_length=200, blank=True, null=True)
 
     def __str__(self):
         return str(self.item) + " " + str(self.obs_time)
