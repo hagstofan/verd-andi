@@ -184,6 +184,7 @@ def item_observation(request, idx):
             theuser = User.objects.filter(pk=observer)[0]
             shop_own_brand = form.cleaned_data['shop_own_brand']
             picture = form.cleaned_data['picture']
+            barcode = form.cleaned_data['barcode']
             surv = getattr(theitem, 'survey')
             # survey = Survey.objects.filter(pk=surv.pk)
             observation = Observation.objects.create(
@@ -197,6 +198,7 @@ def item_observation(request, idx):
                 observed_price=observed_price,
                 observed_quantity=observed_quantity,
                 picture=picture,
+                barcode=barcode,
                 obs_comment=obs_comment,
                 shop_own_brand=shop_own_brand,
                 survey=surv
@@ -345,7 +347,8 @@ def ObservationUpdate(request, idx):
                 'observed_quantity': observation.observed_quantity,
                 'picture': observation.picture,
                 'obs_comment': observation.obs_comment,
-                'shop_own_brand': observation.shop_own_brand
+                'shop_own_brand': observation.shop_own_brand,
+                'barcode': observation.barcode
             }
             # adding specified chars to form
             ochars = []
@@ -389,6 +392,7 @@ def ObservationUpdate(request, idx):
                 obs_comment = form.cleaned_data['obs_comment']
                 shop_own_brand = form.cleaned_data['shop_own_brand']
                 picture = form.cleaned_data['picture']
+                barcode = form.cleaned_data['barcode']
                 # updating the observation
                 observation.shop_type = shop_type
                 observation.shop_identifier = shop_identifier
@@ -398,7 +402,7 @@ def ObservationUpdate(request, idx):
                 observation.obs_comment = obs_comment
                 observation.shop_own_brand = shop_own_brand
                 observation.picture = picture
-
+                observation.barcode = barcode
                 observation.save()
 
                 # updating observed characteristics
@@ -454,7 +458,8 @@ def viewObservation(request, idx):
                 'observed_quantity': observation.observed_quantity,
                 'picture': observation.picture,
                 'obs_comment': observation.obs_comment,
-                'shop_own_brand': observation.shop_own_brand
+                'shop_own_brand': observation.shop_own_brand,
+                'barcode': observation.barcode
             }
             # adding specified chars to form
             ochars = []
