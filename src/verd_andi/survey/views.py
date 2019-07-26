@@ -400,6 +400,7 @@ def ObservationUpdate(request, idx):
                 observation.picture = picture
 
                 observation.save()
+
                 # updating observed characteristics
                 for (question, answer) in form.extra_answers():
                     for sc in ochars:
@@ -412,7 +413,13 @@ def ObservationUpdate(request, idx):
                     return HttpResponseRedirect(reverse(
                         'survey:item-observation', kwargs={'idx': item_id}))
 
+                return HttpResponseRedirect(reverse('survey:'
+                                                    'observation-update',
+                                                    kwargs={'idx':
+                                                            observation.id}))
+
             return render(request, "survey/item_observation.html", context)
+
         else:
             raise PermissionDenied
 
