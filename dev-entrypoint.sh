@@ -1,7 +1,5 @@
 #!/bin/bash
 
-cd src/verd_andi
-
 python manage.py makemigrations
 
 python manage.py migrate
