@@ -4,7 +4,7 @@
 <h1>Surveys</h1>
 <ul>
 {% for survey in object_list %}
-    <li><a href="/survey/{{ survey.pk }}">{{ survey }}</a></li>
+    <li><a href="{% url 'survey:survey-detail' survey.pk %}">{{ survey }}</a></li>
 {% empty %}
     <li>No surveys.</li>
 {% endfor %}

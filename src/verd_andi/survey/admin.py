@@ -8,7 +8,8 @@ from .models import (
         ObservedCharacteristic,
         ItemObserver,
         Observer,
-        ItemCommentary
+        ItemCommentary,
+        CollectorComment
     )
 
 
@@ -39,6 +40,13 @@ class ItemAdmin(nested_admin.NestedModelAdmin):
     list_filter = (
         ('survey', admin.RelatedOnlyFieldListFilter),
     )
+
+
+class CollectorCommentAdmin(nested_admin.NestedModelAdmin):
+    model = CollectorComment
+
+    list_display = ('item', 'collector', 'comment')
+    list_filter = (('collector'),)
 
 
 class ObservationAdmin(nested_admin.NestedModelAdmin):
@@ -206,3 +214,4 @@ admin.site.register(ObservedCharacteristic, ObservedCharacteristicAdmin)
 admin.site.register(ItemCommentary, ItemCommentaryAdmin)
 admin.site.register(Observation4PriceComp, PriceComparisonAdmin)
 admin.site.register(ObservationBeta, ObservationBetaAdmin)
+admin.site.register(CollectorComment, CollectorCommentAdmin)

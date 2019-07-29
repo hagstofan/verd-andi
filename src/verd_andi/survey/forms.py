@@ -120,3 +120,7 @@ class ItemCommentaryForm(forms.Form):
     representativity = forms.BooleanField(required=False)
     comment = forms.CharField(max_length=300, required=False)
     vat = forms.DecimalField(decimal_places=4, max_digits=4, required=False)
+
+
+class CollectorCommentForm(forms.Form):
+    comment = forms.CharField(max_length=500)

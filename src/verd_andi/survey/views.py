@@ -17,9 +17,15 @@ from .models import (
         Characteristic,
         Observation,
         ObservedCharacteristic,
-        ItemCommentary
+        ItemCommentary,
+        CollectorComment,
+        Observer
     )
-from .forms import ObservationForm, ItemCommentaryForm
+from .forms import (
+    ObservationForm,
+    ItemCommentaryForm,
+    CollectorCommentForm
+    )
 from django.views.generic.edit import DeleteView
 from django.urls import reverse_lazy
 from django.core.exceptions import PermissionDenied
@@ -155,6 +161,14 @@ def item_observation(request, idx):
         spec_chars = chars.filter(specify=True)
         specified_chars = list(sc.name for sc in spec_chars)
         # specified_chars_pk = list(sc.pk for sc in spec_chars)
+        observer = Observer.objects.get(username=request.user.username)
+        try:
+            collector_comment = CollectorComment.objects.get(
+                collector=observer,
+                item=item)
+        except CollectorComment.DoesNotExist:
+            collector_comment = None
+        # print(collector_comment.comment)
 
         # min max stuff.
         max_quantity_char = chars.filter(name="Maximum quantity")
@@ -234,6 +248,8 @@ def item_observation(request, idx):
             "characteristics": chars,
             "observations": observations,
         }
+        if(collector_comment):
+            context["collector_comment"] = collector_comment
 
         return render(request, "survey/item_observation.html", context)
     else:
@@ -318,6 +334,37 @@ def ItemCommentaryView(request, idx):
 
         # return HttpResponse("Hey, you superuser you")
     else:  # not superuser
+        raise PermissionDenied
+
+
+def CollectorCommentView(request, idx, uname):
+    print(uname)
+    if request.user.is_authenticated and request.user.username == uname:
+        observer = Observer.objects.get(username=uname)
+        item = Item.objects.get(code=idx)
+        collectorComment = CollectorComment.objects\
+            .get_or_create(item=item, collector=observer)[0]
+
+        data = {
+            'comment': collectorComment.comment
+        }
+        form = CollectorCommentForm(request.POST or None, initial=data)
+        if form.is_valid():
+            comment = form.cleaned_data['comment']
+            collectorComment.comment = comment
+            collectorComment.save()
+            return HttpResponseRedirect(reverse('survey:survey-userdash'))
+
+        context = {
+            "form": form,
+            "item": item,
+            "observer": observer,
+        }
+
+        return render(request,
+                      "survey/collector_comment_update_form.html", context)
+
+    else:
         raise PermissionDenied
 
 

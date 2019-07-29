@@ -70,6 +70,16 @@ class ItemCommentary(models.Model):
 
 
 @python_2_unicode_compatible
+class CollectorComment(models.Model):
+    collector = models.ForeignKey('Observer')
+    item = models.ForeignKey('Item')
+    comment = models.CharField(max_length=500, blank=True, default="")
+
+    class Meta:
+        unique_together = (("collector", "item"),)
+
+
+@python_2_unicode_compatible
 class Characteristic(models.Model):
     name = models.CharField(max_length=200)
     enName = models.CharField(max_length=200)
