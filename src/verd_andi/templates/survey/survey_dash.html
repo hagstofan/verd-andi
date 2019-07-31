@@ -71,7 +71,7 @@ window.addEventListener("load", function(){
           <a href="{% url 'survey:item-observation' instance.code %}" style="font-weight: bold;" target="_blank"> {{ instance.label }}</a>
         {% endif %}
 
-        {% if request.user.is_superuser %}  -   <a href="{% url 'survey:item-commentary-edit' instance.code %}"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a> {% endif %}
+        {% if request.user.is_superuser %}  -   <a href="{% url 'survey:item-commentary-edit' instance.code %}"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a> {% endif %} <a href="{% url 'survey:collector-comment' instance.code user_name %}"><i class="fa fa-comment"></i></a>
         </br>
         <p>{{ instance.code }}</p>
       </div>
