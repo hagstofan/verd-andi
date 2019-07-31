@@ -98,9 +98,30 @@
 									{% endfor %}
 									{% if collector_comment %}
 										<tr>
-											<td> Fart </td>
-											<td> Fart again </td>
+											{% if item %}
+												{% for instance in item %}
+											<td><a href="{% url 'survey:collector-comment' instance.code user_name %}" target="_blank"><i class="fa fa-comment"></i></a> </td>
+												{% endfor %}
+											{% else %}
+											<td><i class="fa fa-comment"></i> </td>
+
+											{% endif %}
+
+											<td> {{collector_comment.comment}} </td>
 										</tr>
+									{% else %}
+											{% if item %}
+												{% for instance in item %}
+											<td><a href="{% url 'survey:collector-comment' instance.code user_name %}" target="_blank"><i class="fa fa-comment"></i></a> </td>
+												{% endfor %}
+											<td> your comment here .. </td>
+											{% else %}
+											<td><i class="fa fa-comment"></i> </td>
+											<td> your comment here .. </td>
+											{% endif %}
+
+										</tr>
+									
 									{% endif %}
 									</tbody>
 							 </table>

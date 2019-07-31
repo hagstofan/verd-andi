@@ -288,6 +288,7 @@ def search(request, pk):
             "target_user": user[0],
         }
 
+        print("here I Am")
         return render(request, "survey/observer_items.html", context)
 
     else:
@@ -384,6 +385,14 @@ def ObservationUpdate(request, idx):
             specified_chars = list(sc.name for sc in spec_chars)
             specified_chars_pk = list(sc.pk for sc in spec_chars)
 
+            observer = Observer.objects.get(username=request.user.username)
+            try:
+                collector_comment = CollectorComment.objects.get(
+                    collector=observer,
+                    item=item)
+            except CollectorComment.DoesNotExist:
+                collector_comment = None
+
             data = {
                 'obs_time': observation.obs_time,
                 'shop_type': observation.shop_type,
@@ -428,6 +437,8 @@ def ObservationUpdate(request, idx):
                 "is_update": True,
                 "current_obs": idx,
             }
+            if(collector_comment):
+                context["collector_comment"] = collector_comment
 
             if form.is_valid():  # POST request
                 shop_type = form.cleaned_data['shop_type']

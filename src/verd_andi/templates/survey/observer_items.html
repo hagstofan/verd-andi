@@ -58,6 +58,9 @@
                 <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
               </a> 
             {% endif %}
+            <a href="{% url 'survey:collector-comment' citem.code user_name %}">
+              <i class="fa fa-comment"></i>
+            </a>
 
           </span>
         </li>
@@ -82,7 +85,11 @@
               <a href="{% url 'survey:item-commentary-edit' item.code %}">
                 <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
               </a> 
-            {% endif %}
+            {% endif %} -
+
+            <a href="{% url 'survey:collector-comment' item.code user_name %}">
+              <i class="fa fa-comment"></i>
+            </a>
 
           </span>
         </li>
