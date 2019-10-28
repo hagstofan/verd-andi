@@ -6,6 +6,7 @@ ENV DEBUG=False DB=ppp_db
 
 ADD requirements.txt /app/
 
+RUN apt-get update && apt-get install -y python-setuptools
 RUN pip install --no-cache-dir -r ../requirements.txt && \
     rm -rf /var/lib/apt/lists/*
 
