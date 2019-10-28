@@ -75,7 +75,7 @@ class AdaptiveObservationSerializer(serializers.ModelSerializer):
 
     # picture = serializers.ImageField(source="picture")
     brand = serializers.SerializerMethodField()
-
+    barcode = serializers.CharField()
     observer = serializers.PrimaryKeyRelatedField(source="observer.username",
                                                   read_only=True)
 
@@ -127,5 +127,6 @@ class AdaptiveObservationSerializer(serializers.ModelSerializer):
             "obs_comments",
             "brand",
             "observer",
-            "picture"
+            "picture",
+            "barcode"
             )
