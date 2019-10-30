@@ -57,10 +57,10 @@ class AdaptiveObservationSerializer(serializers.ModelSerializer):
     shopid = serializers.CharField(source="shop_identifier")
     obs_price = serializers.DecimalField(source="observed_price",
                                          decimal_places=2,
-                                         max_digits=8)
+                                         max_digits=25)
     obs_quantity = serializers.DecimalField(source="observed_quantity",
                                             decimal_places=2,
-                                            max_digits=8)
+                                            max_digits=25)
     discount_flag = serializers.CharField(source="discount")
     # month
     month = serializers.SerializerMethodField()
