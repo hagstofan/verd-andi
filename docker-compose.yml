@@ -1,0 +1,37 @@
+version: '3'
+
+services:
+  db:
+    image: postgres:10
+    restart: always
+    environment:
+      POSTGRES_USER: verdandi
+      POSTGRES_PASSWORD: "89da81d8128fbafe111e54070b594a66"
+    volumes:
+      - /home/postgres-volume:/var/lib/postgresql/data
+    networks:
+      - internal
+  app:
+    image: registry.hagstofa.is/vefskil/verd-andi
+    restart: always
+    environment:
+      DB: ppp_db
+      SECRET_KEY: '6878faacb065d512707b65aaedc0e7a6'
+      DB_PASSWORD: "Dreth-naj-FOUR"
+      DKR_DB_PASSWORD: "89da81d8128fbafe111e54070b594a66"
+      DEBUG: "true"
+    volumes:
+      - /srv/verd-andi-4-docker/fbeto-stuff:/data
+    networks:
+      - internal
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+
+networks:
+  internal:
+    driver: bridge
+
+
+

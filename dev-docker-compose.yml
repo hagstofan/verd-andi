@@ -14,13 +14,14 @@ services:
     build:
       context: ./
       dockerfile: Dockerfile
-    command: bash entrypoint.sh
+    # command: 'bash entrypoint.sh'
     environment:
       DB: "ppp_db"
       SECRET_KEY: "--secret-2--"
       DB_PASSWORD: "--secret-3--"
       DKR_DB_PASSWORD: "--secret-1--"
       DEBUG: "true"
+      SENTRY_DSN: "https://465f2d29f33b48bb892d7e34d3b14c20@villur.prod.hagstofa.is/10"
     volumes:
       - ./src:/app
       - ./dev-entrypoint.sh:/app/verd_andi/entrypoint.sh
@@ -31,6 +32,14 @@ services:
       - "8000:8000"
     depends_on:
       - db
+    dns:
+      - 192.168.33.25
+    dns_search:
+      - dmz.hagstofa.is
+      - prod.hagstofa.is
+      - dev.hagstofa.is
+      - work.hagstofa.is
+      - hagstofa.local
 
 networks:
   internal:
