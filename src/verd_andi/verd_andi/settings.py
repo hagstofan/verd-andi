@@ -193,6 +193,8 @@ ALLOWED_HOSTS = [
     'localhost'
     ]
 
+if os.environ.get("VIRTUAL_HOST"):
+    ALLOWED_HOSTS.append(os.environ.get("VIRTUAL_HOST"))
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.10/topics/i18n/
