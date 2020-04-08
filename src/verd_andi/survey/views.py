@@ -88,7 +88,7 @@ def prev_item_observations(request, idx):
 
 
 def user_dash(request):
-    if request.user.is_authenticated():
+    if request.user.is_authenticated:
 
         focus_items = ItemObserver.objects.filter(user=request.user.id)
         # creating a queryset of items, that have been

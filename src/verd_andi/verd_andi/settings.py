@@ -11,6 +11,20 @@ https://docs.djangoproject.com/en/1.10/ref/settings/
 """
 
 import os
+
+if os.environ.get("SENTRY_DSN"):
+    import sentry_sdk
+    from sentry_sdk.integrations.django import DjangoIntegration
+
+    sentry_sdk.init(
+        dsn=os.environ.get("SENTRY_DSN"),
+        integrations=[DjangoIntegration()],
+        ca_certs=os.environ.get(
+            "REQUESTS_CA_BUNDLE",
+            "/etc/ssl/certs/ca-certificates.crt"
+        )
+    )
+
 # from verd_andi import localVars
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)

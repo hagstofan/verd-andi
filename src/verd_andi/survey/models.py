@@ -19,14 +19,18 @@ def create_uuid():
 @python_2_unicode_compatible
 class Survey(models.Model):
     code = models.CharField(max_length=100)
-    year = models.IntegerField(max_length=4,
-                               choices=YEAR_CHOICES,
-                               default=datetime.datetime.now().year)
+    year = models.IntegerField(
+        max_length=4,
+        choices=YEAR_CHOICES,
+        default=datetime.datetime.now().year
+    )
     dataflowID = models.CharField(max_length=100)
     current = models.BooleanField()
-    default_vat = models.DecimalField(decimal_places=4,
-                                      max_digits=4,
-                                      default=0.24)
+    default_vat = models.DecimalField(
+        decimal_places=4,
+        max_digits=4,
+        default=0.24
+    )
 
     class Meta:
         unique_together = (("code", "year"),)
@@ -40,11 +44,12 @@ class Item(models.Model):
     code = models.CharField(max_length=20, primary_key=True)
     label = models.CharField(max_length=200)
     unit = models.CharField(max_length=100)
-    survey = models.ForeignKey(Survey)
-    picture = models.ImageField(upload_to="item_pic_uploads" +
-                                "/",
-                                blank=True,
-                                null=True)
+    survey = models.ForeignKey(Survey, on_delete=models.CASCADE)
+    picture = models.ImageField(
+        upload_to="item_pic_uploads" + "/",
+        blank=True,
+        null=True
+    )
 
     class Meta:
         ordering = ['code']
@@ -71,8 +76,8 @@ class ItemCommentary(models.Model):
 
 @python_2_unicode_compatible
 class CollectorComment(models.Model):
-    collector = models.ForeignKey('Observer')
-    item = models.ForeignKey('Item')
+    collector = models.ForeignKey('Observer', on_delete=models.CASCADE)
+    item = models.ForeignKey('Item', on_delete=models.CASCADE)
     comment = models.CharField(max_length=500, blank=True, default="")
 
     class Meta:
@@ -86,7 +91,7 @@ class Characteristic(models.Model):
     char_type = models.IntegerField()  # this field is called type in the xml
     isProperty = models.BooleanField(default=False)
     specify = models.BooleanField(default=False)
-    item = models.ForeignKey(Item)
+    item = models.ForeignKey(Item, on_delete=models.CASCADE)
     value = models.CharField(max_length=500, blank=True)
 
     def __str__(self):
@@ -100,21 +105,28 @@ class Observation(models.Model):
     shop_type = models.IntegerField()
     shop_identifier = models.CharField(max_length=200)
     flag = models.CharField(max_length=4, choices=[('E', 'E'), ('O', 'O')])
-    discount = models.CharField(max_length=4,
-                                choices=[('N', 'N'),
-                                         ('R', 'R'),
-                                         ('Q', 'Q'),
-                                         ('T', 'T')])
+    discount = models.CharField(
+        max_length=4,
+        choices=[
+            ('N', 'N'),
+            ('R', 'R'),
+            ('Q', 'Q'),
+            ('T', 'T')
+        ]
+    )
     observed_price = models.DecimalField(decimal_places=2, max_digits=25)
     observed_quantity = models.DecimalField(decimal_places=2, max_digits=25)
-    item = models.ForeignKey(Item)
-    observer = models.ForeignKey(User,
-                                 blank=True,
-                                 related_name='survey_observer',
-                                 null=True)
+    item = models.ForeignKey(Item, on_delete=models.CASCADE)
+    observer = models.ForeignKey(
+        User,
+        blank=True,
+        related_name='survey_observer',
+        null=True,
+        on_delete=models.SET_NULL
+    )
     obs_comment = models.CharField(max_length=300, blank=True)
     specified_characteristics = models.CharField(max_length=400, blank=True)
-    survey = models.ForeignKey(Survey)
+    survey = models.ForeignKey(Survey, on_delete=models.SET_NULL, null=True)
     shop_own_brand = models.BooleanField(default=False)
     picture = models.ImageField(upload_to="observation_pic_uploads" +
                                 "/",
@@ -145,8 +157,13 @@ class ObservedCharacteristic(models.Model):
 
 @python_2_unicode_compatible
 class UserObservation(models.Model):
-    observation = models.ForeignKey(Observation)
-    user = models.ForeignKey(User, related_name='survey_user')
+    observation = models.ForeignKey(Observation, on_delete=models.CASCADE)
+    user = models.ForeignKey(
+        User,
+        on_delete=models.SET_NULL,
+        related_name='survey_user',
+        null=True
+    )
 
     def __str__(self):
         return str(self.user)
