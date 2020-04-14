@@ -172,7 +172,12 @@ def item_observation(request, idx):
             if collector_comment:
                 collector_comment = collector_comment[0]
 
-        except CollectorComment.DoesNotExist:
+        except Exception:
+            # This is a little strange but I think due to me being admin
+            # Don't love the fix either.
+            # Side note: emacs is bugging me with an extra indent. I suspect
+            # there's a mismatched parentheses that flake8 didn't catch.
+            # Can't spot it visually thou just reading the code.
             collector_comment = None
         # print(collector_comment.comment)
 
