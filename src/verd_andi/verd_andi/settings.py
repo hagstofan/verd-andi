@@ -240,5 +240,20 @@ REDIRECT_TO_LOGIN = '/accounts/login/'
 TEST_RUNNER = "django_nose.NoseTestSuiteRunner"
 
 SERVE_STATIC = DEBUG | (
-    os.environ.get("SERVE_STATIC","false").lower() == "true"
+    os.environ.get("SERVE_STATIC", "false").lower() == "true"
 )
+
+if os.environ.get("CONSOLE_LOG", "false") == "true":
+    LOGGING = {
+        'version': 1,
+        'disable_existing_loggers': False,
+        'handlers': {
+            'console': {
+                'class': 'logging.StreamHandler',
+            },
+        },
+        'root': {
+            'handlers': ['console'],
+            'level': 'WARNING',
+        },
+    }
