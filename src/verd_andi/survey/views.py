@@ -257,7 +257,7 @@ def item_observation(request, idx):
 
 
 def search(request, pk):
-    if request.user.is_authenticated():
+    if request.user.is_authenticated:
 
         user = User.objects.filter(pk=request.user.id)
         itemObs = ItemObserver.objects.filter(user=request.user.id)
