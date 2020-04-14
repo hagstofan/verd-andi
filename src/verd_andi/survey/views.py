@@ -150,7 +150,7 @@ def user_dash(request):
 
 
 def item_observation(request, idx):
-    if request.user.is_authenticated():
+    if request.user.is_authenticated:
         item = Item.objects.filter(pk=idx)
         # get item, get characteristics of item ..
         chars = Characteristic.objects.filter(item=idx)
