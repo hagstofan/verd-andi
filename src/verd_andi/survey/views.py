@@ -60,7 +60,7 @@ class SurveyDetailView(DetailView):
 
 
 def survey_dash(request, id):
-    if request.user.is_authenticated():
+    if request.user.is_authenticated:
 
         context = {
             "user_name": str(request.user),
@@ -73,7 +73,7 @@ def survey_dash(request, id):
 
 
 def prev_item_observations(request, idx):
-    if request.user.is_authenticated():
+    if request.user.is_authenticated:
         item = Item.objects.filter(code=idx)
         observations = Observation.objects.filter(item=idx)
         context = {
@@ -89,7 +89,6 @@ def prev_item_observations(request, idx):
 
 def user_dash(request):
     if request.user.is_authenticated:
-
         focus_items = ItemObserver.objects.filter(user=request.user.id)
         # creating a queryset of items, that have been
         # selected for the user to observe.
@@ -119,17 +118,20 @@ def user_dash(request):
 
         # could use filter in the future for current surveys.
         surveys = Survey.objects.all()
-        user_observations = Observation\
-            .objects.filter(observer=request.user.id)
+        user_observations = Observation.objects.filter(
+                observer=request.user.id
+        )
 
-        observed_items = Observation.objects.filter(observer=request.user.id)\
-            .order_by('item').values('item').distinct()
+        observed_items = Observation.objects.filter(
+                observer=request.user.id
+        ).order_by('item').values('item').distinct()
 
         item_grouped_observations = []
         for item in observed_items:
             obs_group = Observation.objects.filter(
-                        observer=request.user.id,
-                        item=item['item'])
+                observer=request.user.id,
+                item=item['item']
+            )
             sub_dict = {"item": item['item'],
                         "count": obs_group.count(),
                         "observations": obs_group}
@@ -163,24 +165,28 @@ def item_observation(request, idx):
         # specified_chars_pk = list(sc.pk for sc in spec_chars)
         observer = Observer.objects.get(username=request.user.username)
         try:
-            collector_comment = CollectorComment.objects.get(
+            collector_comment = CollectorComment.objects.filter(
                 collector=observer,
-                item=item)
+                item=item
+            )
+            if collector_comment:
+                collector_comment = collector_comment[0]
+
         except CollectorComment.DoesNotExist:
             collector_comment = None
         # print(collector_comment.comment)
 
         # min max stuff.
-        max_quantity_char = chars.filter(name="Maximum quantity")
-        min_quantity_char = chars.filter(name="Minimum quantity")
+        max_q_char = chars.filter(name="Maximum quantity")
+        min_q_char = chars.filter(name="Minimum quantity")
 
-        form = ObservationForm(request.POST or None,
-                               request.FILES or None,
-                               extra=specified_chars,
-                               max_quantity=max_quantity_char[0]
-                               .value if max_quantity_char else [],
-                               min_quantity=min_quantity_char[0]
-                               .value if min_quantity_char else [])
+        form = ObservationForm(
+                request.POST or None,
+                request.FILES or None,
+                extra=specified_chars,
+                max_quantity=max_q_char[0].value if max_q_char else [],
+                min_quantity=min_q_char[0].value if min_q_char else []
+        )
         if form.is_valid():  # POST request
             # create observation, insert user-observer, obs-time, item, survey?
             obs_time = datetime.datetime.now()
@@ -216,7 +222,7 @@ def item_observation(request, idx):
                 obs_comment=obs_comment,
                 shop_own_brand=shop_own_brand,
                 survey=surv
-                )
+            )
             observation.save()
 
             for (question, answer) in form.extra_answers():
@@ -224,14 +230,16 @@ def item_observation(request, idx):
                 # char_pk = specified_chars_pk[specified_chars.index(question)]
                 # adding observed_characteristic,
                 # currently relies on order in QueryObject spec_chars
-                # bieng same as order inlists derived from it,
+                # being same as order inlists derived from it,
                 # which I think holds.
-                observed_characteristic = ObservedCharacteristic\
-                    .objects.create(observation=observation,
-                                    characteristic=spec_chars[
-                                     specified_chars.index(question)],
-                                    value=answer)
-                observed_characteristic.save()
+                obs_characteristic = ObservedCharacteristic.objects.create(
+                        observation=observation,
+                        characteristic=spec_chars[
+                                specified_chars.index(question)
+                        ],
+                        value=answer
+                )
+                obs_characteristic.save()
 
             if 'add_another' in request.POST:
                 # print("adding another")
@@ -370,7 +378,7 @@ def CollectorCommentView(request, idx, uname):
 
 
 def ObservationUpdate(request, idx):
-    if request.user.is_authenticated():
+    if request.user.is_authenticated:
         observation = Observation.objects.get(pk=idx)
         if (request.user.id == observation.observer.id or
                 request.user.is_superuser):
@@ -491,7 +499,7 @@ def ObservationUpdate(request, idx):
 
 # view observation
 def viewObservation(request, idx):
-    if request.user.is_authenticated():
+    if request.user.is_authenticated:
         observation = Observation.objects.get(pk=idx)
         if (request.user.id == observation.observer.id or
                 request.user.is_superuser):
