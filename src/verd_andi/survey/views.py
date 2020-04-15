@@ -1,14 +1,21 @@
-from django.shortcuts import render
-from django.shortcuts import redirect
-
-from django.http import HttpResponse, HttpResponseRedirect
-from django.urls import reverse
-from django.conf import settings
-
-from django.views.generic.list import ListView
-from django.views.generic import DetailView
-from django.utils import timezone
 import datetime
+
+import xml.etree.ElementTree as etree
+
+from xml.etree.ElementTree import Element
+
+from django.conf import settings
+from django.core.exceptions import PermissionDenied
+from django.http import HttpResponse, HttpResponseRedirect
+from django.shortcuts import redirect
+from django.shortcuts import render
+from django.urls import reverse
+from django.urls import reverse_lazy
+from django.utils import timezone
+from django.views.generic import DetailView
+from django.views.generic.edit import DeleteView
+from django.views.generic.list import ListView
+
 from .models import (
         Survey,
         User,
@@ -21,18 +28,14 @@ from .models import (
         CollectorComment,
         Observer
     )
+
 from .forms import (
     ObservationForm,
     ItemCommentaryForm,
     CollectorCommentForm
-    )
-from django.views.generic.edit import DeleteView
-from django.urls import reverse_lazy
-from django.core.exceptions import PermissionDenied
+)
 
 # xml stuff
-from xml.etree.ElementTree import Element
-import xml.etree.ElementTree as etree
 
 
 # Create your views here.
@@ -399,12 +402,12 @@ def ObservationUpdate(request, idx):
             specified_chars_pk = list(sc.pk for sc in spec_chars)
 
             observer = Observer.objects.get(username=request.user.username)
-            try:
-                collector_comment = CollectorComment.objects.get(
-                    collector=observer,
-                    item=item)
-            except CollectorComment.DoesNotExist:
-                collector_comment = None
+            collector_comment = CollectorComment.objects.filter(
+                collector=observer,
+                item=item
+            ) or None
+            if collector_comment:
+                collector_comment = collector_comment[0]
 
             data = {
                 'obs_time': observation.obs_time,
