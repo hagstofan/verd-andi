@@ -304,7 +304,6 @@ def search(request, pk):
             "target_user": user[0],
         }
 
-        print("here I Am")
         return render(request, "survey/observer_items.html", context)
 
     else:
@@ -402,12 +401,15 @@ def ObservationUpdate(request, idx):
             specified_chars_pk = list(sc.pk for sc in spec_chars)
 
             observer = Observer.objects.get(username=request.user.username)
-            collector_comment = CollectorComment.objects.filter(
-                collector=observer,
-                item=item
-            ) or None
-            if collector_comment:
-                collector_comment = collector_comment[0]
+            try:
+                collector_comment = CollectorComment.objects.filter(
+                        collector=observer,
+                        item=item
+                )
+                if collector_comment:
+                    collector_comment = collector_comment[0]
+            except:
+                collector_comment = None
 
             data = {
                 'obs_time': observation.obs_time,
