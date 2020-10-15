@@ -14,7 +14,7 @@ dockerize:
     - docker build -t $CONTAINER_TEST_IMAGE .
     - docker push $CONTAINER_TEST_IMAGE
   tags:
-    - linux
+    - docker
 
 release-image:
   stage: release
@@ -36,6 +36,6 @@ publish-image:
     - docker login -u $REGISTRY_USER -p $REGISTRY_PASSWORD registry.hagstofa.is
     - docker push $PUBLIC_RELEASE_IMAGE
   tags:
-    - linux
+    - docker
   only:
     - master
