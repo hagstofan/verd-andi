@@ -3,6 +3,8 @@ from django import forms
 from decimal import Decimal
 from collections import OrderedDict
 
+from .models import Observation, ObservationPicture
+from multiupload.fields import MultiImageField, MultiFileField
 
 # some validators.
 def validate_observed_quantity(value):
@@ -43,7 +45,7 @@ class ObservationForm(forms.Form):
     barcode = forms.CharField(max_length=200, required=False)
     # item = forms.ForeignKey(Item)
     obs_comment = forms.CharField(max_length=300, required=False)
-    picture = forms.ImageField(required=False)
+
     # specified_characteristics = forms.CharField(max_length=400, blank=True)
     # survey = forms.ForeignKey(Survey)
 
@@ -56,6 +58,7 @@ class ObservationForm(forms.Form):
 
     def __init__(self, *args, **kwargs):
         # self.extra = extra = kwargs.pop('extra') # for validation of extra
+
         extra = kwargs.pop('extra')
         self.max_quantity = kwargs.pop('max_quantity')  # for validation
         self.min_quantity = kwargs.pop('min_quantity')  # for validation
@@ -74,7 +77,6 @@ class ObservationForm(forms.Form):
             'shop_identifier',
             'observed_price',
             'observed_quantity',
-            'picture',
             'barcode'
             ]
 
@@ -115,6 +117,10 @@ class ObservationForm(forms.Form):
         return observed_quantity
 
 
+class UploadForm(forms.Form):
+    pictures = MultiFileField(min_num=1, max_num=3, max_file_size=1024*1024*5)      
+
+
 class ItemCommentaryForm(forms.Form):
     seasonality = forms.BooleanField(required=False)
     representativity = forms.BooleanField(required=False)
@@ -124,3 +130,7 @@ class ItemCommentaryForm(forms.Form):
 
 class CollectorCommentForm(forms.Form):
     comment = forms.CharField(max_length=500)
+
+
+class SurveyAddItemsActionForm(forms.Form):
+    file = forms.FileField()

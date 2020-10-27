@@ -6,6 +6,8 @@ from . import views
 app_name = 'survey'
 
 urlpatterns = [
+    url(r'^done-observation-pictures/(?P<idx>[0-9]+)/$', views.DoneUpload, name="done-observation-picture"),
+    url(r'^observation-picture/(?P<idx>[0-9]+)/$', views.UploadView.as_view(), name="observation-picture"),
     url(r'^observer-items/(?P<idx>[0-9]+)/$',
         views.ObserverItems, name='observer-items'),
     url(r'^collector-comment/(?P<idx>[\w{}.-]{1,40})/'
@@ -31,6 +33,5 @@ urlpatterns = [
         views.ObserversManagement, name='observers-management'),
     url(r'(?P<pk>[0-9]+)/xml/', views.SurveyXML, name='survey-xml'),
     url(r'^item-observations/(?P<idx>[\w{}.-]{1,40})/$',
-        views.prev_item_observations, name='item-observations')
-
+        views.prev_item_observations, name='item-observations'),
 ]

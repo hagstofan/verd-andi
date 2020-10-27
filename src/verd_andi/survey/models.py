@@ -128,10 +128,10 @@ class Observation(models.Model):
     specified_characteristics = models.CharField(max_length=400, blank=True)
     survey = models.ForeignKey(Survey, on_delete=models.SET_NULL, null=True)
     shop_own_brand = models.BooleanField(default=False)
-    picture = models.ImageField(upload_to="observation_pic_uploads" +
-                                "/",
-                                blank=True,
-                                null=True)
+    # picture = models.ImageField(upload_to="observation_pic_uploads" +
+    #                             "/",
+    #                             blank=True,
+    #                             null=True)
     barcode = models.CharField(max_length=200, blank=True, null=True)
 
     def __str__(self):
@@ -153,6 +153,18 @@ class ObservedCharacteristic(models.Model):
 
     def __str__(self):
         return str(self.characteristic)
+
+
+@python_2_unicode_compatible
+class ObservationPicture(models.Model):
+    observation = models.ForeignKey(Observation, on_delete=models.CASCADE)
+    picture = models.FileField(upload_to="observation_pic_uploads" +
+                                "/",
+                                blank=True,
+                                null=True)
+
+    def __str__(self):
+        return str(self.observation)
 
 
 @python_2_unicode_compatible

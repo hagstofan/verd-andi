@@ -9,7 +9,8 @@ from .models import (
         ItemObserver,
         Observer,
         ItemCommentary,
-        CollectorComment
+        CollectorComment,
+        ObservationPicture
     )
 
 
@@ -17,11 +18,13 @@ class ObservedCharacteristicInline(nested_admin.NestedTabularInline):
     model = ObservedCharacteristic
     # form = ObservedCharacteristicForm
 
+class ObservationPictureInline(nested_admin.NestedTabularInline):
+    model = ObservationPicture
 
 class ObservationInline(nested_admin.NestedTabularInline):
     model = Observation
     extra = 3
-    inlines = [ObservedCharacteristicInline, ]
+    inlines = [ObservedCharacteristicInline, ObservationPictureInline,]
 
 
 class CharacteristicInline(nested_admin.NestedTabularInline):
@@ -51,7 +54,7 @@ class CollectorCommentAdmin(nested_admin.NestedModelAdmin):
 
 class ObservationAdmin(nested_admin.NestedModelAdmin):
     model = Observation
-    inlines = [ObservedCharacteristicInline, ]
+    inlines = [ObservedCharacteristicInline, ObservationPictureInline,]
     search_fields = ('item__code', 'item__label', 'obs_time')
     list_filter = (
         ('observer', admin.RelatedOnlyFieldListFilter),
@@ -93,7 +96,7 @@ class PriceComparisonAdmin(ObservationAdmin):
     def get_queryset(self, request):
         return self.model.objects.all()
 
-    inlines = [ObservedCharacteristicInline, ]
+    inlines = [ObservedCharacteristicInline, ObservationPictureInline,]
     search_fields = ('item__code', 'item__label', 'obs_time')
     # list_filter = (
     #     ('observer', admin.RelatedOnlyFieldListFilter),
@@ -125,7 +128,7 @@ class ObservationBetaAdmin(ObservationAdmin):
     def get_queryset(self, request):
         return self.model.objects.all()
 
-    inlines = [ObservedCharacteristicInline, ]
+    inlines = [ObservedCharacteristicInline, ObservationPictureInline,]
     search_fields = ('item__code', 'item__label', 'obs_time')
     # list_filter = (
     #     ('observer', admin.RelatedOnlyFieldListFilter),
@@ -193,6 +196,10 @@ class ObservedCharacteristicAdmin(nested_admin.NestedModelAdmin):
     model = ObservedCharacteristic
 
 
+class ObservationPictureAdmin(nested_admin.NestedModelAdmin):
+    model = ObservationPicture
+
+
 class ItemCommentaryAdmin(nested_admin.NestedModelAdmin):
     model = ItemCommentary
 
@@ -215,3 +222,4 @@ admin.site.register(ItemCommentary, ItemCommentaryAdmin)
 admin.site.register(Observation4PriceComp, PriceComparisonAdmin)
 admin.site.register(ObservationBeta, ObservationBetaAdmin)
 admin.site.register(CollectorComment, CollectorCommentAdmin)
+admin.site.register(ObservationPicture, ObservationPictureAdmin)

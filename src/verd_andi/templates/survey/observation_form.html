@@ -8,6 +8,8 @@
                 <p><strong>Oh snap!</strong> somthin wrong dawg.</p>
             </div>
     {% endif %}
+
+
     <form method="post" action="." class="form-horizontal text-left" role="form" enctype="multipart/form-data">
       {% csrf_token %} 
       {% for field in form %}
@@ -28,6 +30,7 @@
                 </div>
         {% endfor %}
      
+
       <span class="input-group-btn"> 
         <button class="btn btn-default" type="button" data-toggle="modal" data-target="#livestream_scanner">
           Scan barcode
@@ -41,6 +44,10 @@
        {% if is_update %}
 
       <a href="{% url 'survey:observation-delete' current_obs %}"><button class="btn btn-danger" type="button">Delete  <i class="fa fa-trash white-trash" aria-hidden="true"></i> </button></a>
+
+      <hr>
+
+      <a href="{% url 'survey:observation-picture' current_obs %}"><button class="btn btn-default" type="button">Add pics </button></a>
 
      {% endif %}
 
