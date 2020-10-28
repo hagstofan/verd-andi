@@ -466,7 +466,7 @@ def ObservationUpdate(request, idx):
             if(collector_comment):
                 context["collector_comment"] = collector_comment
 
-            if form.is_valid() :  # POST request
+            if form.is_valid():  # POST request
                 # todo ObservationPicture stuff
 
                 shop_type = form.cleaned_data['shop_type']
@@ -907,7 +907,10 @@ class UploadView(FormView):
     def form_valid(self, form):
         observation = Observation.objects.filter(id=self.kwargs['idx']).first()
         for each in form.cleaned_data['pictures']:
-            ObservationPicture.objects.create(picture=each, observation=observation)
+            ObservationPicture.objects.create(
+                picture=each,
+                observation=observation
+                )
         return super(UploadView, self).form_valid(form)
 
     def get_success_url(self, **kwargs):
