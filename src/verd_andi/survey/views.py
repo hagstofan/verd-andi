@@ -15,6 +15,8 @@ from django.utils import timezone
 from django.views.generic import DetailView
 from django.views.generic.edit import DeleteView
 from django.views.generic.list import ListView
+from django.views.generic.edit import FormView
+from .forms import UploadForm
 
 from .models import (
         Survey,
@@ -26,13 +28,15 @@ from .models import (
         ObservedCharacteristic,
         ItemCommentary,
         CollectorComment,
-        Observer
+        Observer,
+        ObservationPicture
     )
 
 from .forms import (
     ObservationForm,
     ItemCommentaryForm,
-    CollectorCommentForm
+    CollectorCommentForm,
+    UploadForm
 )
 
 # xml stuff
@@ -211,7 +215,7 @@ def item_observation(request, idx):
             theitem = Item.objects.filter(pk=item)[0]
             theuser = User.objects.filter(pk=observer)[0]
             shop_own_brand = form.cleaned_data['shop_own_brand']
-            picture = form.cleaned_data['picture']
+            # picture = form.cleaned_data['picture']
             barcode = form.cleaned_data['barcode']
             surv = getattr(theitem, 'survey')
             # survey = Survey.objects.filter(pk=surv.pk)
@@ -225,7 +229,6 @@ def item_observation(request, idx):
                 discount=discount,
                 observed_price=observed_price,
                 observed_quantity=observed_quantity,
-                picture=picture,
                 barcode=barcode,
                 obs_comment=obs_comment,
                 shop_own_brand=shop_own_brand,
@@ -254,7 +257,12 @@ def item_observation(request, idx):
                 return HttpResponseRedirect(
                     reverse('survey:item-observation', kwargs={'idx': item}))
             else:
-                return HttpResponseRedirect(reverse('survey:survey-userdash'))
+                return HttpResponseRedirect(
+                    reverse(
+                        'survey:observation-update',
+                        kwargs={'idx': observation.id}
+                        )
+                    )
 
         context = {
             "form": form,
@@ -390,6 +398,7 @@ def ObservationUpdate(request, idx):
         if (request.user.id == observation.observer.id or
                 request.user.is_superuser):
             # user is qualified to update observation
+
             item_id = observation.item.code
             item = Item.objects.filter(pk=item_id)
             # get item, get characteristics of item ..
@@ -419,7 +428,6 @@ def ObservationUpdate(request, idx):
                 'discount': observation.discount,
                 'observed_price': observation.observed_price,
                 'observed_quantity': observation.observed_quantity,
-                'picture': observation.picture,
                 'obs_comment': observation.obs_comment,
                 'shop_own_brand': observation.shop_own_brand,
                 'barcode': observation.barcode
@@ -459,6 +467,8 @@ def ObservationUpdate(request, idx):
                 context["collector_comment"] = collector_comment
 
             if form.is_valid():  # POST request
+                # todo ObservationPicture stuff
+
                 shop_type = form.cleaned_data['shop_type']
                 shop_identifier = form.cleaned_data['shop_identifier']
                 # flag = form.cleaned_data['flag']
@@ -467,7 +477,6 @@ def ObservationUpdate(request, idx):
                 observed_quantity = form.cleaned_data['observed_quantity']
                 obs_comment = form.cleaned_data['obs_comment']
                 shop_own_brand = form.cleaned_data['shop_own_brand']
-                picture = form.cleaned_data['picture']
                 barcode = form.cleaned_data['barcode']
                 # updating the observation
                 observation.shop_type = shop_type
@@ -477,7 +486,6 @@ def ObservationUpdate(request, idx):
                 observation.observed_quantity = observed_quantity
                 observation.obs_comment = obs_comment
                 observation.shop_own_brand = shop_own_brand
-                observation.picture = picture
                 observation.barcode = barcode
                 observation.save()
 
@@ -498,7 +506,8 @@ def ObservationUpdate(request, idx):
                                                     kwargs={'idx':
                                                             observation.id}))
 
-            return render(request, "survey/item_observation.html", context)
+            else:
+                return render(request, "survey/item_observation.html", context)
 
         else:
             raise PermissionDenied
@@ -532,7 +541,6 @@ def viewObservation(request, idx):
                 'discount': observation.discount,
                 'observed_price': observation.observed_price,
                 'observed_quantity': observation.observed_quantity,
-                'picture': observation.picture,
                 'obs_comment': observation.obs_comment,
                 'shop_own_brand': observation.shop_own_brand,
                 'barcode': observation.barcode
@@ -889,3 +897,25 @@ def SurveyXML(request, pk):
         return HttpResponse(xml_string, content_type="text/plain")
     else:
         raise PermissionDenied
+
+
+class UploadView(FormView):
+    template_name = 'survey/observation_picture_form.html'
+    form_class = UploadForm
+    success_url = '/survey/done-observation-pictures/'
+
+    def form_valid(self, form):
+        observation = Observation.objects.filter(id=self.kwargs['idx']).first()
+        for each in form.cleaned_data['pictures']:
+            ObservationPicture.objects.create(
+                picture=each,
+                observation=observation
+                )
+        return super(UploadView, self).form_valid(form)
+
+    def get_success_url(self, **kwargs):
+        return '/survey/done-observation-pictures/' + self.kwargs['idx']
+
+
+def DoneUpload(request, idx):
+    return HttpResponseRedirect(reverse('survey:survey-userdash'))

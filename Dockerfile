@@ -6,7 +6,7 @@ ENV DEBUG=False DB=db
 
 ADD requirements.txt /app/
 
-RUN apk add postgresql-dev jpeg-dev zlib-dev build-base python3-dev musl-dev
+RUN apk add postgresql-dev jpeg-dev zlib-dev build-base python3-dev musl-dev git
 ENV LIBRARY_PATH=/lib:/usr/lib
 RUN pip3 install --no-cache-dir -r ../requirements.txt
 
