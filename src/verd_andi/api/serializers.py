@@ -5,7 +5,8 @@ from survey.models import (
                            Observation,
                            ItemCommentary,
                            Characteristic,
-                           ObservedCharacteristic
+                           ObservedCharacteristic,
+                           ObservationPicture
                            )
 
 
@@ -78,6 +79,7 @@ class AdaptiveObservationSerializer(serializers.ModelSerializer):
     barcode = serializers.CharField()
     observer = serializers.PrimaryKeyRelatedField(source="observer.username",
                                                   read_only=True)
+    observation_pictures = serializers.SerializerMethodField()
 
     def get_nr_konnunar(self, obj):
         return '{}{}'.format(obj.survey.code, obj.survey.year)
@@ -111,6 +113,18 @@ class AdaptiveObservationSerializer(serializers.ModelSerializer):
 
         return brand
 
+    def get_observation_pictures(self, obj):
+
+        try:
+            obs_pics = ObservationPicture.objects.filter(observation=obj)
+            pics = []
+            for obs_pic in obs_pics:
+                pics.append(obs_pic.picture.url)
+        except ObservationPicture.DoesNotExist:
+            pics = []
+
+        return pics
+
     class Meta:
         model = Observation
         fields = (
@@ -127,6 +141,6 @@ class AdaptiveObservationSerializer(serializers.ModelSerializer):
             "obs_comments",
             "brand",
             "observer",
-            "picture",
-            "barcode"
+            "barcode",
+            "observation_pictures"
             )
