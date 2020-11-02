@@ -918,4 +918,39 @@ class UploadView(FormView):
 
 
 def DoneUpload(request, idx):
-    return HttpResponseRedirect(reverse('survey:survey-userdash'))
+    if request.user.is_authenticated:
+        observation = Observation.objects.get(pk=idx)
+        if (request.user.id == observation.observer.id or
+                request.user.is_superuser):
+            # Add stuff to context
+            observation_pictures = ObservationPicture.objects.filter(observation=observation.id)
+            print(observation_pictures)
+            context = {"current_obs": idx, "pictures": observation_pictures}
+            print(type(observation_pictures))
+            for pic in observation_pictures:
+                print(dir(pic))
+                print(pic.picture.url)
+
+            return render(request, "survey/done_upload_observation.html", context)
+        else:
+            raise PermissionDenied
+    else:
+        return redirect(settings.LOGIN_REDIRECT_URL)
+
+
+class ObservationPictureDelete(DeleteView):
+    model = ObservationPicture
+
+    def get_object(self, queryset=None):
+        """ Hook to ensure object is owned by request.user. """
+        obj = super(ObservationPictureDelete, self).get_object()
+        if (not ((obj.observation.observer == self.request.user) or
+                 self.request.user.is_superuser)):
+            # raise Http404
+            raise PermissionDenied
+        return obj
+
+    def get_success_url(self, **kwargs):
+        observation = self.get_object().observation
+
+        return '/survey/done-observation-pictures/' + str(observation.id) + '/'

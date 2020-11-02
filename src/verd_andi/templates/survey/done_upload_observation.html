@@ -1,0 +1,19 @@
+<!-- item_observation. -->
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block content %}
+
+{% if current_obs %}
+
+	<p>Observation number: {{current_obs}}</p>
+
+{% endif %}
+
+{% if pictures %}
+	{% for instance in pictures %}
+	<a href="{{instance.picture.url}}">{{instance.id}} <a href="{% url 'survey:observation-picture-delete' instance.pk %}"><i class="fa fa-trash" aria-hidden="true"></i></a> </p>
+	{% endfor %}
+{% endif %}
+
+{% endblock %}
