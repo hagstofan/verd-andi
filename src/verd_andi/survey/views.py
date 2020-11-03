@@ -17,6 +17,7 @@ from django.views.generic.edit import DeleteView
 from django.views.generic.list import ListView
 from django.views.generic.edit import FormView
 from .forms import UploadForm
+from django.contrib.auth.decorators import login_required
 
 from .models import (
         Survey,
@@ -917,25 +918,18 @@ class UploadView(FormView):
         return '/survey/done-observation-pictures/' + self.kwargs['idx']
 
 
+@login_required
 def DoneUpload(request, idx):
-    if request.user.is_authenticated:
-        observation = Observation.objects.get(pk=idx)
-        if (request.user.id == observation.observer.id or
-                request.user.is_superuser):
-            # Add stuff to context
-            observation_pictures = ObservationPicture.objects.filter(observation=observation.id)
-            print(observation_pictures)
-            context = {"current_obs": idx, "pictures": observation_pictures}
-            print(type(observation_pictures))
-            for pic in observation_pictures:
-                print(dir(pic))
-                print(pic.picture.url)
+    observation = Observation.objects.get(pk=idx)
+    if (request.user.id == observation.observer.id or
+            request.user.is_superuser):
+        # Add stuff to context
+        observation_pictures = ObservationPicture.objects.filter(observation=observation.id)
+        context = {"current_obs": idx, "pictures": observation_pictures}
 
-            return render(request, "survey/done_upload_observation.html", context)
-        else:
-            raise PermissionDenied
+        return render(request, "survey/done_upload_observation.html", context)
     else:
-        return redirect(settings.LOGIN_REDIRECT_URL)
+        raise PermissionDenied
 
 
 class ObservationPictureDelete(DeleteView):
