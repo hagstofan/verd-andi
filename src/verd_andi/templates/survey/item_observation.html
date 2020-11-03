@@ -183,6 +183,7 @@
 			  <th>shop</th>
 			  <th>price</th>
 			  <th>quantity</th>
+			  <th>pictures</th>
 			  <th>observer</th>
 			 </tr>
 		    {% for obs in observations %}
@@ -191,6 +192,7 @@
 				<td>{{obs.shop_identifier}} </td>
 				<td>{{obs.observed_price}} </td>
 				<td>{{obs.observed_quantity}} </td>
+				<td>  <a href="{% url 'survey:done-observation-picture' obs.pk %}"><i class="fa fa-camera" aria-hidden="true"></i></td>
 				<td>{{ obs.observer }}  {% if request.user.is_superuser %}--- <a href="{% url 'survey:observation-delete' obs.pk %}"><i class="fa fa-trash" aria-hidden="true"></i>
 				</a> 
 				{% endif %} </td>

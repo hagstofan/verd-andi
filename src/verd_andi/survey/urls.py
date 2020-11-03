@@ -21,6 +21,8 @@ urlpatterns = [
         views.viewObservation, name='observation-view'),
     url(r'^observation/(?P<pk>[0-9]+)/delete/',
         views.ObservationDelete.as_view(), name='observation-delete'),
+    url(r'^observation-picture/(?P<pk>[0-9]+)/delete/',
+        views.ObservationPictureDelete.as_view(), name='observation-picture-delete'),
     url(r'^$', views.SurveyListView.as_view(), name='survey-list'),
     url(r'^item-obs/(?P<idx>[\w{}.-]{1,40})/$',
         views.item_observation, name='item-observation'),

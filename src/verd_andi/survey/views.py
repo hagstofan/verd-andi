@@ -17,6 +17,7 @@ from django.views.generic.edit import DeleteView
 from django.views.generic.list import ListView
 from django.views.generic.edit import FormView
 from .forms import UploadForm
+from django.contrib.auth.decorators import login_required
 
 from .models import (
         Survey,
@@ -917,5 +918,33 @@ class UploadView(FormView):
         return '/survey/done-observation-pictures/' + self.kwargs['idx']
 
 
+@login_required
 def DoneUpload(request, idx):
-    return HttpResponseRedirect(reverse('survey:survey-userdash'))
+    observation = Observation.objects.get(pk=idx)
+    if (request.user.id == observation.observer.id or
+            request.user.is_superuser):
+        # Add stuff to context
+        observation_pictures = ObservationPicture.objects.filter(observation=observation.id)
+        context = {"current_obs": idx, "pictures": observation_pictures}
+
+        return render(request, "survey/done_upload_observation.html", context)
+    else:
+        raise PermissionDenied
+
+
+class ObservationPictureDelete(DeleteView):
+    model = ObservationPicture
+
+    def get_object(self, queryset=None):
+        """ Hook to ensure object is owned by request.user. """
+        obj = super(ObservationPictureDelete, self).get_object()
+        if (not ((obj.observation.observer == self.request.user) or
+                 self.request.user.is_superuser)):
+            # raise Http404
+            raise PermissionDenied
+        return obj
+
+    def get_success_url(self, **kwargs):
+        observation = self.get_object().observation
+
+        return '/survey/done-observation-pictures/' + str(observation.id) + '/'
