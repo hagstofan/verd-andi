@@ -51,6 +51,7 @@ class AdaptiveObservationSerializer(serializers.ModelSerializer):
     #   commentarys, many=True, read_only=True)
     #  nr_konnunar = serializers.PrimaryKeyRelatedField(
     #    source="survey.code", read_only=True)
+    observation_id = serializers.IntegerField(source="id")
     nr_konnunar = serializers.SerializerMethodField()
     itemcode_i_konnun = serializers.PrimaryKeyRelatedField(source="item.code",
                                                            read_only=True)
@@ -128,6 +129,7 @@ class AdaptiveObservationSerializer(serializers.ModelSerializer):
     class Meta:
         model = Observation
         fields = (
+            "observation_id",
             "nr_konnunar",
             "itemcode_i_konnun",
             "status_obs",
