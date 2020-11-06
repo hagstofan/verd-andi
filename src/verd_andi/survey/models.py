@@ -158,10 +158,11 @@ class ObservedCharacteristic(models.Model):
 @python_2_unicode_compatible
 class ObservationPicture(models.Model):
     observation = models.ForeignKey(Observation, on_delete=models.CASCADE)
-    picture = models.FileField(upload_to="observation_pic_uploads" +
-                                "/",
-                                blank=True,
-                                null=True)
+    picture = models.FileField(
+        upload_to="observation_pic_uploads" + "/",
+        blank=True,
+        null=True
+    )
 
     def __str__(self):
         return str(self.observation)

@@ -16,15 +16,16 @@ from .models import (
 
 class ObservedCharacteristicInline(nested_admin.NestedTabularInline):
     model = ObservedCharacteristic
-    # form = ObservedCharacteristicForm
+
 
 class ObservationPictureInline(nested_admin.NestedTabularInline):
     model = ObservationPicture
 
+
 class ObservationInline(nested_admin.NestedTabularInline):
     model = Observation
     extra = 3
-    inlines = [ObservedCharacteristicInline, ObservationPictureInline,]
+    inlines = [ObservedCharacteristicInline, ObservationPictureInline, ]
 
 
 class CharacteristicInline(nested_admin.NestedTabularInline):
@@ -54,7 +55,7 @@ class CollectorCommentAdmin(nested_admin.NestedModelAdmin):
 
 class ObservationAdmin(nested_admin.NestedModelAdmin):
     model = Observation
-    inlines = [ObservedCharacteristicInline, ObservationPictureInline,]
+    inlines = [ObservedCharacteristicInline, ObservationPictureInline, ]
     search_fields = ('item__code', 'item__label', 'obs_time')
     list_filter = (
         ('observer', admin.RelatedOnlyFieldListFilter),
@@ -70,7 +71,6 @@ class ObservationAdmin(nested_admin.NestedModelAdmin):
                     'edit_link')
 
     def show_link(self, obj):
-        # return '<a href=/survey/observation/%s/>Click here</a>' % obj.id
         return '<a href=/survey/observation-view/%s/>view</a>' % obj.id
 
     def edit_link(self, obj):
@@ -96,13 +96,9 @@ class PriceComparisonAdmin(ObservationAdmin):
     def get_queryset(self, request):
         return self.model.objects.all()
 
-    inlines = [ObservedCharacteristicInline, ObservationPictureInline,]
+    inlines = [ObservedCharacteristicInline, ObservationPictureInline, ]
     search_fields = ('item__code', 'item__label', 'obs_time')
-    # list_filter = (
-    #     ('observer', admin.RelatedOnlyFieldListFilter),
-    #     ('survey', admin.RelatedOnlyFieldListFilter),
-    #     ('shop_type'),
-    #     )
+
     list_display = ('item',
                     'shop_identifier',
                     'observed_price',
@@ -113,7 +109,6 @@ class PriceComparisonAdmin(ObservationAdmin):
                     'edit_link')
 
     def show_link(self, obj):
-        # return '<a href=/survey/observation/%s/>Click here</a>' % obj.id
         return '<a href=/survey/observation-view/%s/>view</a>' % obj.id
 
     def edit_link(self, obj):
@@ -128,13 +123,9 @@ class ObservationBetaAdmin(ObservationAdmin):
     def get_queryset(self, request):
         return self.model.objects.all()
 
-    inlines = [ObservedCharacteristicInline, ObservationPictureInline,]
+    inlines = [ObservedCharacteristicInline, ObservationPictureInline, ]
     search_fields = ('item__code', 'item__label', 'obs_time')
-    # list_filter = (
-    #     ('observer', admin.RelatedOnlyFieldListFilter),
-    #     ('survey', admin.RelatedOnlyFieldListFilter),
-    #     ('shop_type'),
-    #     )
+
     list_display = ('item_code',
                     'shop_type',
                     'shop_identifier',

@@ -4,12 +4,13 @@ from decimal import Decimal
 from collections import OrderedDict
 
 from .models import Observation, ObservationPicture
-from multiupload.fields import MultiImageField, MultiFileField
+from multiupload.fields import (
+    MultiImageField, MultiFileField
+)
+
 
 # some validators.
 def validate_observed_quantity(value):
-    print("monkeys")
-    # print(value)
     return value
 
 
@@ -118,7 +119,7 @@ class ObservationForm(forms.Form):
 
 
 class UploadForm(forms.Form):
-    pictures = MultiFileField(min_num=1, max_num=3, max_file_size=1024*1024*5)      
+    pictures = MultiFileField(min_num=1, max_num=3, max_file_size=1024*1024*5)
 
 
 class ItemCommentaryForm(forms.Form):
