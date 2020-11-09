@@ -1,5 +1,5 @@
-# FROM docker.hagstofa.local/containers/python:latest
-FROM python:3-alpine
+FROM docker.hagstofa.local/containers/python:latest
+# FROM python:3-alpine
 
 WORKDIR /app/verd_andi
 
