@@ -3,7 +3,7 @@ FROM docker.hagstofa.local/containers/python:latest
 
 WORKDIR /app/verd_andi
 
-ENV DEBUG=False DB=db
+ENV DEBUG=False
 
 ADD requirements.txt /app/
 

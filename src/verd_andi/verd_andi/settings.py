@@ -41,7 +41,7 @@ SECRET_KEY = os.environ.get('SECRET_KEY', 'test-secret-key')
 # SECURITY WARNING: don't run with debug turned on in production!
 STR_DEBUG = os.environ.get('DEBUG', 'true').lower()
 DEBUG = (STR_DEBUG == 'true')
-DB = os.environ.get('DB')
+DB = os.environ.get('DB', 'sqlite')
 
 
 # DB_PASSWORD = localVars.db_passwd
