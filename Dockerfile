@@ -16,10 +16,9 @@ COPY src/verd_andi /app/verd_andi
 COPY src/static_in_env /app/static_in_env
 COPY entrypoint.sh /app/verd_andi/entrypoint.sh
 
-# RUN coverage run manage.py test && \
-# 	coverage report && \
-#	flake8 --exclude manage.py,migrations,django-multiupload .
-RUN flake8 --exclude manage.py,migrations,django-multiupload .
+RUN coverage run manage.py test && \
+	coverage report && \
+	flake8 --exclude manage.py,migrations,django-multiupload .
 
 EXPOSE 8000
 

@@ -3,10 +3,7 @@ from django import forms
 from decimal import Decimal
 from collections import OrderedDict
 
-from .models import Observation, ObservationPicture
-from multiupload.fields import (
-    MultiImageField, MultiFileField
-)
+from multiupload.fields import MultiFileField
 
 
 # some validators.

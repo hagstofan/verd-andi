@@ -44,7 +44,7 @@ from .forms import (
 
 # Create your views here.
 def index(request):
-        return HttpResponse("Hello, world. You're at the survey index.")
+    return HttpResponse("Hello, world. You're at the survey index.")
 
 
 class SurveyListView(ListView):

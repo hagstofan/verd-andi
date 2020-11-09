@@ -2,17 +2,10 @@
 from __future__ import unicode_literals
 
 from django.test import TestCase
-from django.conf import settings
+# from django.conf import settings
 
 from survey.models import (
     Survey,
-    Item,
-    ItemCommentary,
-    Characteristic,
-    Observation,
-    ObservedCharacteristic,
-    UserObservation,
-    ItemObserver
     )
 
 

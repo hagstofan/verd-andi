@@ -13,7 +13,7 @@ urlpatterns = [
     url(r'^observer-items/(?P<idx>[0-9]+)/$',
         views.ObserverItems, name='observer-items'),
     url(r'^collector-comment/(?P<idx>[\w{}.-]{1,40})/'
-        '(?P<uname>[\w{}.-]{1,40})/$',
+        r'(?P<uname>[\w{}.-]{1,40})/$',
         views.CollectorCommentView, name='collector-comment'),
     url(r'^observation/(?P<idx>[0-9]+)/$',
         views.ObservationUpdate, name='observation-update'),

@@ -1,26 +1,15 @@
 # -*- coding: utf-8 -*-
 from django.test import TestCase, Client, RequestFactory
-from django.conf import settings
+# from django.conf import settings
 # from django.utils import timezone
 from django.contrib.auth.models import User
 from django.urls import reverse
 
-from datetime import datetime
-from datetime import timedelta
-
 from survey.models import (
     Survey,
-    Item,
-    ItemCommentary,
-    Characteristic,
-    Observation,
-    ObservedCharacteristic,
-    UserObservation,
-    ItemObserver
     )
 
 from survey.views import (
-    SurveyListView,
     SurveyDetailView,
     )
 
