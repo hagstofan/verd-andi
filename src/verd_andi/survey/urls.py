@@ -13,7 +13,7 @@ urlpatterns = [
     url(r'^observer-items/(?P<idx>[0-9]+)/$',
         views.ObserverItems, name='observer-items'),
     url(r'^collector-comment/(?P<idx>[\w{}.-]{1,40})/'
-        '(?P<uname>[\w{}.-]{1,40})/$',
+        r'(?P<uname>[\w{}.-]{1,40})/$',
         views.CollectorCommentView, name='collector-comment'),
     url(r'^observation/(?P<idx>[0-9]+)/$',
         views.ObservationUpdate, name='observation-update'),
@@ -22,7 +22,8 @@ urlpatterns = [
     url(r'^observation/(?P<pk>[0-9]+)/delete/',
         views.ObservationDelete.as_view(), name='observation-delete'),
     url(r'^observation-picture/(?P<pk>[0-9]+)/delete/',
-        views.ObservationPictureDelete.as_view(), name='observation-picture-delete'),
+        views.ObservationPictureDelete.as_view(),
+        name='observation-picture-delete'),
     url(r'^$', views.SurveyListView.as_view(), name='survey-list'),
     url(r'^item-obs/(?P<idx>[\w{}.-]{1,40})/$',
         views.item_observation, name='item-observation'),

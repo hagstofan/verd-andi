@@ -16,7 +16,6 @@ from django.views.generic import DetailView
 from django.views.generic.edit import DeleteView
 from django.views.generic.list import ListView
 from django.views.generic.edit import FormView
-from .forms import UploadForm
 from django.contrib.auth.decorators import login_required
 
 from .models import (
@@ -45,7 +44,7 @@ from .forms import (
 
 # Create your views here.
 def index(request):
-        return HttpResponse("Hello, world. You're at the survey index.")
+    return HttpResponse("Hello, world. You're at the survey index.")
 
 
 class SurveyListView(ListView):
@@ -418,7 +417,7 @@ def ObservationUpdate(request, idx):
                 )
                 if collector_comment:
                     collector_comment = collector_comment[0]
-            except:
+            except Exception:
                 collector_comment = None
 
             data = {
@@ -924,7 +923,9 @@ def DoneUpload(request, idx):
     if (request.user.id == observation.observer.id or
             request.user.is_superuser):
         # Add stuff to context
-        observation_pictures = ObservationPicture.objects.filter(observation=observation.id)
+        observation_pictures = ObservationPicture.objects.filter(
+            observation=observation.id
+        )
         context = {"current_obs": idx, "pictures": observation_pictures}
 
         return render(request, "survey/done_upload_observation.html", context)
