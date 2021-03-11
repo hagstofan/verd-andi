@@ -3,9 +3,9 @@ stages:
   - release
 
 variables:
-  CONTAINER_TEST_IMAGE: docker.hagstofa.local/vefskil/verd-andi:$CI_COMMIT_REF_SLUG
-  CONTAINER_RELEASE_IMAGE: docker.hagstofa.local/vefskil/verd-andi:latest
-  PUBLIC_RELEASE_IMAGE: registry.hagstofa.is/vefskil/verd-andi:latest
+  CONTAINER_TEST_IMAGE: docker.hagstofa.local/ut/web/verd-andi:$CI_COMMIT_REF_SLUG
+  CONTAINER_RELEASE_IMAGE: docker.hagstofa.local/ut/web/verd-andi:latest
+  PUBLIC_RELEASE_IMAGE: registry.hagstofa.is/ut/web/verd-andi:latest
 
 dockerize: 
   stage: build 
