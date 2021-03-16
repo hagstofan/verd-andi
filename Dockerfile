@@ -18,7 +18,7 @@ COPY entrypoint.sh /app/verd_andi/entrypoint.sh
 
 RUN coverage run manage.py test && \
 	coverage report && \
-	flake8 --exclude manage.py,migrations,django-multiupload .
+	flake8 --exclude manage.py,migrations,django-multiupload,multiupload .
 
 EXPOSE 8000
 
