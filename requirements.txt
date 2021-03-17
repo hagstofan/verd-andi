@@ -23,4 +23,4 @@ python-monkey-business==1.0.0
 six==1.10.0
 xmltodict==0.10.2
 sentry-sdk<0.15.0
--e git+https://github.com/Chive/django-multiupload.git@ba52e161a68ce19062c3655e89544c2d377990a0#egg=django_multiupload
+https://github.com/rgrueebler/django-multiupload/archive/patch-1.zip

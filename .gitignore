@@ -26,3 +26,4 @@ src/verd_andi/survey/migrations/0035_auto_20190718_1413.py
 
 # multiupload
 src/django-multiupload/
+src/multiupload/
