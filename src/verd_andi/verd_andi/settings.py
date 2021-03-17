@@ -30,6 +30,12 @@ if os.environ.get("SENTRY_DSN"):
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
+IS_DISPLAY_NAME = 'V€R₫-A₦Di'
+EN_DISPLAY_NAME = '₽ri¢€-₲€i$₸'
+IS_TEXT_NAME = 'Verð-andi'
+EN_TEXT_NAME = 'Price-geist'
+DISPLAY_NAME = EN_DISPLAY_NAME
+TEXT_NAME = EN_TEXT_NAME
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.10/howto/deployment/checklist/
@@ -97,6 +103,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'verd_andi.context_processors.display_name',
             ],
         },
     },
@@ -121,7 +128,6 @@ WSGI_APPLICATION = 'verd_andi.wsgi.application'
 #         'PORT': '',
 #     }
 # }
-
 
 # from njola
 if (DB == 'ppp_db'):  # the Docker database
