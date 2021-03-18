@@ -40,17 +40,6 @@ class ItemCommentarySerializer(serializers.ModelSerializer):
 
 class AdaptiveObservationSerializer(serializers.ModelSerializer):
 
-    """
-    item_code = serializers.PrimaryKeyRelatedField(
-    #  source="item.code", read_only=True)
-    shop_type = serializers.IntegerField(source='shop_type')
-    shop_identifier = serializers.
-    """
-    # commentarys = ItemCommentary.objects.all()
-    # itemcommentary = ItemCommentarySerializer(
-    #   commentarys, many=True, read_only=True)
-    #  nr_konnunar = serializers.PrimaryKeyRelatedField(
-    #    source="survey.code", read_only=True)
     observation_id = serializers.IntegerField(source="id")
     nr_konnunar = serializers.SerializerMethodField()
     itemcode_i_konnun = serializers.PrimaryKeyRelatedField(source="item.code",
@@ -64,18 +53,10 @@ class AdaptiveObservationSerializer(serializers.ModelSerializer):
                                             decimal_places=2,
                                             max_digits=25)
     discount_flag = serializers.CharField(source="discount")
-    # month
     month = serializers.SerializerMethodField()
-    # month = serializers.DateField(source="obs_time")
-    # representative = serializers.PrimaryKeyRelatedField(
-    #   source="item.itemcommentary.representativity", read_only=True)
     representative = serializers.SerializerMethodField()
-    # obs_comments = serializers.PrimaryKeyRelatedField(
-    #  source="item.itemcommentary.comment", read_only=True)
-    #  eda obs_comment ?
     obs_comments = serializers.CharField(source="obs_comment")
 
-    # picture = serializers.ImageField(source="picture")
     brand = serializers.SerializerMethodField()
     barcode = serializers.CharField()
     observer = serializers.PrimaryKeyRelatedField(source="observer.username",
