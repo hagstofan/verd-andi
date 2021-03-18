@@ -128,10 +128,6 @@ class Observation(models.Model):
     specified_characteristics = models.CharField(max_length=400, blank=True)
     survey = models.ForeignKey(Survey, on_delete=models.SET_NULL, null=True)
     shop_own_brand = models.BooleanField(default=False)
-    # picture = models.ImageField(upload_to="observation_pic_uploads" +
-    #                             "/",
-    #                             blank=True,
-    #                             null=True)
     barcode = models.CharField(max_length=200, blank=True, null=True)
 
     def __str__(self):
@@ -144,9 +140,7 @@ class ObservedCharacteristic(models.Model):
     characteristic = models.ForeignKey(
         Characteristic,
         on_delete=models.CASCADE,
-        # limit_choices_to =
-        # Characteristic.objects.filter(item = self.observation.item)
-        )  # characteristic here intended to be
+        )  # characteristic here is intended to be
     # limited to  the characteristiics of
     # the item that the observation refers to
     value = models.CharField(max_length=200, default="")

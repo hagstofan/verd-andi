@@ -39,8 +39,6 @@ from .forms import (
     UploadForm
 )
 
-# xml stuff
-
 
 # Create your views here.
 def index(request):
@@ -62,7 +60,6 @@ class SurveyDetailView(DetailView):
     def get_context_data(self, **kwargs):
         context = super(SurveyDetailView, self).get_context_data(**kwargs)
         context['now'] = timezone.now()
-        # print(str(context))
         return context
 
 
@@ -99,7 +96,6 @@ def user_dash(request):
         focus_items = ItemObserver.objects.filter(user=request.user.id)
         # creating a queryset of items, that have been
         # selected for the user to observe.
-        # items = collections.OrderedDict()
         items = []
         for i in focus_items.select_related('item'):
             items.append(i.item)
@@ -165,11 +161,8 @@ def item_observation(request, idx):
         chars = Characteristic.objects.filter(item=idx)
         observations = Observation.objects.filter(item=idx)
 
-        # form = ObservationForm(request.POST or None)
-        # if request.method == 'POST':
         spec_chars = chars.filter(specify=True)
         specified_chars = list(sc.name for sc in spec_chars)
-        # specified_chars_pk = list(sc.pk for sc in spec_chars)
         observer = Observer.objects.get(username=request.user.username)
         try:
             collector_comment = CollectorComment.objects.filter(
@@ -182,11 +175,7 @@ def item_observation(request, idx):
         except Exception:
             # This is a little strange but I think due to me being admin
             # Don't love the fix either.
-            # Side note: emacs is bugging me with an extra indent. I suspect
-            # there's a mismatched parentheses that flake8 didn't catch.
-            # Can't spot it visually thou just reading the code.
             collector_comment = None
-        # print(collector_comment.comment)
 
         # min max stuff.
         max_q_char = chars.filter(name="Maximum quantity")
@@ -207,7 +196,6 @@ def item_observation(request, idx):
             # fields included in form.
             shop_type = form.cleaned_data['shop_type']
             shop_identifier = form.cleaned_data['shop_identifier']
-            # flag = form.cleaned_data['flag']
             discount = form.cleaned_data['discount']
             observed_price = form.cleaned_data['observed_price']
             observed_quantity = form.cleaned_data['observed_quantity']
@@ -215,10 +203,8 @@ def item_observation(request, idx):
             theitem = Item.objects.filter(pk=item)[0]
             theuser = User.objects.filter(pk=observer)[0]
             shop_own_brand = form.cleaned_data['shop_own_brand']
-            # picture = form.cleaned_data['picture']
             barcode = form.cleaned_data['barcode']
             surv = getattr(theitem, 'survey')
-            # survey = Survey.objects.filter(pk=surv.pk)
             observation = Observation.objects.create(
                 observer=theuser,
                 obs_time=obs_time,
@@ -238,11 +224,9 @@ def item_observation(request, idx):
 
             for (question, answer) in form.extra_answers():
                 # create observerd characteristic
-                # char_pk = specified_chars_pk[specified_chars.index(question)]
                 # adding observed_characteristic,
                 # currently relies on order in QueryObject spec_chars
-                # being same as order inlists derived from it,
-                # which I think holds.
+                # being same as order inlists derived from it
                 obs_characteristic = ObservedCharacteristic.objects.create(
                         observation=observation,
                         characteristic=spec_chars[
@@ -253,7 +237,7 @@ def item_observation(request, idx):
                 obs_characteristic.save()
 
             if 'add_another' in request.POST:
-                # print("adding another")
+                # adding another
                 return HttpResponseRedirect(
                     reverse('survey:item-observation', kwargs={'idx': item}))
             else:
@@ -285,7 +269,6 @@ def search(request, pk):
 
         user = User.objects.filter(pk=request.user.id)
         itemObs = ItemObserver.objects.filter(user=request.user.id)
-        # chosen_items = set()
         chosen_items = []
         for i in itemObs.select_related('item'):
             i.item.iobspk = i.pk
@@ -321,7 +304,7 @@ def search(request, pk):
 def ItemCommentaryView(request, idx):
     if request.user.is_superuser:
         commentary = ItemCommentary.objects.get_or_create(pk=idx)[0]
-        # print(str(commentary))
+
         item = Item.objects.get(code=idx)
 
         data = {
@@ -333,7 +316,6 @@ def ItemCommentaryView(request, idx):
 
         form = ItemCommentaryForm(request.POST or None, initial=data)
         if form.is_valid():  # POST request
-            # shop_type = form.cleaned_data['shop_type']
             seasonality = form.cleaned_data['seasonality']
             representativity = form.cleaned_data['representativity']
             comment = form.cleaned_data['comment']
@@ -345,7 +327,6 @@ def ItemCommentaryView(request, idx):
             commentary.vat = vat
 
             commentary.save()
-            # print("form was good")
             return HttpResponseRedirect(reverse('survey:survey-userdash'))
 
         context = {
@@ -356,7 +337,6 @@ def ItemCommentaryView(request, idx):
         return render(request,
                       "survey/itemcommentary_update_form.html", context)
 
-        # return HttpResponse("Hey, you superuser you")
     else:  # not superuser
         raise PermissionDenied
 
@@ -471,7 +451,6 @@ def ObservationUpdate(request, idx):
 
                 shop_type = form.cleaned_data['shop_type']
                 shop_identifier = form.cleaned_data['shop_identifier']
-                # flag = form.cleaned_data['flag']
                 discount = form.cleaned_data['discount']
                 observed_price = form.cleaned_data['observed_price']
                 observed_quantity = form.cleaned_data['observed_quantity']
@@ -497,7 +476,7 @@ def ObservationUpdate(request, idx):
                             sc.save()
 
                 if 'add_another' in request.POST:
-                    # print("adding another")
+                    # adding another
                     return HttpResponseRedirect(reverse(
                         'survey:item-observation', kwargs={'idx': item_id}))
 
@@ -516,7 +495,7 @@ def ObservationUpdate(request, idx):
         return redirect(settings.LOGIN_REDIRECT_URL)
 
 
-# view observation
+# view observation - as in look at it read-only
 def viewObservation(request, idx):
     if request.user.is_authenticated:
         observation = Observation.objects.get(pk=idx)
@@ -605,8 +584,6 @@ class ObservationDelete(DeleteView):
 def ObserversManagement(request):
     if request.user.is_superuser:
         observers = User.objects.all()
-        # items = Item.objects.filter(survey=1)
-        # itemObs = ItemObserver.objects.all()
 
         context = {
             "user_name": str(request.user),
@@ -639,7 +616,6 @@ def ObserverItems(request, idx):
 
         # taking away already chosen items.
         items = Item.objects.exclude(code__in=ch_i_pk)
-        # items = Item.objects.all()
         items = items.filter(survey=current_survey)
         context = {
             "user_name": str(request.user),
@@ -661,10 +637,6 @@ def SurveyXML(request, pk):
         survey = Survey.objects.get(pk=pk)
 
         root = Element('CrossSectionalData')
-        # tree = ElementTree(root)
-        # xmlns=Element('xmlns')
-        # root.append(xmlns)
-        # xmlns.text("http://www.SDMX.org/resources/SDMXML/schemas/v2_0/message")
 
         root.set('xmlns',
                  'http://www.SDMX.org/resources/SDMXML/schemas/v2_0/message')
@@ -688,7 +660,7 @@ def SurveyXML(request, pk):
         header_ID = Element('ID')
 
         header.append(header_ID)
-        # header_ID.text = 'PPP_SRVIC_3'
+        # e.g header_ID.text = 'PPP_SRVIC_3'
         header_ID.text = survey.dataflowID
 
         header_Test = Element('Test')
@@ -704,7 +676,7 @@ def SurveyXML(request, pk):
         header.append(header_Name)
         # date , timedate.now typathing  @dynam
         header_Prepared = Element('Prepared')
-        # header_Prepared.text = '2014-06-16T15:00:16+00:00'
+        # e.g. header_Prepared.text = '2014-06-16T15:00:16+00:00'
         dt = datetime.datetime.now()
         header_Prepared.text = dt.strftime('%Y-%m-%dT%H:%m:%S+00:00')
         header.append(header_Prepared)
@@ -755,10 +727,10 @@ def SurveyXML(request, pk):
         header_DataSetAction = Element('DataSetAction')
         header_DataSetAction.text = 'Append'
         header_Extracted = Element('Extracted')
-        # header_Extracted.text = '2014-06-16T15:00:16+00:00'
+        # e.g. header_Extracted.text = '2014-06-16T15:00:16+00:00'
         header_Extracted.text = dt.strftime('%Y-%m-%dT%H:%m:%S+00:00')
         header_ReportingBegin = Element('ReportingBegin')
-        # header_ReportingBegin.text = '2014-01-01'
+        # e.g. header_ReportingBegin.text = '2014-01-01'
         header_ReportingBegin.text = str(survey.year)\
             + '-01-01'  # perhaps change to erliest obs_time ?
         latest_obs = Observation.objects.filter(survey=pk).order_by('-id')
@@ -770,7 +742,7 @@ def SurveyXML(request, pk):
             reporting_end_str = obs_latest.obs_time.strftime('%Y-%m-%d')
 
         header_ReportingEnd = Element('ReportingEnd')
-        # header_ReportingEnd.text = '2014-12-31'
+        # e.g. header_ReportingEnd.text = '2014-12-31'
         header_ReportingEnd.text = reporting_end_str
 
         header.append(header_DataSetID)
@@ -784,9 +756,7 @@ def SurveyXML(request, pk):
         cgs_group = Element('cgs:Group')
 
         cgs_dataset.append(cgs_group)
-        # cgs_group.set('REFERENCE_YEAR','2014')   # @dynam year from survey
         cgs_group.set('REFERENCE_YEAR', str(dt.year))
-        # cgs_group.set('PPP_SURVEY','SRVIC')      # @dynam survey code
         cgs_group.set('PPP_SURVEY', survey.code)
         cgs_group.set('REPORTING_COUNTRY', 'IS')
         cgs_group.set('CURRENCY', 'ISK')
@@ -795,10 +765,8 @@ def SurveyXML(request, pk):
 
         item_rows = Item.objects.filter(survey=pk).values_list()
         for i_row in item_rows:
-            # print("hey dude")
             commentarys = ItemCommentary.objects\
                     .filter(item=i_row).values_list()
-            # print(len(commentarys))
             if (len(commentarys) > 0):
                 commentary = commentarys[0]
                 commentary_seasonality = "true" if commentary[1] else "false"
@@ -828,7 +796,7 @@ def SurveyXML(request, pk):
                                 if commentary_seasonality else "false")
             cgs_section.set("ITEM_COMMENT", commentary_comment
                             if commentary_comment else "")  # default to ""
-            cgs_section.set("FINALIZED", "true")  # true
+            cgs_section.set("FINALIZED", "true")
 
             observations = Observation.objects\
                 .filter(item=i_row[0]).values_list()
@@ -858,10 +826,8 @@ def SurveyXML(request, pk):
                     cgs_observed_price.set('FLAG', str(obs_i[5]))
                     cgs_observed_price.set('DISCOUNT', str(obs_i[6]))
                     cgs_observed_price.set('value', str(round(obs_i[7], 1)))
-                    # cgs_observed_price.set('SHOP_OWN_BRAND', "Y" if )
                     cgs_observed_price.set('SHOP_OWN_BRAND',
                                            "Y" if obs_i[14] else "N")
-                    # print(obs_i)
 
                     cgs_section.append(cgs_observed_price)
 
@@ -876,9 +842,7 @@ def SurveyXML(request, pk):
                         .filter(observation=str(obs_i[0])).values_list()
                     char_arr = []
                     for obs_char in observedcharacteristics:
-                        # obs_char_id = obs_char[0]
                         char_id = obs_char[2]
-                        # obs_id = obs_char[1]
                         obs_char_value = obs_char[3]
                         characteristic_i = Characteristic.objects\
                             .filter(pk=str(char_id)).values_list()
@@ -890,7 +854,6 @@ def SurveyXML(request, pk):
                         cgs_observed_price.set("CHARACTERISTICS", char_string)
                         cgs_observed_price.set("CHARS_SEPARATOR", "|")
 
-        # xml_string = etree.tostring(root)
         xml_string = '<?xml version="1.0" encoding="UTF-8"?>\n'\
             + etree.tostring(root).decode('utf-8')
 
@@ -922,7 +885,7 @@ def DoneUpload(request, idx):
     observation = Observation.objects.get(pk=idx)
     if (request.user.id == observation.observer.id or
             request.user.is_superuser):
-        # Add stuff to context
+        # Adding stuff to context
         observation_pictures = ObservationPicture.objects.filter(
             observation=observation.id
         )
@@ -941,7 +904,6 @@ class ObservationPictureDelete(DeleteView):
         obj = super(ObservationPictureDelete, self).get_object()
         if (not ((obj.observation.observer == self.request.user) or
                  self.request.user.is_superuser)):
-            # raise Http404
             raise PermissionDenied
         return obj
 

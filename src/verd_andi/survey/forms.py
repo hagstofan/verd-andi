@@ -6,11 +6,6 @@ from collections import OrderedDict
 from multiupload.fields import MultiFileField
 
 
-# some validators.
-def validate_observed_quantity(value):
-    return value
-
-
 class ObservationForm(forms.Form):
     CHOICES = (
         ('1', '1 Department store'),
@@ -36,31 +31,20 @@ class ObservationForm(forms.Form):
     discount = forms.ChoiceField(choices=DISCOUNTCHOICES, initial='N')
     shop_type = forms.ChoiceField(choices=CHOICES)
     shop_identifier = forms.CharField()
-    # flag = forms.CharField(max_length=4)
 
     observed_price = forms.DecimalField(decimal_places=2, max_digits=25)
     observed_quantity = forms.DecimalField(decimal_places=2, max_digits=25)
     barcode = forms.CharField(max_length=200, required=False)
-    # item = forms.ForeignKey(Item)
     obs_comment = forms.CharField(max_length=300, required=False)
-
-    # specified_characteristics = forms.CharField(max_length=400, blank=True)
-    # survey = forms.ForeignKey(Survey)
 
     shop_own_brand = forms.BooleanField(required=False)
 
-    # widgets = {
-    #     "observed_price": widgets.NumberInput(attrs={'step':'0.5'}),
-    #     "observed_quantity": widgets.NumberInput(attrs={'step':'0.01'})
-    # }
-
     def __init__(self, *args, **kwargs):
-        # self.extra = extra = kwargs.pop('extra') # for validation of extra
 
-        extra = kwargs.pop('extra')
+        extra = kwargs.pop('extra')  # for validation of extra
         self.max_quantity = kwargs.pop('max_quantity')  # for validation
         self.min_quantity = kwargs.pop('min_quantity')  # for validation
-        # print(self.max_quantity)
+
         super(ObservationForm, self).__init__(*args, **kwargs)
 
         if "initial" in kwargs:
