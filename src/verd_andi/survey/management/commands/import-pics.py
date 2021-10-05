@@ -46,8 +46,12 @@ class Command(BaseCommand):
             # print(str(filename).split("_")[0])
             try:
                 item = Item.objects.get(code=str(filename).split("_")[0])
-            except:
-                print("Item does not exist, looking for {0}".format(str(filename).split("_")[0]))
+            except Exception:
+                print(
+                    "Item does not exist, looking for {0}".format(
+                        str(filename).split("_")[0]
+                    )
+                )
                 continue
             if(item):
                 # print(filename)
