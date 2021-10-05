@@ -44,7 +44,11 @@ class Command(BaseCommand):
     def list_dir(self, directory):
         for filename in os.listdir(directory):
             # print(str(filename).split("_")[0])
-            item = Item.objects.get(code=str(filename).split("_")[0])
+            try:
+                item = Item.objects.get(code=str(filename).split("_")[0])
+            except:
+                print("Item does not exist, looking for {0}".format(str(filename).split("_")[0]))
+                continue
             if(item):
                 # print(filename)
                 # print(directory + filename)
