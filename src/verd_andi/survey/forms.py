@@ -20,6 +20,7 @@ class ObservationForm(forms.Form):
         ('10', '10 Mail order, domestic web shops'),
         ('11', '11 Other kinds of outlets'),
         ('12', '12 Black/Grey Market'),
+        ('19', 'Foreign web shops'),
         ('99', '99 CPI data'),
     )
     DISCOUNTCHOICES = (
